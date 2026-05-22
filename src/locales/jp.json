@@ -1,0 +1,54 @@
+{
+  "nav": {
+    "home": "ホーム",
+    "timeline": "タイムライン",
+    "about": "自己紹介",
+    "favorites": "お気に入り",
+    "projects": "プロジェクト"
+  },
+  "home": {
+    "subtitle": "開発者・日本文化愛好家",
+    "cta": "詳細を見る",
+    "ctaTimeline": "タイムラインを見る"
+  },
+  "timeline": {
+    "title": "タイムライン",
+    "subtitle": "私の歩み"
+  },
+  "about": {
+    "title": "自己紹介",
+    "introTitle": "私について",
+    "intro": "ミネ・サン＝テティエンヌのCPS2修士課程の学生。組み込みシステム、日本文化、ボーカロイド音楽に情熱を持っています。",
+    "skillsTitle": "技術スキル",
+    "langsTitle": "言語",
+    "interestsTitle": "興味・関心",
+    "lang": {
+      "fr": "フランス語",
+      "en": "英語",
+      "jp": "日本語"
+    },
+    "langLevel": {
+      "native": "ネイティブ",
+      "fluent": "流暢",
+      "learning": "N4–N5"
+    }
+  },
+  "favorites": {
+    "title": "お気に入り",
+    "subtitle": "好きなもの",
+    "games": "ゲーム",
+    "anime": "アニメ",
+    "manga": "マンガ",
+    "music": "音楽・アーティスト",
+    "songs": "好きな曲"
+  },
+  "projects": {
+    "title": "プロジェクト",
+    "subtitle": "制作物",
+    "viewGithub": "GitHubで見る",
+    "status": "ステータス"
+  },
+  "footer": {
+    "copyright": "© 2025 NekoNoTsuki"
+  }
+}

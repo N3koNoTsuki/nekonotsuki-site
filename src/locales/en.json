@@ -1,0 +1,54 @@
+{
+  "nav": {
+    "home": "Home",
+    "timeline": "Timeline",
+    "about": "About",
+    "favorites": "Favorites",
+    "projects": "Projects"
+  },
+  "home": {
+    "subtitle": "Developer & JP culture enthusiast",
+    "cta": "About me",
+    "ctaTimeline": "See timeline"
+  },
+  "timeline": {
+    "title": "Timeline",
+    "subtitle": "My journey"
+  },
+  "about": {
+    "title": "About",
+    "introTitle": "About me",
+    "intro": "Master's student at Mines Saint-Étienne in the CPS2 program. Passionate about embedded systems, Japanese culture and Vocaloid music.",
+    "skillsTitle": "Tech Skills",
+    "langsTitle": "Languages",
+    "interestsTitle": "Interests",
+    "lang": {
+      "fr": "French",
+      "en": "English",
+      "jp": "Japanese"
+    },
+    "langLevel": {
+      "native": "Native",
+      "fluent": "Fluent",
+      "learning": "N4–N5"
+    }
+  },
+  "favorites": {
+    "title": "Favorites",
+    "subtitle": "Things I love",
+    "games": "Video Games",
+    "anime": "Anime",
+    "manga": "Manga",
+    "music": "Music / Artists",
+    "songs": "Favorite Songs"
+  },
+  "projects": {
+    "title": "Projects",
+    "subtitle": "My work",
+    "viewGithub": "View on GitHub",
+    "status": "Status"
+  },
+  "footer": {
+    "copyright": "© 2025 NekoNoTsuki"
+  }
+}

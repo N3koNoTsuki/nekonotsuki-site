@@ -1,0 +1,54 @@
+{
+  "nav": {
+    "home": "Accueil",
+    "timeline": "Timeline",
+    "about": "À propos",
+    "favorites": "Favoris",
+    "projects": "Projets"
+  },
+  "home": {
+    "subtitle": "Développeur & passionné de culture JP",
+    "cta": "En savoir plus",
+    "ctaTimeline": "Voir la timeline"
+  },
+  "timeline": {
+    "title": "Timeline",
+    "subtitle": "Mon parcours"
+  },
+  "about": {
+    "title": "À propos",
+    "introTitle": "Qui suis-je ?",
+    "intro": "Étudiant en Master CPS2 à Mines Saint-Étienne. Passionné par les systèmes embarqués, la culture japonaise et la musique Vocaloid.",
+    "skillsTitle": "Compétences techniques",
+    "langsTitle": "Langues",
+    "interestsTitle": "Centres d'intérêt",
+    "lang": {
+      "fr": "Français",
+      "en": "Anglais",
+      "jp": "Japonais"
+    },
+    "langLevel": {
+      "native": "Natif",
+      "fluent": "Courant",
+      "learning": "N4–N5"
+    }
+  },
+  "favorites": {
+    "title": "Favoris",
+    "subtitle": "Ce que j'aime",
+    "games": "Jeux vidéo",
+    "anime": "Anime",
+    "manga": "Manga",
+    "music": "Musique / Artistes",
+    "songs": "Chansons favorites"
+  },
+  "projects": {
+    "title": "Projets",
+    "subtitle": "Mes réalisations",
+    "viewGithub": "Voir sur GitHub",
+    "status": "Statut"
+  },
+  "footer": {
+    "copyright": "© 2025 NekoNoTsuki"
+  }
+}

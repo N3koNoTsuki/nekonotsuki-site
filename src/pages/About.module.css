@@ -1,0 +1,138 @@
+.section {
+  margin-bottom: 3.5rem;
+}
+
+.sectionTitle {
+  font-family: var(--font-display);
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: var(--accent-secondary);
+  margin-bottom: 1.25rem;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.sectionTitle::before {
+  content: '';
+  display: inline-block;
+  width: 3px;
+  height: 1.1em;
+  background: var(--accent-primary);
+  border-radius: 2px;
+  box-shadow: var(--glow-cyan);
+  flex-shrink: 0;
+}
+
+.intro {
+  color: var(--text-secondary);
+  font-size: 1rem;
+  line-height: 1.8;
+  max-width: 640px;
+  background: var(--bg-card);
+  border: 1px solid var(--border-cyan);
+  border-radius: var(--radius-md);
+  padding: 1.25rem 1.5rem;
+  box-shadow: var(--glow-cyan);
+}
+
+/* Skills */
+.skillsGrid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+}
+
+.skillTag {
+  display: inline-block;
+  padding: 0.3rem 0.85rem;
+  border-radius: 999px;
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  font-weight: 500;
+  border: 1px solid var(--tag-color, var(--accent-primary));
+  color: var(--tag-color, var(--accent-primary));
+  background: rgba(0, 0, 0, 0.3);
+  transition: background var(--transition-fast), box-shadow var(--transition-fast), transform var(--transition-fast);
+}
+
+.skillTag:hover {
+  background: rgba(255, 255, 255, 0.04);
+  box-shadow: 0 0 8px color-mix(in srgb, var(--tag-color, var(--accent-primary)) 30%, transparent);
+  transform: translateY(-2px);
+}
+
+/* Languages */
+.langGrid {
+  display: flex;
+  gap: 1.25rem;
+  flex-wrap: wrap;
+}
+
+.langCard {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.3rem;
+  background: var(--bg-card);
+  border: 1px solid var(--border-cyan);
+  border-radius: var(--radius-md);
+  padding: 1.25rem 2rem;
+  min-width: 120px;
+  box-shadow: var(--glow-cyan);
+  transition: transform var(--transition-fast);
+}
+
+.langCard:hover {
+  transform: translateY(-3px);
+}
+
+.langFlag {
+  font-size: 2rem;
+}
+
+.langName {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 0.9rem;
+  color: var(--text-primary);
+}
+
+.langLevel {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--accent-primary);
+}
+
+/* Interests */
+.interestsGrid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.interestItem {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: var(--bg-card);
+  border: 1px solid var(--border-cyan);
+  border-radius: var(--radius-md);
+  padding: 0.6rem 1rem;
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+  transition: border-color var(--transition-fast), color var(--transition-fast);
+}
+
+.interestItem:hover {
+  border-color: rgba(0, 212, 255, 0.4);
+  color: var(--text-primary);
+}
+
+.interestIcon {
+  font-size: 1.1rem;
+}
+
+.interestLabel {
+  font-weight: 500;
+}
