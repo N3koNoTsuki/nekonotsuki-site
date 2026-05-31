@@ -1,171 +1,141 @@
-# NekoNoTsuki 猫 — Site personnel
+# 🐾 NekoNoTsuki — Portfolio personnel kawaii
 
-> Site web personnel multi-pages, trilingue FR / EN / JP, avec esthétique japonaise kawaii/Vocaloid.
+Portfolio personnel au style **kawaii / anime** (rose poudré, lavande, glassmorphism léger, animations douces), entièrement éditable depuis une interface d'administration — **sans toucher au code**.
 
-**Stack :** React (Vite) · React Router · i18next · Framer Motion · CSS Modules
+Stack : **Next.js 14 (App Router)** · **TypeScript** · **Tailwind CSS** · **SQLite (Prisma)** · **NextAuth v5** · **framer-motion** · **react-markdown**.
 
 ---
 
-## Démarrage rapide
+## ✨ Fonctionnalités
+
+### Pages publiques (rendu serveur, utilisables sans JavaScript)
+- **Accueil `/`** — hub à blocs configurables depuis l'admin (présentation, derniers projets, derniers favoris, dernière étape du parcours, blocs libres en Markdown).
+- **Projets `/projects`** — grille de cards avec couverture, tags **filtrables** (via l'URL `?tag=…`, fonctionne sans JS), liens GitHub/démo.
+- **Favoris `/favorites`** — sections par catégories (Musique/Vocaloid, Anime, Jeux, Logiciels, *custom*…), chaque item ayant titre, image, description Markdown, note ♥ et commentaire perso.
+- **Parcours `/timeline`** — frise chronologique (date, titre, description Markdown, tag études/pro/perso/projet).
+- **À propos `/about`** — page libre entièrement en Markdown.
+
+### Interface admin `/admin` (protégée par NextAuth)
+- **Éditeur Markdown split-pane** (édition à gauche, aperçu en temps réel à droite) avec barre d'outils.
+- **CRUD complet** : blocs d'accueil, projets (upload d'image), favoris + gestion des catégories, parcours, page À propos.
+- **Réordonnancement drag-and-drop** des blocs d'accueil et des étapes du parcours.
+- **Toggle thème clair/sombre**.
+
+### Technique
+- **Markdown** : titres, listes, code inline/blocs (coloration syntaxique), images, liens, **tableaux** (GFM).
+- **Images** : upload local dans `/public/uploads` **ou** URL externe en fallback.
+- **API** : Route Handlers Next.js (aucune API externe).
+- **Auth** : NextAuth v5, session JWT, middleware de protection sur `/admin/*` (compte owner unique en base).
+- **Responsive** mobile-first.
+
+---
+
+## 🚀 Démarrage rapide
 
 ```bash
+# 1. Installer les dépendances
 npm install
+
+# 2. Configurer l'environnement
+cp .env.example .env
+#   puis éditez .env :
+#   - AUTH_SECRET : générez-en un avec  openssl rand -base64 32
+#   - OWNER_EMAIL / OWNER_PASSWORD : vos identifiants admin
+
+# 3. Créer la base SQLite + le client Prisma
+npm run db:push
+
+# 4. Remplir la base (compte owner + contenu de démo)
+npm run db:seed
+
+# 5. Lancer en développement
 npm run dev
-# → http://localhost:5173
+```
+
+- Site public : http://localhost:3000
+- Admin : http://localhost:3000/admin → redirige vers `/login`
+- Identifiants : ceux définis dans `.env` (`OWNER_EMAIL` / `OWNER_PASSWORD`)
+
+> Le seed est **idempotent** : il met à jour le compte owner et n'ajoute le contenu de démo que si la base est vide.
+
+---
+
+## 📜 Scripts
+
+| Script | Description |
+| ------ | ----------- |
+| `npm run dev` | Serveur de développement |
+| `npm run build` | `prisma generate` + build de production |
+| `npm run start` | Serveur de production (après `build`) |
+| `npm run db:push` | Synchronise le schéma Prisma → SQLite (sans migration) |
+| `npm run db:migrate` | Crée/applique une migration de développement |
+| `npm run db:seed` | Compte owner + contenu de démo |
+| `npm run db:studio` | Ouvre Prisma Studio (explorateur de DB) |
+| `npm run lint` | ESLint |
+
+---
+
+## 🗂 Structure
+
+```
+app/
+  (public)/            ← pages publiques (layout commun navbar/footer)
+    page.tsx           ← accueil (blocs configurables)
+    favorites/ timeline/ projects/ about/
+  admin/               ← interface d'administration protégée
+    home/ projects/ favorites/ timeline/ about/
+  api/                 ← Route Handlers (blocks, categories, favorites,
+                         timeline, projects, pages, upload, auth)
+  login/               ← page de connexion
+components/            ← Navbar, Footer, cards, Markdown, ui…
+  admin/               ← managers CRUD, éditeur Markdown, DnD, modale…
+lib/                   ← prisma, auth helpers, data fetchers, validators, utils
+prisma/                ← schema.prisma + seed.ts
+public/uploads/        ← images uploadées
+auth.ts / auth.config.ts / middleware.ts   ← NextAuth v5
 ```
 
 ---
 
-## Ce qu'il reste à faire
+## 🎨 Personnalisation
 
-### 1. Ajouter ton avatar
-
-Dépose ta photo ici :
-```
-public/images/avatar.jpg
-```
-Elle apparaît automatiquement dans le hero de la page d'accueil. Si absente, un `猫` s'affiche en fallback.
-
-### 2. Ajouter les images des favoris
-
-Pour chaque favori dans `src/data/favorites.js`, dépose l'image dans `public/images/` et renseigne le champ `image` :
-
-```js
-{ name: "Hatsune Miku", image: "/images/miku.jpg", category: "music" }
-```
-
-Catégories disponibles : `games` · `anime` · `manga` · `music` · `songs`
-
-### 3. Compléter les données
-
-Tous les contenus sont dans `src/data/` — aucun composant React à modifier.
-
-| Fichier | Contenu |
-|---|---|
-| `src/data/timeline.js` | Événements de la frise chronologique |
-| `src/data/projects.js` | Projets GitHub avec tags et statut |
-| `src/data/favorites.js` | Jeux, anime, manga, musique, chansons |
-| `src/data/skills.js` | Compétences techniques + centres d'intérêt |
-
-**Exemple — ajouter un projet :**
-```js
-{
-  title: "MonProjet",
-  description: {
-    fr: "Description en français.",
-    en: "Description in English.",
-    jp: "日本語の説明。"
-  },
-  tags: ["Rust", "Python"],
-  github: "https://github.com/N3koNoTsuki/MonProjet",
-  status: { fr: "En cours", en: "In progress", jp: "進行中" }
-  //        ↑ ou : "Terminé" / "Done" / "完了"
-}
-```
-
-**Exemple — ajouter un événement timeline :**
-```js
-{
-  year: "2026",
-  title: { fr: "...", en: "...", jp: "..." },
-  description: { fr: "...", en: "...", jp: "..." },
-  icon: "🎯"
-}
-```
-
-### 4. Ajouter des liens sociaux
-
-Dans `src/components/Footer.jsx`, dupliquer le bloc `<a>` existant pour ajouter d'autres réseaux (Twitter/X, Discord, etc.).
-
-### 5. Personnaliser les traductions UI
-
-Modifier `src/locales/fr.json`, `en.json`, `jp.json` pour les libellés de navigation, boutons, titres de sections.
+- **Palette & thème** : `tailwind.config.ts` (couleurs `rose`, `lavender`, `cream`, `mint`, `sky`) et `app/globals.css`.
+- **Polices** : *Quicksand* (texte) + *Fredoka* (titres), chargées via Google Fonts dans `globals.css`.
+- **Tout le contenu** (textes, blocs, projets, favoris, parcours, page À propos) se modifie depuis `/admin`.
 
 ---
 
-## Déployer sur GitHub Pages
+## 🌍 Déploiement (hébergement-agnostique)
 
-### Option A — Déploiement manuel
+### Vercel
+1. Importez le repo.
+2. Variables d'environnement : `DATABASE_URL`, `AUTH_SECRET` (et `OWNER_EMAIL`/`OWNER_PASSWORD` pour le seed).
+3. Build command : `npm run build`.
+> ⚠️ Le système de fichiers Vercel est **éphémère** : les uploads dans `/public/uploads` ne survivent pas aux redéploiements, et SQLite n'est pas persistant. Pour Vercel, préférez **PostgreSQL** (voir ci-dessous) + un stockage externe (S3, Vercel Blob, etc.). Pour un site mono-utilisateur sur **VPS**, SQLite + uploads locaux conviennent parfaitement.
 
-1. Dans `vite.config.js`, décommenter et adapter :
-   ```js
-   base: '/nekonotsuki-site/',
-   ```
+### VPS (recommandé pour SQLite + uploads locaux)
+```bash
+npm ci
+npm run build
+npm run db:push   # première fois
+npm run db:seed   # première fois
+npm run start     # ou via pm2 / systemd, derrière un reverse-proxy (nginx/caddy)
+```
+Pensez à `AUTH_TRUST_HOST=true` derrière un proxy.
 
-2. Build et push :
-   ```bash
-   npm run build
-   # Copier le dossier dist/ sur la branche gh-pages
-   ```
-
-3. Sur GitHub → Settings → Pages → choisir la branche `gh-pages`.
-
-### Option B — GitHub Actions (recommandé, automatique à chaque push)
-
-1. Dans `vite.config.js`, décommenter :
-   ```js
-   base: '/nekonotsuki-site/',
-   ```
-
-2. Créer le fichier `.github/workflows/deploy.yml` :
-   ```yaml
-   name: Deploy to GitHub Pages
-   on:
-     push:
-       branches: [main]
-   jobs:
-     deploy:
-       runs-on: ubuntu-latest
-       permissions:
-         contents: write
-       steps:
-         - uses: actions/checkout@v4
-         - uses: actions/setup-node@v4
-           with:
-             node-version: 20
-         - run: npm ci
-         - run: npm run build
-         - uses: peaceiris/actions-gh-pages@v4
-           with:
-             github_token: ${{ secrets.GITHUB_TOKEN }}
-             publish_dir: ./dist
-   ```
-
-3. Push → le site se déploie automatiquement sur `https://n3konotsuki.github.io/nekonotsuki-site/`.
-
-### Option C — Vercel (le plus simple)
-
-Importer le projet sur [vercel.com](https://vercel.com) — zéro configuration requise, déploiement automatique à chaque push sur `main`.
+### Passer à PostgreSQL
+1. Dans `prisma/schema.prisma` : `provider = "postgresql"`.
+2. `DATABASE_URL="postgresql://user:pass@host:5432/db"`.
+3. `npm run db:migrate` (ou `db:push`) puis `npm run db:seed`.
+Aucune autre modification de code n'est nécessaire.
 
 ---
 
-## Structure du projet
+## 🔒 Sécurité
+- Mot de passe owner **hashé** (bcrypt) en base.
+- Toutes les routes de mutation vérifient la session (`requireAuth`) ; `/admin/*` est en plus protégé par le middleware.
+- Pensez à changer `AUTH_SECRET` et le mot de passe owner avant toute mise en ligne.
 
-```
-src/
-├── i18n.js              ← configuration i18next (persist localStorage)
-├── App.jsx              ← routing principal
-├── styles/
-│   ├── variables.css    ← palette, typographie, effets (modifier ici pour changer le thème)
-│   └── global.css       ← reset + polices Google Fonts
-├── locales/
-│   ├── fr.json          ← traductions françaises
-│   ├── en.json          ← traductions anglaises
-│   └── jp.json          ← traductions japonaises
-├── data/                ← ✏️ tout le contenu personnalisable ici
-│   ├── timeline.js
-│   ├── projects.js
-│   ├── favorites.js
-│   └── skills.js
-├── components/
-│   ├── Navbar.jsx       ← navigation fixe + toggle langue + hamburger mobile
-│   └── Footer.jsx       ← liens sociaux + copyright
-└── pages/
-    ├── Home.jsx         ← hero + pétales sakura + CTA
-    ├── Timeline.jsx     ← frise chronologique alternée
-    ├── About.jsx        ← présentation + skills + langues + intérêts
-    ├── Favorites.jsx    ← grid de cards par catégorie
-    └── Projects.jsx     ← cards projets avec badges statut
-public/
-└── images/              ← 📁 déposer avatar.jpg et images des favoris ici
-```
+---
+
+Fait avec amour 🌸
