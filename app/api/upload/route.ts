@@ -20,6 +20,14 @@ export async function POST(req: NextRequest) {
   const { error } = await requireAuth();
   if (error) return error;
 
+  // Serverless hosts (e.g. Vercel) have an ephemeral, read-only filesystem:
+  // writing to /public/uploads won't persist. Ask the user for an external URL.
+  if (process.env.VERCEL) {
+    return badRequest(
+      "L'upload de fichiers n'est pas disponible sur cet hébergement (système de fichiers éphémère). Colle plutôt une URL d'image externe dans le champ ci-dessus.",
+    );
+  }
+
   const form = await req.formData();
   const file = form.get("file");
 

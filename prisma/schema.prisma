@@ -1,15 +1,14 @@
 // Prisma schema — NekoNoTsuki portfolio
-// SQLite for easy local/VPS hosting. To migrate to PostgreSQL:
-//   1. change `provider` to "postgresql"
-//   2. set DATABASE_URL to your Postgres connection string
-//   3. run `prisma migrate dev`
+// PostgreSQL (Neon recommended) — works on Vercel and any serverless host.
+// DATABASE_URL = your Neon "Direct connection" string (with ?sslmode=require).
+// Init once:  npx prisma db push  &&  npm run db:seed
 
 generator client {
   provider = "prisma-client-js"
 }
 
 datasource db {
-  provider = "sqlite"
+  provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
