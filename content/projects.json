@@ -1,1 +1,50 @@
-[]
+[
+  {
+    "id": "6c186c1d-deb0-45d3-be27-71436cb7cc6d",
+    "title": "Linux Configuration & Driver Development - STM32MP157A-DK1",
+    "coverUrl": "/uploads/1780338662288-c8ef87ee.png",
+    "description": "Configuration complète et déploiement de Linux 7.0 sur STM32MP157A-DK1 incluant un kernel custom avec support Rust, toolchain crosstool-ng personnalisé (vendor: Neko), et un driver I²C en Rust avec 18 commandes ioctl pour contrôle du RTC DS3231. Système complet prêt pour la production avec partitionnement GPT, U-Boot configuré, rootfs ext4 et accès SSH.",
+    "tags": "embedded-linux, kernel-development, rust-driver, stm32, device-driver",
+    "githubUrl": "https://github.com/N3koNoTsuki/Linux_Conf_MP157D_DK1.git",
+    "demoUrl": null,
+    "featured": false,
+    "order": 0,
+    "createdAt": "2026-06-01T18:32:38.850Z"
+  },
+  {
+    "id": "60a387f5-68c3-420f-b956-6637540c18d1",
+    "title": "Pong en VHDL sur FPGA DE10-Lite",
+    "coverUrl": "/uploads/1780338925055-3410c351.png",
+    "description": "Implémentation complète du jeu Pong en VHDL sur carte FPGA Terasic DE10-Lite avec affichage VGA, gestion en temps réel des joysticks analogiques via ADC, et système de menu interactif. Architecture modulaire incluant drivers de capteurs, générateurs de coordonnées, gestion des raquettes et collisions de balle, et décodeur 7-segments.",
+    "tags": "fpga, vhdl, pong-game, quartus, analog-input",
+    "githubUrl": "https://github.com/N3koNoTsuki/PONG_vhdl.git",
+    "demoUrl": null,
+    "featured": false,
+    "order": 1,
+    "createdAt": "2026-06-01T18:35:56.138Z"
+  },
+  {
+    "id": "d67b0979-cca0-4ee7-9f3a-687fb15b7881",
+    "title": "FreeRTOS - Audio Processing & Real-time Control (STM32F446RE)",
+    "coverUrl": "/uploads/1780339172756-0c39d0d4.jpg",
+    "description": "Système audio temps réel basé FreeRTOS sur NUCLEO-F446RE avec acquisition I2S-DMA stéréo 44,1 kHz, traitement audio en temps réel (chaîne de filtrage biquad DF2T/CMSIS-DSP avec contrôle du gain), et interface LCD 2 lignes pilotée par encodeur rotatif. Architecture multi-tâches avec synchronisation par sémaphores DMA et event flags pour la gestion menu/sous-menu.",
+    "tags": "freertos, stm32, audio-dsp, i2s-dma, real-time-processing",
+    "githubUrl": "https://github.com/N3koNoTsuki/FreeRTOS.git",
+    "demoUrl": null,
+    "featured": false,
+    "order": 2,
+    "createdAt": "2026-06-01T18:39:50.171Z"
+  },
+  {
+    "id": "7d93b9f8-4078-473f-8c45-a245b13ab55d",
+    "title": "Rhythia RP Finder",
+    "coverUrl": "/uploads/1780339351094-66ce6db2.jpg",
+    "description": "Calculateur de Ranked Points (RP) pour le jeu de rythme Rhythia, implémenté en Rust pour une performance optimale. Outil permettant de déterminer rapidement les points de classement obtenus sur différentes difficultés et maps, avec support des formules de calcul RP complexes et caching intelligent pour itérations rapides.",
+    "tags": "rust, rhythia, rp-calculator, rhythm-game, performance",
+    "githubUrl": "https://github.com/N3koNoTsuki/Rhythia_rp_finder.git",
+    "demoUrl": null,
+    "featured": false,
+    "order": 3,
+    "createdAt": "2026-06-01T18:42:02.479Z"
+  }
+]

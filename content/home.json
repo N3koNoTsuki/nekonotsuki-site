@@ -5,7 +5,7 @@
     "title": "Yōkoso~ ♡",
     "content": "Bienvenue sur mon portfolio !\n\nBonjour moi c'est 猫の月, je suis un dev passione par les jeux et la musique. \nMerci de votre lecture",
     "config": null,
-    "order": 0,
+    "order": 1,
     "visible": true,
     "createdAt": "2024-01-01T10:00:00.000Z"
   },
@@ -15,7 +15,7 @@
     "title": "Derniers projets",
     "content": null,
     "config": "{\"count\":3}",
-    "order": 1,
+    "order": 3,
     "visible": true,
     "createdAt": "2024-01-01T10:01:00.000Z"
   },
@@ -35,9 +35,8 @@
     "title": "Dernière étape",
     "content": null,
     "config": "{\"count\":1}",
-    "order": 3,
+    "order": 0,
     "visible": true,
     "createdAt": "2024-01-01T10:03:00.000Z"
   }
 ]
-
