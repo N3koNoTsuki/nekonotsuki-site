@@ -3,10 +3,10 @@ import "./globals.css";
 
 export const metadata: Metadata = {
   title: {
-    default: "NekoNoTsuki ♡ Portfolio",
+    default: "NekoNoTsuki Portfolio",
     template: "%s — NekoNoTsuki",
   },
-  description: "Portfolio personnel kawaii : projets, favoris et parcours.",
+  description: "Portfolio de NekoNoTsuki : projets, favoris et parcours.",
   icons: {
     icon: "/favicon.svg",
   },

@@ -3,7 +3,7 @@
     "id": "intro",
     "type": "intro",
     "title": "Yōkoso~ ♡",
-    "content": "Bienvenue sur mon portfolio !\n\nDéveloppeuse passionnée par les interfaces **mignonnes** et les expériences douces. Fais le tour de mes projets, de mes favoris et de mon parcours.",
+    "content": "Bienvenue sur mon portfolio !\n\nBonjour moi c'est 猫の月, je suis un dev passione par les jeux et la musique. \nMerci de votre lecture",
     "config": null,
     "order": 0,
     "visible": true,
@@ -40,3 +40,4 @@
     "createdAt": "2024-01-01T10:03:00.000Z"
   }
 ]
+

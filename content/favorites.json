@@ -9,38 +9,5 @@
     "order": 0,
     "categoryId": "musique",
     "createdAt": "2024-01-01T10:00:00.000Z"
-  },
-  {
-    "id": "sailor-moon",
-    "title": "Sailor Moon",
-    "imageUrl": null,
-    "description": "Un classique magical girl intemporel.",
-    "rating": 5,
-    "comment": "Madoka magique nostalgie",
-    "order": 0,
-    "categoryId": "anime",
-    "createdAt": "2024-01-01T10:01:00.000Z"
-  },
-  {
-    "id": "stardew",
-    "title": "Stardew Valley",
-    "imageUrl": null,
-    "description": "Cultiver, pêcher, se détendre.",
-    "rating": 5,
-    "comment": "Le cozy game parfait",
-    "order": 0,
-    "categoryId": "jeux",
-    "createdAt": "2024-01-01T10:02:00.000Z"
-  },
-  {
-    "id": "vscode",
-    "title": "VS Code",
-    "imageUrl": null,
-    "description": "Avec un thème pastel, évidemment.",
-    "rating": 4,
-    "comment": "Mon éditeur du quotidien",
-    "order": 0,
-    "categoryId": "logiciels",
-    "createdAt": "2024-01-01T10:03:00.000Z"
   }
 ]

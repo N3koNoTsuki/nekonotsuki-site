@@ -7,7 +7,10 @@
 const isDev = process.env.NODE_ENV !== "production";
 
 const nextConfig = {
-  output: "export", // static site → out/ (no server, no DB at runtime)
+  // Static export only for the production build. In `next dev` we need a real
+  // server so the local /edit dynamic API routes (/api/pages/[slug], etc.)
+  // work — `output: export` forbids dynamic routes without generateStaticParams.
+  ...(isDev ? {} : { output: "export" }),
   images: { unoptimized: true }, // required for static export
   pageExtensions: isDev
     ? ["dev.tsx", "dev.ts", "tsx", "ts", "jsx", "js"]
