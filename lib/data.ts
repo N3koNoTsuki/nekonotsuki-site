@@ -1,58 +1,73 @@
-import { prisma } from "@/lib/prisma";
+import {
+  readBlocks,
+  readProjects,
+  readFavorites,
+  readCategories,
+  readTimeline,
+  readPages,
+  type Project,
+} from "@/lib/content";
 
-// Public pages read straight from the DB (server components) so they render
-// fully on the server with no client JS required.
+// Public pages read straight from the JSON content files (server components),
+// so they render fully on the server and bake into static HTML at build time.
 
-export function getHomeBlocks() {
-  return prisma.homeBlock.findMany({
-    where: { visible: true },
-    orderBy: { order: "asc" },
-  });
+function sortProjects(projects: Project[]): Project[] {
+  return [...projects].sort(
+    (a, b) =>
+      Number(b.featured) - Number(a.featured) ||
+      a.order - b.order ||
+      b.createdAt.localeCompare(a.createdAt),
+  );
 }
 
-export function getLatestProjects(count = 3) {
-  return prisma.project.findMany({
-    orderBy: [{ featured: "desc" }, { order: "asc" }, { createdAt: "desc" }],
-    take: count,
-  });
+export async function getHomeBlocks() {
+  const blocks = await readBlocks();
+  return blocks.filter((b) => b.visible).sort((a, b) => a.order - b.order);
 }
 
-export function getLatestFavorites(count = 4) {
-  return prisma.favorite.findMany({
-    orderBy: { createdAt: "desc" },
-    take: count,
-    include: { category: true },
-  });
+export async function getLatestProjects(count = 3) {
+  return sortProjects(await readProjects()).slice(0, count);
 }
 
-export function getLatestTimeline(count = 1) {
-  return prisma.timelineEntry.findMany({
-    orderBy: [{ date: "desc" }],
-    take: count,
-  });
+export async function getAllProjects() {
+  return sortProjects(await readProjects());
 }
 
-export function getAllProjects() {
-  return prisma.project.findMany({
-    orderBy: [{ featured: "desc" }, { order: "asc" }, { createdAt: "desc" }],
-  });
+export async function getLatestFavorites(count = 4) {
+  const [favorites, categories] = await Promise.all([readFavorites(), readCategories()]);
+  const byId = new Map(categories.map((c) => [c.id, c]));
+  return [...favorites]
+    .sort((a, b) => b.createdAt.localeCompare(a.createdAt))
+    .slice(0, count)
+    .map((f) => {
+      const cat = byId.get(f.categoryId);
+      return { ...f, category: cat ? { name: cat.name, icon: cat.icon } : null };
+    });
 }
 
-export function getCategoriesWithFavorites() {
-  return prisma.category.findMany({
-    orderBy: { order: "asc" },
-    include: {
-      items: { orderBy: [{ order: "asc" }, { createdAt: "desc" }] },
-    },
-  });
+export async function getLatestTimeline(count = 1) {
+  const entries = await readTimeline();
+  return [...entries].sort((a, b) => b.date.localeCompare(a.date)).slice(0, count);
 }
 
-export function getTimeline() {
-  return prisma.timelineEntry.findMany({
-    orderBy: [{ date: "desc" }, { order: "asc" }],
-  });
+export async function getCategoriesWithFavorites() {
+  const [categories, favorites] = await Promise.all([readCategories(), readFavorites()]);
+  return [...categories]
+    .sort((a, b) => a.order - b.order)
+    .map((c) => ({
+      ...c,
+      items: favorites
+        .filter((f) => f.categoryId === c.id)
+        .sort((a, b) => a.order - b.order || b.createdAt.localeCompare(a.createdAt)),
+    }));
 }
 
-export function getPage(slug: string) {
-  return prisma.page.findUnique({ where: { slug } });
+export async function getTimeline() {
+  const entries = await readTimeline();
+  return [...entries].sort((a, b) => b.date.localeCompare(a.date) || a.order - b.order);
+}
+
+export async function getPage(slug: string) {
+  const pages = await readPages();
+  return pages.find((p) => p.slug === slug) ?? null;
 }

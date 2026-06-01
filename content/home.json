@@ -1,0 +1,42 @@
+[
+  {
+    "id": "intro",
+    "type": "intro",
+    "title": "Yōkoso~ ♡",
+    "content": "Bienvenue sur mon portfolio !\n\nDéveloppeuse passionnée par les interfaces **mignonnes** et les expériences douces. Fais le tour de mes projets, de mes favoris et de mon parcours.",
+    "config": null,
+    "order": 0,
+    "visible": true,
+    "createdAt": "2024-01-01T10:00:00.000Z"
+  },
+  {
+    "id": "latest-projects",
+    "type": "latest-projects",
+    "title": "Derniers projets",
+    "content": null,
+    "config": "{\"count\":3}",
+    "order": 1,
+    "visible": true,
+    "createdAt": "2024-01-01T10:01:00.000Z"
+  },
+  {
+    "id": "latest-favorites",
+    "type": "latest-favorites",
+    "title": "Derniers favoris",
+    "content": null,
+    "config": "{\"count\":4}",
+    "order": 2,
+    "visible": true,
+    "createdAt": "2024-01-01T10:02:00.000Z"
+  },
+  {
+    "id": "latest-timeline",
+    "type": "latest-timeline",
+    "title": "Dernière étape",
+    "content": null,
+    "config": "{\"count\":1}",
+    "order": 3,
+    "visible": true,
+    "createdAt": "2024-01-01T10:03:00.000Z"
+  }
+]

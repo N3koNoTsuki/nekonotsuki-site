@@ -1,62 +1,55 @@
 # 🐾 NekoNoTsuki — Portfolio personnel kawaii
 
-Portfolio personnel au style **kawaii / anime** (rose poudré, lavande, glassmorphism léger, animations douces), entièrement éditable depuis une interface d'administration — **sans toucher au code**.
+Portfolio personnel au style **kawaii / anime** (rose poudré, lavande, glassmorphism léger, animations douces). Le contenu s'édite depuis une interface locale `/edit` — **sans toucher au code** — et le site publié est **100 % statique** : aucune base de données, aucune API, aucun serveur à faire tourner.
 
-Stack : **Next.js 14 (App Router)** · **TypeScript** · **Tailwind CSS** · **SQLite (Prisma)** · **NextAuth v5** · **framer-motion** · **react-markdown**.
-
----
-
-## ✨ Fonctionnalités
-
-### Pages publiques (rendu serveur, utilisables sans JavaScript)
-- **Accueil `/`** — hub à blocs configurables depuis l'admin (présentation, derniers projets, derniers favoris, dernière étape du parcours, blocs libres en Markdown).
-- **Projets `/projects`** — grille de cards avec couverture, tags **filtrables** (via l'URL `?tag=…`, fonctionne sans JS), liens GitHub/démo.
-- **Favoris `/favorites`** — sections par catégories (Musique/Vocaloid, Anime, Jeux, Logiciels, *custom*…), chaque item ayant titre, image, description Markdown, note ♥ et commentaire perso.
-- **Parcours `/timeline`** — frise chronologique (date, titre, description Markdown, tag études/pro/perso/projet).
-- **À propos `/about`** — page libre entièrement en Markdown.
-
-### Interface admin `/admin` (protégée par NextAuth)
-- **Éditeur Markdown split-pane** (édition à gauche, aperçu en temps réel à droite) avec barre d'outils.
-- **CRUD complet** : blocs d'accueil, projets (upload d'image), favoris + gestion des catégories, parcours, page À propos.
-- **Réordonnancement drag-and-drop** des blocs d'accueil et des étapes du parcours.
-- **Toggle thème clair/sombre**.
-
-### Technique
-- **Markdown** : titres, listes, code inline/blocs (coloration syntaxique), images, liens, **tableaux** (GFM).
-- **Images** : upload local dans `/public/uploads` **ou** URL externe en fallback.
-- **API** : Route Handlers Next.js (aucune API externe).
-- **Auth** : NextAuth v5, session JWT, middleware de protection sur `/admin/*` (compte owner unique en base).
-- **Responsive** mobile-first.
+Stack : **Next.js 14 (App Router, export statique)** · **TypeScript** · **Tailwind CSS** · **framer-motion** · **react-markdown**. Contenu stocké en **fichiers JSON** versionnés dans le repo.
 
 ---
 
-## 🚀 Démarrage rapide
+## 🧠 Comment ça marche
+
+```
+                 (en local, npm run dev)                 (git push → Vercel)
+   /edit  ───────────────────────────────►  content/*.json  ───────────────────►  site statique
+   éditeur sans login, écrit les fichiers     versionnés git      next build (output: export)
+```
+
+- **Tu édites en local** : `npm run dev`, puis `http://localhost:3000/edit`. Pas de mot de passe — l'éditeur n'existe **qu'en local**.
+- **Enregistrer** écrit dans `content/*.json` (et `public/uploads/` pour les images). Ce sont de simples fichiers, suivis par git.
+- **Publier** : `git push`. Vercel lance `next build` et republie le site statique. Pas de DB, pas de variables d'environnement.
+
+L'éditeur (`/edit`) et son API d'écriture (`/api/*`) vivent dans des fichiers **`*.dev.tsx` / `*.dev.ts`**. Ils ne sont pris en compte que par `next dev`. Le build de production (`NODE_ENV=production`) les ignore (voir `pageExtensions` dans `next.config.mjs`), donc ils ne partent **jamais** sur le site en ligne.
+
+---
+
+## 🚀 Démarrage
 
 ```bash
-# 1. Installer les dépendances
-npm install
-
-# 2. Configurer l'environnement
-cp .env.example .env
-#   puis éditez .env :
-#   - AUTH_SECRET : générez-en un avec  openssl rand -base64 32
-#   - OWNER_EMAIL / OWNER_PASSWORD : vos identifiants admin
-
-# 3. Créer la base SQLite + le client Prisma
-npm run db:push
-
-# 4. Remplir la base (compte owner + contenu de démo)
-npm run db:seed
-
-# 5. Lancer en développement
-npm run dev
+npm install        # une seule fois
+npm run dev        # éditer en local
 ```
 
 - Site public : http://localhost:3000
-- Admin : http://localhost:3000/admin → redirige vers `/login`
-- Identifiants : ceux définis dans `.env` (`OWNER_EMAIL` / `OWNER_PASSWORD`)
+- Éditeur (local uniquement) : http://localhost:3000/edit
 
-> Le seed est **idempotent** : il met à jour le compte owner et n'ajoute le contenu de démo que si la base est vide.
+Aucune configuration, aucun `.env`, aucune base à initialiser.
+
+---
+
+## ✍️ Workflow d'édition
+
+1. `npm run dev`
+2. Va sur `/edit`, modifie blocs d'accueil, projets, favoris, parcours, page À propos.
+3. Les modifs sont enregistrées dans `content/*.json` (+ images dans `public/uploads/`).
+4. Publie :
+   ```bash
+   git add content public/uploads
+   git commit -m "maj du contenu"
+   git push
+   ```
+5. Vercel rebuild et déploie automatiquement. ✨
+
+> Astuce : `npm run build` génère le site statique dans `out/` pour le prévisualiser en local (l'éditeur est alors exclu, comme en prod).
 
 ---
 
@@ -64,13 +57,9 @@ npm run dev
 
 | Script | Description |
 | ------ | ----------- |
-| `npm run dev` | Serveur de développement |
-| `npm run build` | `prisma generate` + build de production |
-| `npm run start` | Serveur de production (après `build`) |
-| `npm run db:push` | Synchronise le schéma Prisma → SQLite (sans migration) |
-| `npm run db:migrate` | Crée/applique une migration de développement |
-| `npm run db:seed` | Compte owner + contenu de démo |
-| `npm run db:studio` | Ouvre Prisma Studio (explorateur de DB) |
+| `npm run dev` | Serveur de dev **avec l'éditeur `/edit`** |
+| `npm run build` | Build du **site statique** → `out/` (sans éditeur ni API) |
+| `npm run start` | Sert le build (peu utile : le site est statique) |
 | `npm run lint` | ESLint |
 
 ---
@@ -78,63 +67,54 @@ npm run dev
 ## 🗂 Structure
 
 ```
+content/               ← LE CONTENU (JSON, versionné) : home, projects,
+                         favorites, categories, timeline, pages
 app/
-  (public)/            ← pages publiques (layout commun navbar/footer)
-    page.tsx           ← accueil (blocs configurables)
-    favorites/ timeline/ projects/ about/
-  admin/               ← interface d'administration protégée
-    home/ projects/ favorites/ timeline/ about/
-  api/                 ← Route Handlers (blocks, categories, favorites,
-                         timeline, projects, pages, upload, auth)
-  login/               ← page de connexion
-components/            ← Navbar, Footer, cards, Markdown, ui…
-  admin/               ← managers CRUD, éditeur Markdown, DnD, modale…
-lib/                   ← prisma, auth helpers, data fetchers, validators, utils
-prisma/                ← schema.prisma + seed.ts
-public/uploads/        ← images uploadées
-auth.ts / auth.config.ts / middleware.ts   ← NextAuth v5
+  (public)/            ← pages publiques statiques (accueil, projets,
+                         favoris, parcours, à propos)
+  edit/   *.dev.tsx    ← éditeur local (exclu du build de prod)
+  api/    *.dev.ts     ← API d'écriture locale (exclue du build de prod)
+components/            ← Navbar, Footer, cards, Markdown, ProjectsFilter, ui…
+  admin/               ← managers CRUD, éditeur Markdown, drag-and-drop, modale…
+lib/
+  content.ts           ← lecture/écriture des fichiers JSON
+  data.ts              ← accès en lecture pour les pages publiques
+  validators.ts        ← schémas zod (validation des écritures)
+public/uploads/        ← images (versionnées avec le reste)
+next.config.mjs        ← output: "export" + pageExtensions (.dev)
 ```
+
+> `content/` et `public/uploads/` sont **commités exprès** : c'est le site. `out/` et `.next/` sont ignorés (régénérés au build).
+
+---
+
+## 🌍 Déploiement — Vercel
+
+1. Importe le repo sur Vercel (framework détecté : Next.js).
+2. C'est tout. Vercel lance `next build`, voit `output: "export"` et sert le dossier statique `out/`.
+
+- **Aucune variable d'environnement.**
+- **Aucune base de données.**
+- Chaque `git push` redéploie.
+
+> Le site étant un export statique, il s'héberge aussi tel quel sur Cloudflare Pages, Netlify, GitHub Pages, etc. (le dossier `out/`).
 
 ---
 
 ## 🎨 Personnalisation
 
 - **Palette & thème** : `tailwind.config.ts` (couleurs `rose`, `lavender`, `cream`, `mint`, `sky`) et `app/globals.css`.
-- **Polices** : *Quicksand* (texte) + *Fredoka* (titres), chargées via Google Fonts dans `globals.css`.
-- **Tout le contenu** (textes, blocs, projets, favoris, parcours, page À propos) se modifie depuis `/admin`.
+- **Polices** : *Quicksand* (texte) + *Fredoka* (titres), via Google Fonts dans `globals.css`.
+- **Contenu** : tout depuis `/edit` (ou en éditant directement `content/*.json`).
 
 ---
 
-## 🌍 Déploiement (hébergement-agnostique)
+## 🔧 Notes de maintenance
 
-### Vercel
-1. Importez le repo.
-2. Variables d'environnement : `DATABASE_URL`, `AUTH_SECRET` (et `OWNER_EMAIL`/`OWNER_PASSWORD` pour le seed).
-3. Build command : `npm run build`.
-> ⚠️ Le système de fichiers Vercel est **éphémère** : les uploads dans `/public/uploads` ne survivent pas aux redéploiements, et SQLite n'est pas persistant. Pour Vercel, préférez **PostgreSQL** (voir ci-dessous) + un stockage externe (S3, Vercel Blob, etc.). Pour un site mono-utilisateur sur **VPS**, SQLite + uploads locaux conviennent parfaitement.
-
-### VPS (recommandé pour SQLite + uploads locaux)
-```bash
-npm ci
-npm run build
-npm run db:push   # première fois
-npm run db:seed   # première fois
-npm run start     # ou via pm2 / systemd, derrière un reverse-proxy (nginx/caddy)
-```
-Pensez à `AUTH_TRUST_HOST=true` derrière un proxy.
-
-### Passer à PostgreSQL
-1. Dans `prisma/schema.prisma` : `provider = "postgresql"`.
-2. `DATABASE_URL="postgresql://user:pass@host:5432/db"`.
-3. `npm run db:migrate` (ou `db:push`) puis `npm run db:seed`.
-Aucune autre modification de code n'est nécessaire.
-
----
-
-## 🔒 Sécurité
-- Mot de passe owner **hashé** (bcrypt) en base.
-- Toutes les routes de mutation vérifient la session (`requireAuth`) ; `/admin/*` est en plus protégé par le middleware.
-- Pensez à changer `AUTH_SECRET` et le mot de passe owner avant toute mise en ligne.
+- **Ajouter un type de contenu** : ajoute un fichier `content/<truc>.json`, un accesseur dans `lib/content.ts`, une lecture dans `lib/data.ts`, et (optionnel) une route `app/api/<truc>/route.dev.ts` + un manager.
+- **L'éditeur n'écrit qu'en local** : il faut lancer `npm run dev` et committer/pousser pour publier. Pas d'édition depuis un téléphone.
+- **Sécurité** : aucun secret, aucun login à gérer — le site publié ne contient que du HTML/CSS/JS statique.
+- À l'occasion, pense à monter la version de `next` (correctifs de sécurité) : `npm i next@latest` puis `npm run build`.
 
 ---
 

@@ -10,8 +10,6 @@ import Reveal from "@/components/Reveal";
 import { ProjectCard, FavoriteCard, TimelineItem } from "@/components/cards";
 import { EmptyState } from "@/components/ui";
 
-export const dynamic = "force-dynamic";
-
 function blockCount(config: string | null, fallback: number): number {
   if (!config) return fallback;
   try {

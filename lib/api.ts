@@ -1,17 +1,7 @@
 import { NextResponse } from "next/server";
-import { auth } from "@/auth";
 
-/** Guard for mutating route handlers. Returns the session or a 401 response. */
-export async function requireAuth() {
-  const session = await auth();
-  if (!session?.user) {
-    return {
-      session: null,
-      error: NextResponse.json({ error: "Non autorisé" }, { status: 401 }),
-    };
-  }
-  return { session, error: null as null };
-}
+// JSON response helpers for the local /edit write API (dev only). No auth:
+// these routes are excluded from the production static build entirely.
 
 export function badRequest(message: string, details?: unknown) {
   return NextResponse.json({ error: message, details }, { status: 400 });

@@ -3,7 +3,6 @@ import { getTimeline } from "@/lib/data";
 import { TimelineItem } from "@/components/cards";
 import { PageHeader, EmptyState } from "@/components/ui";
 
-export const dynamic = "force-dynamic";
 export const metadata: Metadata = { title: "Parcours" };
 
 export default async function TimelinePage() {

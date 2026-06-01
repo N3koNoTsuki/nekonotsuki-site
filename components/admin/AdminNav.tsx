@@ -5,12 +5,12 @@ import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
 
 const ITEMS = [
-  { href: "/admin", label: "Tableau de bord", icon: "🏠", exact: true },
-  { href: "/admin/home", label: "Blocs accueil", icon: "🧩" },
-  { href: "/admin/projects", label: "Projets", icon: "✨" },
-  { href: "/admin/favorites", label: "Favoris", icon: "♡" },
-  { href: "/admin/timeline", label: "Parcours", icon: "🌿" },
-  { href: "/admin/about", label: "À propos", icon: "📝" },
+  { href: "/edit", label: "Tableau de bord", icon: "🏠", exact: true },
+  { href: "/edit/home", label: "Blocs accueil", icon: "🧩" },
+  { href: "/edit/projects", label: "Projets", icon: "✨" },
+  { href: "/edit/favorites", label: "Favoris", icon: "♡" },
+  { href: "/edit/timeline", label: "Parcours", icon: "🌿" },
+  { href: "/edit/about", label: "À propos", icon: "📝" },
 ];
 
 export default function AdminNav() {

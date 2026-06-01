@@ -1,0 +1,26 @@
+[
+  {
+    "id": "nekonotsuki",
+    "title": "NekoNoTsuki",
+    "coverUrl": null,
+    "description": "Mon portfolio personnel, **kawaii** et entièrement éditable depuis l'éditeur local.",
+    "tags": "Next.js,TypeScript,Tailwind",
+    "githubUrl": "https://github.com/",
+    "demoUrl": "https://example.com",
+    "featured": true,
+    "order": 0,
+    "createdAt": "2024-01-01T10:00:00.000Z"
+  },
+  {
+    "id": "pastel-notes",
+    "title": "Pastel Notes",
+    "coverUrl": null,
+    "description": "Une app de prise de notes en Markdown au design tout doux.",
+    "tags": "React,Markdown,PWA",
+    "githubUrl": "https://github.com/",
+    "demoUrl": null,
+    "featured": false,
+    "order": 1,
+    "createdAt": "2024-01-01T10:01:00.000Z"
+  }
+]

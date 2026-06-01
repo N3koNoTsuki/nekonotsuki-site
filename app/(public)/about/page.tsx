@@ -4,7 +4,6 @@ import Markdown from "@/components/Markdown";
 import { EmptyState } from "@/components/ui";
 import Reveal from "@/components/Reveal";
 
-export const dynamic = "force-dynamic";
 export const metadata: Metadata = { title: "À propos" };
 
 export default async function AboutPage() {
