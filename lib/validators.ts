@@ -39,6 +39,20 @@ export const favoriteSchema = z.object({
   comment: optionalString,
 });
 
+export const malPickSchema = z.object({
+  malId: z.number().int().optional(),
+  title: z.string().trim().min(1, "Titre requis"),
+  imageUrl: optionalUrl,
+  url: optionalUrl,
+  type: optionalString,
+  year: z.number().int().nullable().optional(),
+});
+
+export const musicSchema = z.object({
+  url: z.string().trim().min(1, "Lien requis"),
+  title: z.string().trim().min(1, "Titre requis"),
+});
+
 export const timelineSchema = z.object({
   title: z.string().trim().min(1, "Titre requis"),
   date: z.coerce.date(),

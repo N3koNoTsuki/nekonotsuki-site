@@ -66,6 +66,38 @@ export type Favorite = {
   createdAt: string;
 };
 
+// A picked MyAnimeList entry — shared by the manga and anime collections.
+export type MalPick = {
+  id: string;
+  malId: number;
+  title: string;
+  imageUrl: string | null;
+  url: string; // MyAnimeList page
+  type: string | null;
+  year: number | null;
+  order: number;
+  createdAt: string;
+};
+
+export type MusicTrack = {
+  videoId: string;
+  title: string;
+};
+
+export type MusicPlaylist = {
+  id: string;
+  playlistId: string;
+  title: string;
+  description: string;
+  thumbnail: string | null;
+  url: string;
+  itemCount: number;
+  visible: boolean;
+  order: number;
+  tracks: MusicTrack[];
+  createdAt: string;
+};
+
 export type Page = {
   slug: string;
   title: string | null;
@@ -106,6 +138,15 @@ export const writeCategories = (c: Category[]) => write("categories.json", c);
 
 export const readFavorites = () => read<Favorite>("favorites.json");
 export const writeFavorites = (f: Favorite[]) => write("favorites.json", f);
+
+export const readManga = () => read<MalPick>("manga.json");
+export const writeManga = (m: MalPick[]) => write("manga.json", m);
+
+export const readAnime = () => read<MalPick>("anime.json");
+export const writeAnime = (a: MalPick[]) => write("anime.json", a);
+
+export const readMusic = () => read<MusicPlaylist>("music.json");
+export const writeMusic = (m: MusicPlaylist[]) => write("music.json", m);
 
 export const readPages = () => read<Page>("pages.json");
 export const writePages = (p: Page[]) => write("pages.json", p);

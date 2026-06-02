@@ -79,3 +79,14 @@ export function tagMeta(tag: string) {
     }
   );
 }
+
+/** Extract a YouTube playlist ID from a URL (or accept a raw ID). */
+export function extractPlaylistId(input: string | null | undefined): string | null {
+  if (!input) return null;
+  const s = input.trim();
+  const match = s.match(/[?&]list=([A-Za-z0-9_-]+)/);
+  if (match) return match[1];
+  // A bare playlist ID (no slashes/spaces, plausible length).
+  if (/^[A-Za-z0-9_-]{10,}$/.test(s)) return s;
+  return null;
+}

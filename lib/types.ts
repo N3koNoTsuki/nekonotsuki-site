@@ -50,3 +50,26 @@ export type FavoriteDTO = {
   order: number;
   categoryId: string;
 };
+
+export type MalPickDTO = {
+  id: string;
+  malId: number;
+  title: string;
+  imageUrl: string | null;
+  url: string;
+  type: string | null;
+  year: number | null;
+  order: number;
+};
+
+export type MusicDTO = {
+  id: string;
+  playlistId: string;
+  title: string;
+  description: string;
+  thumbnail: string | null;
+  url: string;
+  itemCount: number;
+  visible: boolean;
+  order: number;
+};

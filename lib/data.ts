@@ -2,6 +2,9 @@ import {
   readBlocks,
   readProjects,
   readFavorites,
+  readManga,
+  readAnime,
+  readMusic,
   readCategories,
   readTimeline,
   readPages,
@@ -65,6 +68,21 @@ export async function getCategoriesWithFavorites() {
 export async function getTimeline() {
   const entries = await readTimeline();
   return [...entries].sort((a, b) => b.date.localeCompare(a.date) || a.order - b.order);
+}
+
+export async function getManga() {
+  const manga = await readManga();
+  return [...manga].sort((a, b) => a.order - b.order || b.createdAt.localeCompare(a.createdAt));
+}
+
+export async function getAnime() {
+  const anime = await readAnime();
+  return [...anime].sort((a, b) => a.order - b.order || b.createdAt.localeCompare(a.createdAt));
+}
+
+export async function getMusic() {
+  const music = await readMusic();
+  return [...music].sort((a, b) => a.order - b.order || b.createdAt.localeCompare(a.createdAt));
 }
 
 export async function getPage(slug: string) {

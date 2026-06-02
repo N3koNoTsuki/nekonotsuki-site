@@ -1,0 +1,35 @@
+[
+  {
+    "id": "07006292-0dd3-4170-aa4b-3eab23b2b4b4",
+    "malId": 52034,
+    "title": "[Oshi no Ko]",
+    "imageUrl": "https://cdn.myanimelist.net/images/anime/1812/134736.jpg",
+    "url": "https://myanimelist.net/anime/52034/Oshi_no_Ko",
+    "type": "TV",
+    "year": 2023,
+    "order": 0,
+    "createdAt": "2026-06-02T12:15:28.539Z"
+  },
+  {
+    "id": "08ce14b6-6b66-4496-9bcd-8d080fc7793e",
+    "malId": 11757,
+    "title": "Sword Art Online",
+    "imageUrl": "https://cdn.myanimelist.net/images/anime/11/39717.jpg",
+    "url": "https://myanimelist.net/anime/11757/Sword_Art_Online",
+    "type": "TV",
+    "year": 2012,
+    "order": 1,
+    "createdAt": "2026-06-02T12:15:34.812Z"
+  },
+  {
+    "id": "edba01f7-dd6a-45e4-bbb7-639f295b7b93",
+    "malId": 21,
+    "title": "One Piece",
+    "imageUrl": "https://cdn.myanimelist.net/images/anime/1244/138851.jpg",
+    "url": "https://myanimelist.net/anime/21/One_Piece",
+    "type": "TV",
+    "year": 1999,
+    "order": 2,
+    "createdAt": "2026-06-02T12:16:00.931Z"
+  }
+]

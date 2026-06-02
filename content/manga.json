@@ -1,0 +1,46 @@
+[
+  {
+    "id": "bf50cb33-8b30-40a9-bd3c-9d0c5adf3985",
+    "malId": 13,
+    "title": "One Piece",
+    "imageUrl": "https://cdn.myanimelist.net/images/manga/2/253146.jpg",
+    "url": "https://myanimelist.net/manga/13/One_Piece",
+    "type": "Manga",
+    "year": 1997,
+    "order": 0,
+    "createdAt": "2026-06-02T12:03:11.522Z"
+  },
+  {
+    "id": "09ca010e-8376-4fad-b10b-a167592b1a76",
+    "malId": 126146,
+    "title": "[Oshi no Ko]",
+    "imageUrl": "https://cdn.myanimelist.net/images/manga/3/233991.jpg",
+    "url": "https://myanimelist.net/manga/126146/Oshi_no_Ko",
+    "type": "Manga",
+    "year": 2020,
+    "order": 1,
+    "createdAt": "2026-06-02T12:03:19.928Z"
+  },
+  {
+    "id": "d55d0b80-a33a-414c-b332-655966c28f1a",
+    "malId": 130331,
+    "title": "Shangri-La Frontier: Kusoge Hunter, Kamige ni Idoman to su",
+    "imageUrl": "https://cdn.myanimelist.net/images/manga/3/235471.jpg",
+    "url": "https://myanimelist.net/manga/130331/Shangri-La_Frontier__Kusoge_Hunter_Kamige_ni_Idoman_to_su",
+    "type": "Manga",
+    "year": 2020,
+    "order": 2,
+    "createdAt": "2026-06-02T12:03:27.199Z"
+  },
+  {
+    "id": "2e93eab6-6f34-47d0-980b-f823e1518b40",
+    "malId": 121597,
+    "title": "Dosanko Gal wa Namara Menkoi",
+    "imageUrl": "https://cdn.myanimelist.net/images/manga/1/224525.jpg",
+    "url": "https://myanimelist.net/manga/121597/Dosanko_Gal_wa_Namara_Menkoi",
+    "type": "Manga",
+    "year": 2019,
+    "order": 3,
+    "createdAt": "2026-06-02T12:16:15.676Z"
+  }
+]
