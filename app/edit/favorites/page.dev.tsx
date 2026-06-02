@@ -16,6 +16,7 @@ export default async function EditFavoritesPage() {
       title: f.title,
       imageUrl: f.imageUrl,
       description: f.description,
+      details: f.details ?? null,
       rating: f.rating,
       comment: f.comment,
       order: f.order,

@@ -58,6 +58,7 @@ export type Favorite = {
   title: string;
   imageUrl: string | null;
   description: string | null;
+  details: string | null; // long-form Markdown shown only in the expanded view
   rating: number | null;
   comment: string | null;
   order: number;

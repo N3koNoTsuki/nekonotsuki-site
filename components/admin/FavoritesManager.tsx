@@ -14,6 +14,7 @@ type FavDraft = {
   categoryId: string;
   imageUrl: string;
   description: string;
+  details: string;
   comment: string;
   rating: number;
 };
@@ -86,6 +87,7 @@ export default function FavoritesManager({
       categoryId: favDraft.categoryId,
       imageUrl: favDraft.imageUrl,
       description: favDraft.description,
+      details: favDraft.details,
       comment: favDraft.comment,
       rating: favDraft.rating,
     };
@@ -113,7 +115,7 @@ export default function FavoritesManager({
 
   function newFavorite(categoryId: string) {
     setError(null);
-    setFavDraft({ title: "", categoryId, imageUrl: "", description: "", comment: "", rating: 0 });
+    setFavDraft({ title: "", categoryId, imageUrl: "", description: "", details: "", comment: "", rating: 0 });
   }
 
   return (
@@ -188,6 +190,7 @@ export default function FavoritesManager({
                                   categoryId: f.categoryId,
                                   imageUrl: f.imageUrl ?? "",
                                   description: f.description ?? "",
+                                  details: f.details ?? "",
                                   comment: f.comment ?? "",
                                   rating: f.rating ?? 0,
                                 })
@@ -280,6 +283,12 @@ export default function FavoritesManager({
               value={favDraft.description}
               onChange={(description) => setFavDraft({ ...favDraft, description })}
               minRows={5}
+            />
+            <MarkdownEditor
+              label="Détails — affichés en grand au clic sur la vignette (Markdown)"
+              value={favDraft.details}
+              onChange={(details) => setFavDraft({ ...favDraft, details })}
+              minRows={6}
             />
             {error && <p className="text-sm text-rose-deep">{error}</p>}
             <div className="flex justify-end gap-2">

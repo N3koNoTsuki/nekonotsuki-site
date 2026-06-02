@@ -31,6 +31,7 @@ export async function POST(req: NextRequest) {
     title: d.title,
     imageUrl: d.imageUrl ?? null,
     description: d.description ?? null,
+    details: d.details ?? null,
     rating: d.rating ?? null,
     comment: d.comment ?? null,
     order: maxOrder + 1,

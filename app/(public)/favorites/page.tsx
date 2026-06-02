@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { getCategoriesWithFavorites } from "@/lib/data";
-import { FavoriteCard } from "@/components/cards";
+import { FavoriteCard } from "@/components/FavoriteCard";
 import { PageHeader, EmptyState } from "@/components/ui";
 import Reveal from "@/components/Reveal";
 

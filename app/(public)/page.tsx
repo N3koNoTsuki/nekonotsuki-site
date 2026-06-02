@@ -7,7 +7,8 @@ import {
 } from "@/lib/data";
 import Markdown from "@/components/Markdown";
 import Reveal from "@/components/Reveal";
-import { ProjectCard, FavoriteCard, TimelineItem } from "@/components/cards";
+import { ProjectCard, TimelineItem } from "@/components/cards";
+import { FavoriteCard } from "@/components/FavoriteCard";
 import { EmptyState } from "@/components/ui";
 
 function blockCount(config: string | null, fallback: number): number {

@@ -44,6 +44,7 @@ export type FavoriteDTO = {
   title: string;
   imageUrl: string | null;
   description: string | null;
+  details: string | null;
   rating: number | null;
   comment: string | null;
   order: number;

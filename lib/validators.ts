@@ -34,6 +34,7 @@ export const favoriteSchema = z.object({
   categoryId: z.string().min(1, "Catégorie requise"),
   imageUrl: optionalUrl,
   description: optionalString,
+  details: optionalString,
   rating: z.coerce.number().int().min(0).max(5).optional(),
   comment: optionalString,
 });

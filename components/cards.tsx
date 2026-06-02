@@ -1,7 +1,8 @@
 import Markdown from "./Markdown";
 import HoverCard from "./HoverCard";
-import { StarRating } from "./ui";
+import LanguageBar from "./LanguageBar";
 import { parseTags, formatMonthYear, tagMeta, cn } from "@/lib/utils";
+import type { LangStat } from "@/lib/languages";
 
 type ProjectLike = {
   id: string;
@@ -14,7 +15,7 @@ type ProjectLike = {
   featured?: boolean;
 };
 
-export function ProjectCard({ project }: { project: ProjectLike }) {
+export function ProjectCard({ project, languages }: { project: ProjectLike; languages?: LangStat[] }) {
   const tags = parseTags(project.tags);
   return (
     <HoverCard>
@@ -39,6 +40,9 @@ export function ProjectCard({ project }: { project: ProjectLike }) {
               <Markdown>{project.description}</Markdown>
             </div>
           )}
+          {languages && languages.length > 0 && (
+            <LanguageBar stats={languages} maxLegend={4} barClassName="h-1.5" className="mt-4" />
+          )}
           {tags.length > 0 && (
             <div className="mt-3 flex flex-wrap gap-1.5">
               {tags.map((t) => (
@@ -60,52 +64,6 @@ export function ProjectCard({ project }: { project: ProjectLike }) {
               </a>
             )}
           </div>
-        </div>
-      </article>
-    </HoverCard>
-  );
-}
-
-type FavoriteLike = {
-  id: string;
-  title: string;
-  imageUrl: string | null;
-  description: string | null;
-  rating: number | null;
-  comment: string | null;
-  category?: { name: string; icon: string | null } | null;
-};
-
-export function FavoriteCard({ favorite, showCategory = false }: { favorite: FavoriteLike; showCategory?: boolean }) {
-  return (
-    <HoverCard>
-      <article className="kawaii-card flex h-full gap-4 p-4">
-        <div className="h-20 w-20 flex-shrink-0 overflow-hidden rounded-2xl bg-kawaii-gradient">
-          {favorite.imageUrl ? (
-            // eslint-disable-next-line @next/next/no-img-element
-            <img src={favorite.imageUrl} alt={favorite.title} className="h-full w-full object-cover" loading="lazy" />
-          ) : (
-            <div className="flex h-full w-full items-center justify-center text-3xl" aria-hidden>
-              {favorite.category?.icon ?? "♡"}
-            </div>
-          )}
-        </div>
-        <div className="min-w-0 flex-1">
-          <div className="flex items-center justify-between gap-2">
-            <h3 className="truncate font-display text-lg font-bold text-ink dark:text-[#efe6ee]">{favorite.title}</h3>
-            {favorite.rating ? <StarRating value={favorite.rating} /> : null}
-          </div>
-          {showCategory && favorite.category && (
-            <span className="text-xs text-ink/50 dark:text-[#efe6ee]/50">
-              {favorite.category.icon} {favorite.category.name}
-            </span>
-          )}
-          {favorite.comment && <p className="mt-0.5 text-sm italic text-rose-deep">“{favorite.comment}”</p>}
-          {favorite.description && (
-            <div className="mt-1 text-sm">
-              <Markdown>{favorite.description}</Markdown>
-            </div>
-          )}
         </div>
       </article>
     </HoverCard>

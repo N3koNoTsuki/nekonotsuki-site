@@ -18,6 +18,7 @@ export async function PATCH(req: NextRequest, { params }: { params: { id: string
     ...(d.categoryId !== undefined ? { categoryId: d.categoryId } : {}),
     ...(d.imageUrl !== undefined ? { imageUrl: d.imageUrl ?? null } : {}),
     ...(d.description !== undefined ? { description: d.description ?? null } : {}),
+    ...(d.details !== undefined ? { details: d.details ?? null } : {}),
     ...(d.rating !== undefined ? { rating: d.rating ?? null } : {}),
     ...(d.comment !== undefined ? { comment: d.comment ?? null } : {}),
   };
