@@ -7,7 +7,8 @@ import {
 } from "@/lib/data";
 import Markdown from "@/components/Markdown";
 import Reveal from "@/components/Reveal";
-import { ProjectCard, TimelineItem } from "@/components/cards";
+import { TimelineItem } from "@/components/cards";
+import { ProjectCard } from "@/components/ProjectCard";
 import { FavoriteCard } from "@/components/FavoriteCard";
 import { EmptyState } from "@/components/ui";
 

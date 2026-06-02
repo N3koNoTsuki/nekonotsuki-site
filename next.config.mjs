@@ -1,20 +1,28 @@
 /** @type {import('next').NextConfig} */
 
-// The local editor lives in *.dev.tsx / *.dev.ts files (pages under /edit and
-// the write API under /api). They're only treated as routes by `next dev`.
-// The production build runs with NODE_ENV=production and drops those
-// extensions, so `next build` exports a 100% static site with no /edit, no API.
+// Local editor: the /edit pages and the write API live in *.dev.tsx / *.dev.ts
+// and are only treated as routes by `next dev`. The production build drops those
+// extensions, so /edit and /api never ship to the deployed site.
+//
+// Production runs as a normal Next app (serverless on Vercel) — not a static
+// export — so ISR can refresh the GitHub / MyAnimeList data hourly. Pages that
+// pull external data opt in via `export const revalidate`; everything else stays
+// plain static (generated once at build).
 const isDev = process.env.NODE_ENV !== "production";
 
 const nextConfig = {
-  // Static export only for the production build. In `next dev` we need a real
-  // server so the local /edit dynamic API routes (/api/pages/[slug], etc.)
-  // work — `output: export` forbids dynamic routes without generateStaticParams.
-  ...(isDev ? {} : { output: "export" }),
-  images: { unoptimized: true }, // required for static export
+  images: { unoptimized: true }, // the site uses plain <img>, no next/image optimisation
   pageExtensions: isDev
     ? ["dev.tsx", "dev.ts", "tsx", "ts", "jsx", "js"]
     : ["tsx", "ts", "jsx", "js"],
+  // ISR pages re-read the flat-file content at runtime, so bundle those JSON
+  // files into the serverless functions that read them.
+  experimental: {
+    outputFileTracingIncludes: {
+      "/projects": ["./content/**"],
+      "/competences": ["./content/**"],
+    },
+  },
 };
 
 export default nextConfig;

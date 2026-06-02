@@ -27,6 +27,19 @@ export default function Markdown({ children, className }: MarkdownProps) {
           a: ({ node, ...props }) => (
             <a {...props} target={props.href?.startsWith("http") ? "_blank" : undefined} rel="noopener noreferrer" />
           ),
+          // Markdown image syntax pointing at a video file renders a player, so
+          // `![ma vidéo](/uploads/clip.mp4)` just works (raw <video> still works too).
+          img: ({ node, src, alt, ...props }) => {
+            if (typeof src === "string" && /\.(mp4|webm|ogv|mov|m4v)(\?.*)?$/i.test(src)) {
+              return (
+                <video src={src} controls preload="metadata" playsInline>
+                  {alt}
+                </video>
+              );
+            }
+            // eslint-disable-next-line @next/next/no-img-element
+            return <img src={src} alt={alt ?? ""} loading="lazy" {...props} />;
+          },
         }}
       >
         {children}

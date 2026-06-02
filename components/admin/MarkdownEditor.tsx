@@ -2,6 +2,7 @@
 
 import { useRef, useState } from "react";
 import Markdown from "@/components/Markdown";
+import { uploadImage } from "@/lib/client";
 import { cn } from "@/lib/utils";
 
 type Props = {
@@ -43,6 +44,9 @@ const TOOLS: Tool[] = [
 export default function MarkdownEditor({ value, onChange, label, placeholder, minRows = 12, id }: Props) {
   const ref = useRef<HTMLTextAreaElement>(null);
   const [tab, setTab] = useState<"edit" | "preview">("edit"); // mobile tab switch
+  const fileRef = useRef<HTMLInputElement>(null);
+  const [uploading, setUploading] = useState(false);
+  const [uploadError, setUploadError] = useState<string | null>(null);
 
   function runTool(tool: Tool) {
     const ta = ref.current;
@@ -66,6 +70,42 @@ export default function MarkdownEditor({ value, onChange, label, placeholder, mi
     });
   }
 
+  function insertAtCursor(text: string) {
+    const ta = ref.current;
+    if (!ta) {
+      onChange(value + text);
+      return;
+    }
+    const start = ta.selectionStart;
+    const end = ta.selectionEnd;
+    const next = value.slice(0, start) + text + value.slice(end);
+    onChange(next);
+    requestAnimationFrame(() => {
+      ta.focus();
+      const pos = start + text.length;
+      ta.setSelectionRange(pos, pos);
+    });
+  }
+
+  // Upload an image OR a video and insert `![name](url)`. The Markdown renderer
+  // turns a video URL into a <video> player, so the same syntax works for both.
+  async function onUploadFile(e: React.ChangeEvent<HTMLInputElement>) {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    setUploadError(null);
+    setUploading(true);
+    try {
+      const url = await uploadImage(file);
+      const name = file.name.replace(/\.[^.]+$/, "") || "média";
+      insertAtCursor(`\n\n![${name}](${url})\n\n`);
+    } catch (err) {
+      setUploadError(err instanceof Error ? err.message : "Échec de l’upload");
+    } finally {
+      setUploading(false);
+      if (fileRef.current) fileRef.current.value = "";
+    }
+  }
+
   return (
     <div>
       {label && <span className="label">{label}</span>}
@@ -83,6 +123,17 @@ export default function MarkdownEditor({ value, onChange, label, placeholder, mi
               {t.label}
             </button>
           ))}
+          <button
+            type="button"
+            title="Téléverser une image ou une vidéo"
+            onClick={() => fileRef.current?.click()}
+            disabled={uploading}
+            className="rounded-lg px-2 py-1 text-sm font-semibold text-ink/70 transition hover:bg-white hover:text-rose-deep disabled:opacity-50 dark:text-[#efe6ee]/70 dark:hover:bg-white/10"
+          >
+            {uploading ? "…" : "⬆ Média"}
+          </button>
+          <input ref={fileRef} type="file" accept="image/*,video/*" className="hidden" onChange={onUploadFile} />
+
           {/* Mobile tab toggle */}
           <div className="ml-auto flex gap-1 md:hidden">
             <button
@@ -132,6 +183,7 @@ export default function MarkdownEditor({ value, onChange, label, placeholder, mi
           </div>
         </div>
       </div>
+      {uploadError && <p className="mt-1 text-sm text-rose-deep">{uploadError}</p>}
     </div>
   );
 }

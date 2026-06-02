@@ -6,15 +6,20 @@ import { badRequest, ok } from "@/lib/api";
 
 export const runtime = "nodejs";
 
-const MAX_BYTES = 5 * 1024 * 1024; // 5 MB
-const ALLOWED = new Set(["image/png", "image/jpeg", "image/webp", "image/gif", "image/svg+xml"]);
+const MAX_IMAGE_BYTES = 5 * 1024 * 1024; // 5 MB
+const MAX_VIDEO_BYTES = 50 * 1024 * 1024; // 50 MB
 const EXT: Record<string, string> = {
   "image/png": ".png",
   "image/jpeg": ".jpg",
   "image/webp": ".webp",
   "image/gif": ".gif",
   "image/svg+xml": ".svg",
+  "video/mp4": ".mp4",
+  "video/webm": ".webm",
+  "video/quicktime": ".mov",
+  "video/ogg": ".ogv",
 };
+const VIDEO_TYPES = new Set(["video/mp4", "video/webm", "video/quicktime", "video/ogg"]);
 
 // Local-only (dev). Writes into /public/uploads, which is committed to git and
 // shipped as part of the static site.
@@ -25,11 +30,12 @@ export async function POST(req: NextRequest) {
   if (!(file instanceof File)) {
     return badRequest("Aucun fichier fourni (champ 'file').");
   }
-  if (!ALLOWED.has(file.type)) {
-    return badRequest(`Type non supporté: ${file.type}. Formats: png, jpg, webp, gif, svg.`);
+  if (!(file.type in EXT)) {
+    return badRequest(`Type non supporté: ${file.type}. Images (png, jpg, webp, gif, svg) ou vidéos (mp4, webm, mov).`);
   }
-  if (file.size > MAX_BYTES) {
-    return badRequest("Fichier trop volumineux (max 5 Mo).");
+  const isVideo = VIDEO_TYPES.has(file.type);
+  if (file.size > (isVideo ? MAX_VIDEO_BYTES : MAX_IMAGE_BYTES)) {
+    return badRequest(`Fichier trop volumineux (max ${isVideo ? "50" : "5"} Mo).`);
   }
 
   const bytes = Buffer.from(await file.arrayBuffer());

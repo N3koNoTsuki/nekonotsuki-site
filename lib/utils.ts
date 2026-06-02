@@ -31,6 +31,25 @@ export function formatMonthYear(date: Date | string): string {
   }).format(d);
 }
 
+/** Relative time from now, in French (e.g. "il y a 3 jours"). Computed at build. */
+export function formatRelativeFromNow(date: Date | string): string {
+  const d = typeof date === "string" ? new Date(date) : date;
+  const seconds = (d.getTime() - Date.now()) / 1000;
+  const rtf = new Intl.RelativeTimeFormat("fr", { numeric: "auto" });
+  const units: Array<[Intl.RelativeTimeFormatUnit, number]> = [
+    ["year", 31536000],
+    ["month", 2592000],
+    ["week", 604800],
+    ["day", 86400],
+    ["hour", 3600],
+    ["minute", 60],
+  ];
+  for (const [unit, secs] of units) {
+    if (Math.abs(seconds) >= secs) return rtf.format(Math.round(seconds / secs), unit);
+  }
+  return rtf.format(Math.round(seconds), "second");
+}
+
 /** Kebab-case slug from arbitrary text. */
 export function slugify(input: string): string {
   return input

@@ -159,6 +159,14 @@
 .prose-kawaii img {
   @apply my-4 rounded-2xl shadow-soft;
 }
+/* Embedded media. Markdown allows raw HTML, so a pasted <iframe> (YouTube /
+   Vimeo) or <video> just works — here we make it responsive + themed. */
+.prose-kawaii iframe {
+  @apply my-4 aspect-video h-auto w-full rounded-2xl shadow-soft;
+}
+.prose-kawaii video {
+  @apply my-4 h-auto w-full rounded-2xl shadow-soft;
+}
 .prose-kawaii table {
   @apply my-4 w-full overflow-hidden rounded-2xl border-collapse text-sm;
 }

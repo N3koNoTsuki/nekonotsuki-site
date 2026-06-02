@@ -10,6 +10,7 @@ const ITEMS = [
   { href: "/edit/projects", label: "Projets", icon: "✨" },
   { href: "/edit/favorites", label: "Favoris", icon: "♡" },
   { href: "/edit/timeline", label: "Parcours", icon: "🌿" },
+  { href: "/edit/setup", label: "Setup", icon: "🖥️" },
   { href: "/edit/about", label: "À propos", icon: "📝" },
 ];
 

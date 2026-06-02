@@ -66,3 +66,20 @@ export function mergeLangBytes(
   }
   return merged;
 }
+
+/**
+ * Average the per-project language percentages, weighting every project
+ * equally. Better than raw bytes for a "skills" view, where one big (often
+ * vendored-heavy) repo shouldn't drown out all the others.
+ */
+export function averageLangStats(perProject: LangStat[][]): LangStat[] {
+  const projects = perProject.filter((stats) => stats.length > 0);
+  if (projects.length === 0) return [];
+  const totals: Record<string, number> = {};
+  for (const stats of projects) {
+    for (const s of stats) totals[s.name] = (totals[s.name] ?? 0) + s.pct;
+  }
+  return Object.entries(totals)
+    .map(([name, pctSum]) => ({ name, bytes: 0, pct: pctSum / projects.length }))
+    .sort((a, b) => b.pct - a.pct);
+}
