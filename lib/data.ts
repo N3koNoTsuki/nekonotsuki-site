@@ -5,6 +5,7 @@ import {
   readManga,
   readAnime,
   readMusic,
+  readGames,
   readCategories,
   readTimeline,
   readPages,
@@ -83,6 +84,11 @@ export async function getAnime() {
 export async function getMusic() {
   const music = await readMusic();
   return [...music].sort((a, b) => a.order - b.order || b.createdAt.localeCompare(a.createdAt));
+}
+
+export async function getGames() {
+  const games = await readGames();
+  return [...games].sort((a, b) => a.order - b.order || b.createdAt.localeCompare(a.createdAt));
 }
 
 export async function getPage(slug: string) {

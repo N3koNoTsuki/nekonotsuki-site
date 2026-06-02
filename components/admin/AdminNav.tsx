@@ -12,6 +12,7 @@ const ITEMS = [
   { href: "/edit/anime", label: "Anime", icon: "🌸" },
   { href: "/edit/manga", label: "Manga", icon: "📚" },
   { href: "/edit/music", label: "Musique", icon: "🎵" },
+  { href: "/edit/jeux", label: "Jeux", icon: "🎮" },
   { href: "/edit/timeline", label: "Parcours", icon: "🌿" },
   { href: "/edit/setup", label: "Setup", icon: "🖥️" },
   { href: "/edit/about", label: "À propos", icon: "📝" },

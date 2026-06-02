@@ -8,13 +8,13 @@ const PRIMARY = [
   { href: "/", label: "Accueil" },
   { href: "/projects", label: "Projets" },
   { href: "/favorites", label: "Favoris" },
-  { href: "/collection", label: "Collection" },
-  { href: "/musique", label: "Musique" },
+  { href: "/timeline", label: "Parcours" },
   { href: "/about", label: "À propos" },
 ];
 const MORE = [
+  { href: "/collection", label: "Collection" },
+  { href: "/musique", label: "Musique" },
   { href: "/competences", label: "Compétences" },
-  { href: "/timeline", label: "Parcours" },
   { href: "/setup", label: "Setup" },
 ];
 const ALL = [...PRIMARY, ...MORE];

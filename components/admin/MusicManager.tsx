@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import SortableList, { DragHandle } from "./Sortable";
 import { api } from "@/lib/client";
 import { cn } from "@/lib/utils";
 import type { MusicDTO } from "@/lib/types";
@@ -40,6 +41,17 @@ export default function MusicManager({ initialMusic }: { initialMusic: MusicDTO[
     }
   }
 
+  async function reorder(ids: string[]) {
+    const prev = list;
+    const map = new Map(list.map((m) => [m.id, m]));
+    setList(ids.map((id) => map.get(id)).filter((m): m is MusicDTO => !!m));
+    try {
+      await api.put("/api/music/reorder", { ids });
+    } catch {
+      setList(prev);
+    }
+  }
+
   const visibleCount = list.filter((m) => m.visible).length;
 
   return (
@@ -68,9 +80,13 @@ export default function MusicManager({ initialMusic }: { initialMusic: MusicDTO[
             Aucune playlist — clique « Synchroniser ». 🎵
           </p>
         ) : (
-          <ul className="space-y-2">
-            {list.map((m) => (
-              <li key={m.id} className={cn("flex items-center gap-3 kawaii-card p-2", !m.visible && "opacity-50")}>
+          <SortableList
+            items={list}
+            onReorder={reorder}
+            className="space-y-2"
+            renderItem={(m, handle) => (
+              <div className={cn("flex items-center gap-2 kawaii-card p-2", !m.visible && "opacity-50")}>
+                <DragHandle handle={handle} />
                 <div className="h-12 w-20 flex-shrink-0 overflow-hidden rounded-lg bg-kawaii-gradient">
                   {m.thumbnail && (
                     // eslint-disable-next-line @next/next/no-img-element
@@ -91,9 +107,9 @@ export default function MusicManager({ initialMusic }: { initialMusic: MusicDTO[
                 >
                   {m.visible ? "👁 Affichée" : "🚫 Masquée"}
                 </button>
-              </li>
-            ))}
-          </ul>
+              </div>
+            )}
+          />
         )}
       </div>
     </div>

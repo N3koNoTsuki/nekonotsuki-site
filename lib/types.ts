@@ -73,3 +73,22 @@ export type MusicDTO = {
   visible: boolean;
   order: number;
 };
+
+export type GameDTO = {
+  id: string;
+  source: "steam" | "rawg";
+  steamAppId: number | null;
+  rawgId: number | null;
+  slug: string | null;
+  name: string;
+  cover: string | null;
+  playtimeMinutes: number | null;
+  released: string | null;
+  platforms: string | null;
+  highlight: boolean;
+  rating: number | null;
+  review: string;
+  clips: string[];
+  visible: boolean;
+  order: number;
+};

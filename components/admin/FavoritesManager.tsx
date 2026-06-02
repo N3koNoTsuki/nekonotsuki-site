@@ -4,6 +4,7 @@ import { useState } from "react";
 import Modal from "./Modal";
 import MarkdownEditor from "./MarkdownEditor";
 import ImageField from "./ImageField";
+import SortableList, { DragHandle } from "./Sortable";
 import { StarRating } from "@/components/ui";
 import { api } from "@/lib/client";
 import type { CategoryDTO, FavoriteDTO } from "@/lib/types";
@@ -118,6 +119,32 @@ export default function FavoritesManager({
     setFavDraft({ title: "", categoryId, imageUrl: "", description: "", details: "", comment: "", rating: 0 });
   }
 
+  async function reorderCategories(ids: string[]) {
+    const prev = categories;
+    const map = new Map(categories.map((c) => [c.id, c]));
+    setCategories(ids.map((id) => map.get(id)).filter((c): c is CategoryDTO => !!c));
+    try {
+      await api.put("/api/categories/reorder", { ids });
+    } catch {
+      setCategories(prev);
+    }
+  }
+
+  // Reorder favourites within one category: swap those ids into their new
+  // sequence inside the global list (other categories untouched).
+  async function reorderFavorites(ids: string[]) {
+    const prev = favorites;
+    const idSet = new Set(ids);
+    const reordered = ids.map((id) => favorites.find((f) => f.id === id)).filter((f): f is FavoriteDTO => !!f);
+    let k = 0;
+    setFavorites(favorites.map((f) => (idSet.has(f.id) ? reordered[k++] : f)));
+    try {
+      await api.put("/api/favorites/reorder", { ids });
+    } catch {
+      setFavorites(prev);
+    }
+  }
+
   return (
     <div>
       <div className="mb-4 flex items-center justify-between">
@@ -130,13 +157,17 @@ export default function FavoritesManager({
       {categories.length === 0 ? (
         <p className="kawaii-card p-6 text-ink/60">Crée d’abord une catégorie pour ranger tes favoris. ♡</p>
       ) : (
-        <div className="space-y-8">
-          {categories.map((cat) => {
+        <SortableList
+          items={categories}
+          onReorder={reorderCategories}
+          className="space-y-8"
+          renderItem={(cat, handle) => {
             const items = favorites.filter((f) => f.categoryId === cat.id);
             return (
-              <section key={cat.id}>
+              <section>
                 <div className="mb-3 flex items-center justify-between gap-2">
-                  <h2 className="font-display text-xl font-bold text-lavender-deep">
+                  <h2 className="flex items-center gap-1 font-display text-xl font-bold text-lavender-deep">
+                    <DragHandle handle={handle} />
                     <span aria-hidden>{cat.icon}</span> {cat.name}{" "}
                     <span className="text-sm font-normal text-ink/40">({items.length})</span>
                   </h2>
@@ -162,9 +193,14 @@ export default function FavoritesManager({
                     Aucun favori dans cette catégorie.
                   </p>
                 ) : (
-                  <div className="grid gap-3 sm:grid-cols-2">
-                    {items.map((f) => (
-                      <div key={f.id} className="kawaii-card flex gap-3 p-3">
+                  <SortableList
+                    items={items}
+                    onReorder={reorderFavorites}
+                    grid
+                    className="grid gap-3 sm:grid-cols-2"
+                    renderItem={(f, fHandle) => (
+                      <div className="kawaii-card flex gap-3 p-3">
+                        <DragHandle handle={fHandle} />
                         <div className="h-14 w-14 flex-shrink-0 overflow-hidden rounded-2xl bg-kawaii-gradient">
                           {f.imageUrl ? (
                             // eslint-disable-next-line @next/next/no-img-element
@@ -204,13 +240,13 @@ export default function FavoritesManager({
                           </div>
                         </div>
                       </div>
-                    ))}
-                  </div>
+                    )}
+                  />
                 )}
               </section>
             );
-          })}
-        </div>
+          }}
+        />
       )}
 
       {/* Category modal */}

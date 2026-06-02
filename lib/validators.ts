@@ -53,6 +53,25 @@ export const musicSchema = z.object({
   title: z.string().trim().min(1, "Titre requis"),
 });
 
+// Adding a non-Steam game picked from RAWG.
+export const rawgGameSchema = z.object({
+  rawgId: z.number().int(),
+  slug: optionalString,
+  name: z.string().trim().min(1, "Titre requis"),
+  cover: optionalUrl,
+  released: optionalString,
+  platforms: optionalString,
+});
+
+// Editing a game's personal fields.
+export const gameEditSchema = z.object({
+  highlight: z.boolean().optional(),
+  rating: z.coerce.number().int().min(0).max(5).nullable().optional(),
+  review: z.string().optional(),
+  clips: z.array(z.string().trim()).optional(),
+  visible: z.boolean().optional(),
+});
+
 export const timelineSchema = z.object({
   title: z.string().trim().min(1, "Titre requis"),
   date: z.coerce.date(),

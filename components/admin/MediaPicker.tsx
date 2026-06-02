@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import SortableList, { DragHandle } from "./Sortable";
 import { api } from "@/lib/client";
 import type { MalPickDTO } from "@/lib/types";
 
@@ -108,6 +109,17 @@ export default function MediaPicker({ kind, initialItems }: { kind: Kind; initia
     setList((prev) => prev.filter((m) => m.id !== id));
   }
 
+  async function reorder(ids: string[]) {
+    const prev = list;
+    const map = new Map(list.map((m) => [m.id, m]));
+    setList(ids.map((id) => map.get(id)).filter((m): m is MalPickDTO => !!m));
+    try {
+      await api.put(`/api/${kind}/reorder`, { ids });
+    } catch {
+      setList(prev);
+    }
+  }
+
   return (
     <div className="space-y-8">
       {/* Search */}
@@ -177,9 +189,14 @@ export default function MediaPicker({ kind, initialItems }: { kind: Kind; initia
             Rien pour l’instant — cherche {kind === "anime" ? "un anime" : "un manga"} ci-dessus. ✨
           </p>
         ) : (
-          <ul className="grid gap-3 sm:grid-cols-2">
-            {list.map((m) => (
-              <li key={m.id} className="flex items-center gap-3 kawaii-card p-2">
+          <SortableList
+            items={list}
+            onReorder={reorder}
+            grid
+            className="grid gap-3 sm:grid-cols-2"
+            renderItem={(m, handle) => (
+              <div className="flex items-center gap-2 kawaii-card p-2">
+                <DragHandle handle={handle} />
                 <div className="h-16 w-12 flex-shrink-0 overflow-hidden rounded-lg bg-kawaii-gradient">
                   {m.imageUrl && (
                     // eslint-disable-next-line @next/next/no-img-element
@@ -193,9 +210,9 @@ export default function MediaPicker({ kind, initialItems }: { kind: Kind; initia
                 <button type="button" className="btn-danger shrink-0 text-xs" onClick={() => remove(m.id)}>
                   Retirer
                 </button>
-              </li>
-            ))}
-          </ul>
+              </div>
+            )}
+          />
         )}
       </div>
     </div>

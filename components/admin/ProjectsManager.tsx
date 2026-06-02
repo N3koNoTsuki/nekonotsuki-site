@@ -4,6 +4,7 @@ import { useState } from "react";
 import Modal from "./Modal";
 import MarkdownEditor from "./MarkdownEditor";
 import ImageField from "./ImageField";
+import SortableList, { DragHandle } from "./Sortable";
 import { api } from "@/lib/client";
 import { parseTags } from "@/lib/utils";
 import type { ProjectDTO } from "@/lib/types";
@@ -87,6 +88,17 @@ export default function ProjectsManager({ initial }: { initial: ProjectDTO[] }) 
     setItems((prev) => prev.filter((p) => p.id !== id));
   }
 
+  async function reorder(ids: string[]) {
+    const prev = items;
+    const map = new Map(items.map((p) => [p.id, p]));
+    setItems(ids.map((id) => map.get(id)).filter((p): p is ProjectDTO => !!p));
+    try {
+      await api.put("/api/projects/reorder", { ids });
+    } catch {
+      setItems(prev);
+    }
+  }
+
   return (
     <div>
       <div className="mb-4 flex items-center justify-between">
@@ -99,9 +111,14 @@ export default function ProjectsManager({ initial }: { initial: ProjectDTO[] }) 
       {items.length === 0 ? (
         <p className="kawaii-card p-6 text-ink/60">Aucun projet. Ajoute le premier ! ✨</p>
       ) : (
-        <div className="grid gap-4 sm:grid-cols-2">
-          {items.map((p) => (
-            <div key={p.id} className="kawaii-card flex gap-3 p-4">
+        <SortableList
+          items={items}
+          onReorder={reorder}
+          grid
+          className="grid gap-4 sm:grid-cols-2"
+          renderItem={(p, handle) => (
+            <div className="kawaii-card flex gap-3 p-4">
+              <DragHandle handle={handle} />
               <div className="h-16 w-16 flex-shrink-0 overflow-hidden rounded-2xl bg-kawaii-gradient">
                 {p.coverUrl ? (
                   // eslint-disable-next-line @next/next/no-img-element
@@ -132,8 +149,8 @@ export default function ProjectsManager({ initial }: { initial: ProjectDTO[] }) 
                 </div>
               </div>
             </div>
-          ))}
-        </div>
+          )}
+        />
       )}
 
       <Modal open={!!draft} onClose={() => setDraft(null)} title={draft?.id ? "Éditer le projet" : "Nouveau projet"}>

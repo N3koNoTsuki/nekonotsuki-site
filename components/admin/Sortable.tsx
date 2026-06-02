@@ -13,6 +13,7 @@ import { restrictToVerticalAxis, restrictToParentElement } from "@dnd-kit/modifi
 import {
   SortableContext,
   arrayMove,
+  rectSortingStrategy,
   sortableKeyboardCoordinates,
   useSortable,
   verticalListSortingStrategy,
@@ -61,11 +62,14 @@ export default function SortableList<T extends Identifiable>({
   onReorder,
   renderItem,
   className = "space-y-3",
+  grid = false,
 }: {
   items: T[];
   onReorder: (orderedIds: string[]) => void;
   renderItem: (item: T, handle: HandleProps) => ReactNode;
   className?: string;
+  /** Free 2D movement (for grid layouts) instead of vertical-only. */
+  grid?: boolean;
 }) {
   const sensors = useSensors(
     useSensor(PointerSensor, { activationConstraint: { distance: 5 } }),
@@ -86,10 +90,13 @@ export default function SortableList<T extends Identifiable>({
     <DndContext
       sensors={sensors}
       collisionDetection={closestCenter}
-      modifiers={[restrictToVerticalAxis, restrictToParentElement]}
+      modifiers={grid ? [restrictToParentElement] : [restrictToVerticalAxis, restrictToParentElement]}
       onDragEnd={handleDragEnd}
     >
-      <SortableContext items={items.map((i) => i.id)} strategy={verticalListSortingStrategy}>
+      <SortableContext
+        items={items.map((i) => i.id)}
+        strategy={grid ? rectSortingStrategy : verticalListSortingStrategy}
+      >
         <div className={className}>
           {items.map((item) => (
             <Row key={item.id} id={item.id}>

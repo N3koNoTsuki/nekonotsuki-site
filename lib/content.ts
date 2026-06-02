@@ -98,6 +98,27 @@ export type MusicPlaylist = {
   createdAt: string;
 };
 
+export type Game = {
+  id: string;
+  source: "steam" | "rawg";
+  steamAppId: number | null;
+  rawgId: number | null;
+  slug: string | null;
+  name: string;
+  cover: string | null;
+  playtimeMinutes: number | null; // from Steam
+  released: string | null; // from RAWG
+  platforms: string | null;
+  // editable enrichment:
+  highlight: boolean;
+  rating: number | null;
+  review: string; // Markdown
+  clips: string[]; // 2–3 video URLs (YouTube or /uploads/…)
+  visible: boolean;
+  order: number;
+  createdAt: string;
+};
+
 export type Page = {
   slug: string;
   title: string | null;
@@ -147,6 +168,9 @@ export const writeAnime = (a: MalPick[]) => write("anime.json", a);
 
 export const readMusic = () => read<MusicPlaylist>("music.json");
 export const writeMusic = (m: MusicPlaylist[]) => write("music.json", m);
+
+export const readGames = () => read<Game>("games.json");
+export const writeGames = (g: Game[]) => write("games.json", g);
 
 export const readPages = () => read<Page>("pages.json");
 export const writePages = (p: Page[]) => write("pages.json", p);
