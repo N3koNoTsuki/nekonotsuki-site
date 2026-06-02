@@ -7,13 +7,16 @@
     "slug": null,
     "name": "Strinova",
     "cover": "https://cdn.cloudflare.steamstatic.com/steam/apps/1282270/header.jpg",
-    "playtimeMinutes": 102768,
+    "playtimeMinutes": 102780,
     "released": null,
     "platforms": "PC (Steam)",
     "highlight": false,
     "rating": 4,
-    "review": "",
-    "clips": [],
+    "review": "This game is bullshit....",
+    "clips": [
+      "https://youtu.be/OeBqr7AZosA",
+      "https://youtu.be/h9oSm0xbBtU"
+    ],
     "visible": true,
     "order": 2,
     "createdAt": "2026-06-02T15:44:25.923Z"
@@ -981,8 +984,11 @@
     "platforms": "PC",
     "highlight": true,
     "rating": 5,
-    "review": "",
-    "clips": [],
+    "review": "I play osu! and i love it",
+    "clips": [
+      "https://youtu.be/g0KI9YSenpQ",
+      "https://youtu.be/dSwYnemI0NA"
+    ],
     "visible": true,
     "order": 1,
     "createdAt": "2026-06-02T15:45:22.152Z"
@@ -1000,8 +1006,11 @@
     "platforms": "PC, PlayStation 5, Xbox Series S/X",
     "highlight": false,
     "rating": 3,
-    "review": "",
-    "clips": [],
+    "review": "Now I hate this game, especially the community ",
+    "clips": [
+      "https://youtu.be/_YXFwShnuE0",
+      "https://youtu.be/H3UFPnZhKcU"
+    ],
     "visible": true,
     "order": 5,
     "createdAt": "2026-06-02T15:59:02.901Z"
