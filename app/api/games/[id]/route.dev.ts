@@ -16,6 +16,7 @@ export async function PATCH(req: NextRequest, { params }: { params: { id: string
     ...games[idx],
     ...(d.highlight !== undefined ? { highlight: d.highlight } : {}),
     ...(d.rating !== undefined ? { rating: d.rating ?? null } : {}),
+    ...(d.playtimeMinutes !== undefined ? { playtimeMinutes: d.playtimeMinutes ?? null } : {}),
     ...(d.review !== undefined ? { review: d.review } : {}),
     ...(d.clips !== undefined ? { clips: d.clips.map((c) => c.trim()).filter(Boolean) } : {}),
     ...(d.visible !== undefined ? { visible: d.visible } : {}),

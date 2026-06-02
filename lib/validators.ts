@@ -67,6 +67,7 @@ export const rawgGameSchema = z.object({
 export const gameEditSchema = z.object({
   highlight: z.boolean().optional(),
   rating: z.coerce.number().int().min(0).max(5).nullable().optional(),
+  playtimeMinutes: z.coerce.number().int().min(0).nullable().optional(),
   review: z.string().optional(),
   clips: z.array(z.string().trim()).optional(),
   visible: z.boolean().optional(),

@@ -21,8 +21,10 @@ type GameDraft = {
   id: string;
   name: string;
   cover: string | null;
+  source: GameDTO["source"];
   highlight: boolean;
   rating: number;
+  playtime: number; // hours (stored as playtimeMinutes)
   review: string;
   clips: [string, string, string];
   visible: boolean;
@@ -32,8 +34,13 @@ function hours(min: number | null): string {
   return min && min > 0 ? `${Math.round(min / 60)} h` : "";
 }
 
+/** Hidden games sink to the bottom; order within each group is preserved (stable sort). */
+function sortGames(list: GameDTO[]): GameDTO[] {
+  return [...list].sort((a, b) => Number(b.visible) - Number(a.visible));
+}
+
 export default function GamesManager({ initialGames }: { initialGames: GameDTO[] }) {
-  const [games, setGames] = useState<GameDTO[]>(initialGames);
+  const [games, setGames] = useState<GameDTO[]>(() => sortGames(initialGames));
   const [syncing, setSyncing] = useState(false);
   const [status, setStatus] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
@@ -45,6 +52,7 @@ export default function GamesManager({ initialGames }: { initialGames: GameDTO[]
 
   const [draft, setDraft] = useState<GameDraft | null>(null);
   const [saving, setSaving] = useState(false);
+  const [busy, setBusy] = useState<string | null>(null);
 
   const ownedRawg = new Set(games.map((g) => g.rawgId).filter((x): x is number => x != null));
 
@@ -55,7 +63,7 @@ export default function GamesManager({ initialGames }: { initialGames: GameDTO[]
     try {
       await api.post("/api/games/sync-steam", {});
       const fresh = (await (await fetch("/api/games")).json()) as GameDTO[];
-      setGames(fresh);
+      setGames(sortGames(fresh));
       setStatus(`Bibliothèque Steam synchronisée ✓ (${fresh.filter((g) => g.source === "steam").length} jeux joués)`);
     } catch (e) {
       setError(e instanceof Error ? e.message : "Erreur Steam");
@@ -100,7 +108,7 @@ export default function GamesManager({ initialGames }: { initialGames: GameDTO[]
         released: r.released ?? undefined,
         platforms: r.platforms || undefined,
       });
-      setGames((prev) => [...prev, created]);
+      setGames((prev) => sortGames([...prev, created]));
     } catch (e) {
       setError(e instanceof Error ? e.message : "Erreur");
     } finally {
@@ -114,7 +122,9 @@ export default function GamesManager({ initialGames }: { initialGames: GameDTO[]
       name: g.name,
       cover: g.cover,
       highlight: g.highlight,
+      source: g.source,
       rating: g.rating ?? 0,
+      playtime: g.playtimeMinutes ? Math.round(g.playtimeMinutes / 60) : 0,
       review: g.review,
       clips: [g.clips[0] ?? "", g.clips[1] ?? "", g.clips[2] ?? ""],
       visible: g.visible,
@@ -129,16 +139,30 @@ export default function GamesManager({ initialGames }: { initialGames: GameDTO[]
       const updated = await api.patch<GameDTO>(`/api/games/${draft.id}`, {
         highlight: draft.highlight,
         rating: draft.rating,
+        playtimeMinutes: draft.playtime > 0 ? draft.playtime * 60 : null,
         review: draft.review,
         clips: draft.clips.map((c) => c.trim()).filter(Boolean),
         visible: draft.visible,
       });
-      setGames((prev) => prev.map((g) => (g.id === updated.id ? updated : g)));
+      setGames((prev) => sortGames(prev.map((g) => (g.id === updated.id ? updated : g))));
       setDraft(null);
     } catch (e) {
       setError(e instanceof Error ? e.message : "Erreur");
     } finally {
       setSaving(false);
+    }
+  }
+
+  async function toggleVisible(g: GameDTO) {
+    setBusy(g.id);
+    setError(null);
+    try {
+      const updated = await api.patch<GameDTO>(`/api/games/${g.id}`, { visible: !g.visible });
+      setGames((prev) => sortGames(prev.map((x) => (x.id === g.id ? { ...x, visible: updated.visible } : x))));
+    } catch (e) {
+      setError(e instanceof Error ? e.message : "Erreur");
+    } finally {
+      setBusy(null);
     }
   }
 
@@ -151,9 +175,10 @@ export default function GamesManager({ initialGames }: { initialGames: GameDTO[]
   async function reorder(ids: string[]) {
     const prev = games;
     const map = new Map(games.map((g) => [g.id, g]));
-    setGames(ids.map((id) => map.get(id)).filter((g): g is GameDTO => !!g));
+    const next = sortGames(ids.map((id) => map.get(id)).filter((g): g is GameDTO => !!g));
+    setGames(next);
     try {
-      await api.put("/api/games/reorder", { ids });
+      await api.put("/api/games/reorder", { ids: next.map((g) => g.id) });
     } catch {
       setGames(prev);
     }
@@ -254,9 +279,20 @@ export default function GamesManager({ initialGames }: { initialGames: GameDTO[]
                     {g.name}
                   </p>
                   <p className="truncate text-xs text-ink/50">
-                    {g.source === "steam" ? hours(g.playtimeMinutes) : [g.released?.slice(0, 4), g.platforms].filter(Boolean).join(" · ")}
+                    {[hours(g.playtimeMinutes), g.source === "rawg" ? [g.released?.slice(0, 4), g.platforms].filter(Boolean).join(" · ") : ""]
+                      .filter(Boolean)
+                      .join(" · ")}
                   </p>
                 </div>
+                <button
+                  type="button"
+                  onClick={() => toggleVisible(g)}
+                  disabled={busy === g.id}
+                  className={cn("shrink-0 text-xs", g.visible ? "btn-secondary" : "btn-ghost")}
+                  title={g.visible ? "Masquer (envoie le jeu en bas)" : "Afficher"}
+                >
+                  {g.visible ? "👁 Affiché" : "🚫 Masqué"}
+                </button>
                 <button type="button" className="btn-secondary shrink-0 text-xs" onClick={() => openEdit(g)}>
                   Éditer
                 </button>
@@ -309,7 +345,28 @@ export default function GamesManager({ initialGames }: { initialGames: GameDTO[]
                   ))}
                 </select>
               </div>
+              <div className="flex items-center gap-2">
+                <label className="label !mb-0" htmlFor="game-hours">
+                  Heures de jeu
+                </label>
+                <input
+                  id="game-hours"
+                  type="number"
+                  min={0}
+                  className="input !w-24"
+                  value={draft.playtime || ""}
+                  onChange={(e) =>
+                    setDraft({ ...draft, playtime: Math.max(0, Math.floor(Number(e.target.value) || 0)) })
+                  }
+                />
+              </div>
             </div>
+
+            {draft.source === "steam" && (
+              <p className="-mt-2 text-xs text-ink/50">
+                ⚠️ Jeu Steam : les heures seront écrasées à la prochaine synchro.
+              </p>
+            )}
 
             <MarkdownEditor
               label="Mon avis (Markdown)"
