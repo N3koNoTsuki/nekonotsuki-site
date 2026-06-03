@@ -16,6 +16,7 @@ export async function PATCH(req: NextRequest, { params }: { params: { id: string
     ...entries[idx],
     ...(d.title !== undefined ? { title: d.title } : {}),
     ...(d.date !== undefined ? { date: d.date.toISOString().slice(0, 10) } : {}),
+    ...(d.endDate !== undefined ? { endDate: d.endDate ? d.endDate.toISOString().slice(0, 10) : null } : {}),
     ...(d.description !== undefined ? { description: d.description ?? null } : {}),
     ...(d.tag !== undefined ? { tag: d.tag } : {}),
   };

@@ -1,6 +1,7 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useRef, useState } from "react";
+import { createPortal } from "react-dom";
 
 export default function Modal({
   open,
@@ -13,6 +14,11 @@ export default function Modal({
   title: string;
   children: React.ReactNode;
 }) {
+  const [mounted, setMounted] = useState(false);
+  const panelRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => setMounted(true), []);
+
   useEffect(() => {
     if (!open) return;
     const onKey = (e: KeyboardEvent) => e.key === "Escape" && onClose();
@@ -24,18 +30,29 @@ export default function Modal({
     };
   }, [open, onClose]);
 
-  if (!open) return null;
+  // Focus the panel ONCE when it opens (and scroll it into view). Kept separate
+  // from the effect above so it doesn't re-run on every render and steal focus
+  // from the field being typed in.
+  useEffect(() => {
+    if (open) panelRef.current?.focus();
+  }, [open]);
 
-  return (
+  if (!open || !mounted) return null;
+
+  // Portal to <body> so transformed / backdrop-blur ancestors don't capture the
+  // fixed positioning (which previously pinned the modal inside .glass).
+  return createPortal(
     <div
-      className="fixed inset-0 z-50 flex items-start justify-center overflow-y-auto bg-ink/30 p-4 backdrop-blur-sm"
+      className="fixed inset-0 z-[60] flex items-start justify-center overflow-y-auto bg-ink/40 p-4 backdrop-blur-sm"
       onClick={onClose}
       role="dialog"
       aria-modal="true"
       aria-label={title}
     >
       <div
-        className="my-8 w-full max-w-2xl rounded-3xl border border-white/60 bg-cream p-6 shadow-glass dark:border-white/10 dark:bg-[#2c2533]"
+        ref={panelRef}
+        tabIndex={-1}
+        className="my-8 w-full max-w-2xl rounded-3xl border border-white/60 bg-cream p-6 shadow-glass outline-none dark:border-white/10 dark:bg-[#2c2533]"
         onClick={(e) => e.stopPropagation()}
       >
         <div className="mb-4 flex items-center justify-between">
@@ -46,6 +63,7 @@ export default function Modal({
         </div>
         {children}
       </div>
-    </div>
+    </div>,
+    document.body,
   );
 }

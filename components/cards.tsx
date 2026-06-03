@@ -1,9 +1,10 @@
 import Markdown from "./Markdown";
-import { formatMonthYear, tagMeta, cn } from "@/lib/utils";
+import { formatDateRange, tagMeta, cn } from "@/lib/utils";
 
 type TimelineLike = {
   id: string;
   date: Date | string;
+  endDate?: Date | string | null;
   title: string;
   description: string | null;
   tag: string;
@@ -36,7 +37,7 @@ export function TimelineItem({
       {!last && <span className="absolute left-3 top-2 h-full w-0.5 -translate-x-1/2 bg-rose-soft" aria-hidden />}
       <div className="kawaii-card p-5">
         <div className="flex flex-wrap items-center gap-2">
-          <time className="text-sm font-semibold text-lavender-deep">{formatMonthYear(entry.date)}</time>
+          <time className="text-sm font-semibold text-lavender-deep">{formatDateRange(entry.date, entry.endDate ?? null)}</time>
           <span className={cn("chip", meta.className)}>{meta.label}</span>
         </div>
         <h3 className="mt-1 font-display text-lg font-bold text-ink dark:text-[#efe6ee]">{entry.title}</h3>

@@ -36,10 +36,11 @@ export type Project = {
 
 export type TimelineEntry = {
   id: string;
-  date: string; // yyyy-mm-dd
+  date: string; // yyyy-mm-dd (start date)
+  endDate: string | null; // yyyy-mm-dd, optional — open-ended when null
   title: string;
   description: string | null;
-  tag: string;
+  tag: string; // free-form category (defaults: etudes / pro / perso / projet)
   order: number;
   createdAt: string;
 };
@@ -88,13 +89,24 @@ export type MusicPlaylist = {
   id: string;
   playlistId: string;
   title: string;
-  description: string;
+  description: string; // from YouTube (overwritten on sync)
+  comment: string; // personal note, kept across syncs
   thumbnail: string | null;
   url: string;
   itemCount: number;
   visible: boolean;
   order: number;
   tracks: MusicTrack[];
+  createdAt: string;
+};
+
+// A single track highlighted above the playlists, with a personal note.
+export type FeaturedTrack = {
+  id: string;
+  videoId: string;
+  title: string;
+  comment: string;
+  order: number;
   createdAt: string;
 };
 
@@ -168,6 +180,9 @@ export const writeAnime = (a: MalPick[]) => write("anime.json", a);
 
 export const readMusic = () => read<MusicPlaylist>("music.json");
 export const writeMusic = (m: MusicPlaylist[]) => write("music.json", m);
+
+export const readFeaturedMusic = () => read<FeaturedTrack>("featured-music.json");
+export const writeFeaturedMusic = (f: FeaturedTrack[]) => write("featured-music.json", f);
 
 export const readGames = () => read<Game>("games.json");
 export const writeGames = (g: Game[]) => write("games.json", g);

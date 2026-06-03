@@ -20,6 +20,7 @@ export async function POST(req: NextRequest) {
   const entry: TimelineEntry = {
     id: newId(),
     date: d.date.toISOString().slice(0, 10),
+    endDate: d.endDate ? d.endDate.toISOString().slice(0, 10) : null,
     title: d.title,
     description: d.description ?? null,
     tag: d.tag,

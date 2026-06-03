@@ -25,6 +25,7 @@ export type ProjectDTO = {
 export type TimelineDTO = {
   id: string;
   date: string; // ISO (yyyy-mm-dd usable in <input type=date>)
+  endDate: string | null; // yyyy-mm-dd, optional
   title: string;
   description: string | null;
   tag: string;
@@ -67,10 +68,19 @@ export type MusicDTO = {
   playlistId: string;
   title: string;
   description: string;
+  comment: string;
   thumbnail: string | null;
   url: string;
   itemCount: number;
   visible: boolean;
+  order: number;
+};
+
+export type FeaturedTrackDTO = {
+  id: string;
+  videoId: string;
+  title: string;
+  comment: string;
   order: number;
 };
 

@@ -61,7 +61,7 @@ export function slugify(input: string): string {
     .slice(0, 60) || "item";
 }
 
-/** Timeline tag → label + colour classes. */
+/** Timeline tag → label + colour classes (built-in defaults). */
 export const TIMELINE_TAGS = {
   etudes: { label: "Études", className: "bg-sky/60 text-ink" },
   pro: { label: "Pro", className: "bg-lavender-soft text-lavender-deep" },
@@ -71,13 +71,37 @@ export const TIMELINE_TAGS = {
 
 export type TimelineTag = keyof typeof TIMELINE_TAGS;
 
+// Palette used to colour custom (user-created) categories deterministically.
+const CUSTOM_TAG_PALETTE = [
+  "bg-sky/60 text-ink",
+  "bg-mint/70 text-ink",
+  "bg-lavender-soft text-lavender-deep",
+  "bg-rose-soft text-rose-deep",
+  "bg-rose/50 text-rose-deep",
+  "bg-lavender/50 text-lavender-deep",
+];
+
+function hashString(s: string): number {
+  let h = 0;
+  for (let i = 0; i < s.length; i++) h = (h * 31 + s.charCodeAt(i)) | 0;
+  return Math.abs(h);
+}
+
 export function tagMeta(tag: string) {
-  return (
-    TIMELINE_TAGS[tag as TimelineTag] ?? {
-      label: tag,
-      className: "bg-cream text-ink",
-    }
-  );
+  const known = TIMELINE_TAGS[tag as TimelineTag];
+  if (known) return known;
+  // Custom category: title-case the label, pick a stable colour from the palette.
+  const label = tag.charAt(0).toUpperCase() + tag.slice(1);
+  const className = CUSTOM_TAG_PALETTE[hashString(tag) % CUSTOM_TAG_PALETTE.length];
+  return { label, className };
+}
+
+/** Format a timeline date range (start → optional end). */
+export function formatDateRange(start: Date | string, end: Date | string | null): string {
+  const from = formatMonthYear(start);
+  if (!end) return from;
+  const to = formatMonthYear(end);
+  return from === to ? from : `${from} – ${to}`;
 }
 
 /** Extract a YouTube playlist ID from a URL (or accept a raw ID). */

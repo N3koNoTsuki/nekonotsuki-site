@@ -2,28 +2,86 @@
   {
     "id": "42267ac3-6134-484d-885d-40acb0e86dd2",
     "date": "2023-09-10",
-    "title": "Entrer BUT",
+    "title": "BUT GEII",
     "description": "Debut des etudes sup",
-    "tag": "perso",
-    "order": 1,
-    "createdAt": "2026-06-01T18:14:57.990Z"
-  },
-  {
-    "id": "da1768a7-b836-4eeb-8e7c-0a70bdfa81f2",
-    "date": "2021-06-01",
-    "title": "Osu!",
-    "description": "Installation de osu!",
-    "tag": "perso",
-    "order": 2,
-    "createdAt": "2026-06-01T18:15:37.490Z"
+    "tag": "Etudes",
+    "order": 7,
+    "createdAt": "2026-06-01T18:14:57.990Z",
+    "endDate": "2026-06-22"
   },
   {
     "id": "b09dd19a-fa93-4340-b0ee-26d0dc95b090",
-    "date": "2026-06-01",
+    "date": "2026-05-26",
     "title": "Linux",
-    "description": "Je suisssss retardd",
+    "description": "Passage de mon pc principal sous arch linux, full custom en cour.",
     "tag": "projet",
-    "order": 0,
+    "order": 2,
     "createdAt": "2026-06-01T18:16:12.450Z"
+  },
+  {
+    "id": "41da4eee-b064-469c-860b-616e06e4fb9e",
+    "date": "2022-09-25",
+    "title": "100pp on Osu!",
+    "description": "First time i reach a 100pp score\nhttps://osu.ppy.sh/b/2014470",
+    "tag": "perso",
+    "order": 8,
+    "createdAt": "2026-06-03T06:51:36.309Z"
+  },
+  {
+    "id": "7d44ed9c-5a6e-4847-8ebb-ad9a4c343b63",
+    "date": "2024-03-10",
+    "title": "200pp",
+    "description": "First 200pp reach on osu!\nhttps://osu.ppy.sh/b/2161926",
+    "tag": "perso",
+    "order": 6,
+    "createdAt": "2026-06-03T06:53:12.003Z"
+  },
+  {
+    "id": "35190b5f-6369-4279-a823-286432f5b721",
+    "date": "2024-11-30",
+    "title": "300pp",
+    "description": "And out of nowhere 300pp drop\nhttps://osu.ppy.sh/b/4791387",
+    "tag": "perso",
+    "order": 5,
+    "createdAt": "2026-06-03T06:54:16.377Z"
+  },
+  {
+    "id": "c4daad97-c581-40f2-964a-23cedf4016b7",
+    "date": "2025-03-16",
+    "title": "Stage au cern",
+    "description": "Amélioration du produit TIM caractériser par : \n\n- Programmation et configuration d’automates Siemens \n\n- Implémentation d'un lecteur codes-barres industriel \n\n- Développement de nouvelle fonctionnalités logicielles \n\n- Supervision d'un module CAPAROC \n\n- Refonte du câblage du TIM \n\n- Test en conditions réelles (vitesse de lecteur, test des défauts) \n\n- Standardisation et documentation selon les normes internes",
+    "tag": "etudes",
+    "order": 4,
+    "createdAt": "2026-06-03T07:09:18.725Z",
+    "endDate": "2025-06-13"
+  },
+  {
+    "id": "83e293a0-7ebd-4618-9564-42a8dbf0f96c",
+    "date": "2026-07-28",
+    "title": "Voyage japon",
+    "description": "Ca va etre trop trop trop trop trop trop trop trop bien",
+    "tag": "perso",
+    "order": 1,
+    "createdAt": "2026-06-03T07:11:32.025Z"
+  },
+  {
+    "id": "929d94ce-776a-4f4d-84a9-2111c0b1628a",
+    "date": "2026-11-14",
+    "title": "Miku expo",
+    "description": "Miku Miku you can call me miku...",
+    "tag": "perso",
+    "order": 0,
+    "createdAt": "2026-06-03T07:12:41.405Z",
+    "endDate": null
+  },
+  {
+    "id": "ec3713c8-06a6-4fe1-9fd7-82a42443b647",
+    "date": "2026-03-02",
+    "title": "Stage ECM technologie",
+    "description": "Stage de fin de BUT\n\nImplémentation EtherNet/IP / CIP sur Arduino Uno Q caractérisée par :\n\n- Prise en main de la plateforme Arduino Uno Q (dual-processor : microcontrôleur + microprocesseur Linux, module bridge)\n\n- Développement d'une communication TCP robuste entre Arduino et automate Rockwell (protocole maison en 3 versions, machine d'états en SFC)\n\n- Implémentation du protocole Modbus TCP avec handlers manuels (codes 01, 03, 06, 10)\n\n- Reproduction complète du protocole CIP en Python (RegisterSession, ListIdentity, GetAttributes, ForwardOpen, échanges UDP cycliques, ForwardClose)\n\n- Rédaction et validation du fichier EDS permettant la reconnaissance automatique par l'automate Rockwell\nDébogage fin sur captures Wireshark (analyse de protocole propriétaire, correction d'anomalies CIP, gestion des attributs Rockwell)\n\n- Portage en Rust des handlers CIP critiques via PyO3/Maturin (optimisation des performances, sûreté mémoire)\n\n- Résolution des contraintes d'environnement (redirection UDP via iptables/systemd pour Docker)\n\n- Tests de conformité et validation en conditions réelles (interopérabilité PLC ↔ Arduino, échanges cycliques temps réel)\n\n- Documentation technique et versionning Git du code source complet",
+    "tag": "etudes",
+    "order": 3,
+    "createdAt": "2026-06-03T07:17:38.871Z",
+    "endDate": "2026-06-12"
   }
 ]

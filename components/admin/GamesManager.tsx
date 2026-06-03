@@ -108,7 +108,7 @@ export default function GamesManager({ initialGames }: { initialGames: GameDTO[]
         released: r.released ?? undefined,
         platforms: r.platforms || undefined,
       });
-      setGames((prev) => sortGames([...prev, created]));
+      setGames((prev) => sortGames([created, ...prev]));
     } catch (e) {
       setError(e instanceof Error ? e.message : "Erreur");
     } finally {

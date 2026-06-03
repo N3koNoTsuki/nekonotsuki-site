@@ -46,5 +46,17 @@
     "featured": false,
     "order": 3,
     "createdAt": "2026-06-01T18:42:02.479Z"
+  },
+  {
+    "id": "cb2b074b-65dd-4fc7-8f73-578c391c0069",
+    "title": "ArduinoXRockwell - Industrial Protocol Communication",
+    "coverUrl": "/uploads/1780471301380-de1cd120.webp",
+    "description": "Projet d'internship ECM Technologies implémentant une stack complète de protocoles industriels (CIP/EtherNet/IP, Modbus TCP, TCP/IP) sur Arduino Uno Q pour communication avec Rockwell PLCs (CompactLogix, ControlLogix). Architecture multi-couches en Python/Rust/C++ avec reverse engineering via Wireshark, implémentation EDS drivers, et validation temps réel avec PointIO comme référence.",
+    "tags": "arduino, cip-ethernet-ip, rockwell-plc, industrial-protocol, modbus",
+    "githubUrl": "https://github.com/N3koNoTsuki/ArduinoXRockwell",
+    "demoUrl": null,
+    "featured": false,
+    "order": 4,
+    "createdAt": "2026-06-03T07:21:44.228Z"
   }
 ]

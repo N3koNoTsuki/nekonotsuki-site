@@ -15,7 +15,8 @@ export async function POST(req: NextRequest) {
   const games = await readGames();
   if (games.some((g) => g.rawgId === parsed.data.rawgId)) return badRequest("Jeu déjà ajouté.");
 
-  const maxOrder = games.reduce((m, g) => Math.max(m, g.order), -1);
+  // New games go to the TOP of the list so they don't have to be dragged up.
+  const minOrder = games.reduce((m, g) => Math.min(m, g.order), 0);
   const d = parsed.data;
   const game: Game = {
     id: newId(),
@@ -33,10 +34,10 @@ export async function POST(req: NextRequest) {
     review: "",
     clips: [],
     visible: true,
-    order: maxOrder + 1,
+    order: minOrder - 1,
     createdAt: new Date().toISOString(),
   };
-  games.push(game);
+  games.unshift(game);
   await writeGames(games);
   return ok(game, 201);
 }

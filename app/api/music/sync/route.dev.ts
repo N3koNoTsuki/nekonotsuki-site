@@ -30,6 +30,7 @@ export async function POST(_req: NextRequest) {
         playlistId: pl.playlistId,
         title: pl.title,
         description: pl.description,
+        comment: prev?.comment ?? "", // personal note survives syncs
         thumbnail: pl.thumbnail,
         url: `https://www.youtube.com/playlist?list=${pl.playlistId}`,
         itemCount: pl.itemCount,

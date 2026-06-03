@@ -1,15 +1,22 @@
 import { NextRequest } from "next/server";
 import { readMusic, writeMusic } from "@/lib/content";
-import { ok, notFound } from "@/lib/api";
+import { badRequest, ok, notFound } from "@/lib/api";
+import { musicEditSchema } from "@/lib/validators";
 
 export async function PATCH(req: NextRequest, { params }: { params: { id: string } }) {
-  const body = (await req.json().catch(() => ({}))) as { visible?: unknown };
+  const parsed = musicEditSchema.safeParse(await req.json().catch(() => ({})));
+  if (!parsed.success) return badRequest("Données invalides", parsed.error.flatten());
+
   const music = await readMusic();
   const idx = music.findIndex((m) => m.id === params.id);
   if (idx === -1) return notFound("Playlist introuvable");
-  if (typeof body.visible === "boolean") {
-    music[idx] = { ...music[idx], visible: body.visible };
-  }
+
+  const d = parsed.data;
+  music[idx] = {
+    ...music[idx],
+    ...(d.visible !== undefined ? { visible: d.visible } : {}),
+    ...(d.comment !== undefined ? { comment: d.comment ?? "" } : {}),
+  };
   await writeMusic(music);
   return ok(music[idx]);
 }

@@ -3,12 +3,12 @@
 import { useState } from "react";
 import Modal from "./Modal";
 import MarkdownEditor from "./MarkdownEditor";
-import SortableList, { DragHandle } from "./Sortable";
 import { api } from "@/lib/client";
-import { formatMonthYear, tagMeta } from "@/lib/utils";
+import { formatDateRange, tagMeta } from "@/lib/utils";
 import type { TimelineDTO } from "@/lib/types";
 
-const TAGS = [
+// Built-in categories suggested in the datalist (value = stored slug, label = shown).
+const DEFAULT_TAGS = [
   { value: "etudes", label: "Études" },
   { value: "pro", label: "Pro" },
   { value: "perso", label: "Perso" },
@@ -19,17 +19,42 @@ type Draft = {
   id?: string;
   title: string;
   date: string;
+  endDate: string;
   tag: string;
   description: string;
 };
 
-const empty: Draft = { title: "", date: new Date().toISOString().slice(0, 10), tag: "perso", description: "" };
+const empty: Draft = {
+  title: "",
+  date: new Date().toISOString().slice(0, 10),
+  endDate: "",
+  tag: "perso",
+  description: "",
+};
+
+// Most recent first.
+function sortByDate(list: TimelineDTO[]): TimelineDTO[] {
+  return [...list].sort((a, b) => b.date.localeCompare(a.date));
+}
 
 export default function TimelineManager({ initial }: { initial: TimelineDTO[] }) {
-  const [items, setItems] = useState<TimelineDTO[]>(initial);
+  const [items, setItems] = useState<TimelineDTO[]>(() => sortByDate(initial));
   const [draft, setDraft] = useState<Draft | null>(null);
+  const [newTag, setNewTag] = useState(false); // "create a new category" mode
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState<string | null>(null);
+
+  // All selectable categories: built-in defaults + any custom ones already used.
+  const customTags = Array.from(new Set(items.map((i) => i.tag))).filter(
+    (t) => !DEFAULT_TAGS.some((d) => d.value === t),
+  );
+  const allTags = [...DEFAULT_TAGS, ...customTags.map((t) => ({ value: t, label: tagMeta(t).label }))];
+
+  function openDraft(d: Draft) {
+    setError(null);
+    setNewTag(false);
+    setDraft(d);
+  }
 
   async function save() {
     if (!draft) return;
@@ -37,16 +62,30 @@ export default function TimelineManager({ initial }: { initial: TimelineDTO[] })
       setError("Titre et date requis.");
       return;
     }
+    if (!draft.tag.trim()) {
+      setError("Catégorie requise.");
+      return;
+    }
+    if (draft.endDate && draft.endDate < draft.date) {
+      setError("La date de fin doit être après la date de début.");
+      return;
+    }
     setSaving(true);
     setError(null);
-    const payload = { title: draft.title, date: draft.date, tag: draft.tag, description: draft.description };
+    const payload = {
+      title: draft.title,
+      date: draft.date,
+      endDate: draft.endDate,
+      tag: draft.tag.trim(),
+      description: draft.description,
+    };
     try {
       if (draft.id) {
         const updated = await api.patch<TimelineDTO>(`/api/timeline/${draft.id}`, payload);
-        setItems((prev) => prev.map((i) => (i.id === updated.id ? { ...updated, date: updated.date } : i)));
+        setItems((prev) => sortByDate(prev.map((i) => (i.id === updated.id ? updated : i))));
       } else {
         const created = await api.post<TimelineDTO>("/api/timeline", payload);
-        setItems((prev) => [...prev, created]);
+        setItems((prev) => sortByDate([...prev, created]));
       }
       setDraft(null);
     } catch (e) {
@@ -62,43 +101,32 @@ export default function TimelineManager({ initial }: { initial: TimelineDTO[] })
     setItems((prev) => prev.filter((i) => i.id !== id));
   }
 
-  async function reorder(ids: string[]) {
-    const map = new Map(items.map((i) => [i.id, i]));
-    setItems(ids.map((id) => map.get(id)!).filter(Boolean));
-    try {
-      await api.put("/api/timeline/reorder", { ids });
-    } catch {
-      // revert on failure
-      setItems(initial);
-    }
-  }
-
   return (
     <div>
       <div className="mb-4 flex items-center justify-between">
         <h1 className="font-display text-3xl font-bold text-rose-deep">Parcours</h1>
-        <button type="button" className="btn-primary" onClick={() => setDraft({ ...empty })}>
+        <button type="button" className="btn-primary" onClick={() => openDraft({ ...empty })}>
           + Nouvelle étape
         </button>
       </div>
       <p className="mb-4 text-sm text-ink/60 dark:text-[#efe6ee]/60">
-        Glisse-dépose <span className="font-semibold">⠿</span> pour réordonner les étapes.
+        Les étapes se rangent automatiquement par date (plus récentes en haut). Tu peux ajouter une date de fin
+        et créer tes propres catégories.
       </p>
 
       {items.length === 0 ? (
         <p className="kawaii-card p-6 text-ink/60">Aucune étape pour l’instant.</p>
       ) : (
-        <SortableList
-          items={items}
-          onReorder={reorder}
-          renderItem={(entry, handle) => {
+        <ul className="space-y-2">
+          {items.map((entry) => {
             const meta = tagMeta(entry.tag);
             return (
-              <div className="kawaii-card flex items-center gap-2 p-3">
-                <DragHandle handle={handle} />
+              <li key={entry.id} className="kawaii-card flex items-center gap-2 p-3">
                 <div className="min-w-0 flex-1">
                   <div className="flex flex-wrap items-center gap-2">
-                    <time className="text-sm font-semibold text-lavender-deep">{formatMonthYear(entry.date)}</time>
+                    <time className="text-sm font-semibold text-lavender-deep">
+                      {formatDateRange(entry.date, entry.endDate)}
+                    </time>
                     <span className={`chip ${meta.className}`}>{meta.label}</span>
                   </div>
                   <h3 className="truncate font-semibold">{entry.title}</h3>
@@ -107,10 +135,11 @@ export default function TimelineManager({ initial }: { initial: TimelineDTO[] })
                   type="button"
                   className="btn-secondary text-xs"
                   onClick={() =>
-                    setDraft({
+                    openDraft({
                       id: entry.id,
                       title: entry.title,
                       date: entry.date.slice(0, 10),
+                      endDate: entry.endDate ? entry.endDate.slice(0, 10) : "",
                       tag: entry.tag,
                       description: entry.description ?? "",
                     })
@@ -121,10 +150,10 @@ export default function TimelineManager({ initial }: { initial: TimelineDTO[] })
                 <button type="button" className="btn-danger text-xs" onClick={() => remove(entry.id)}>
                   Suppr
                 </button>
-              </div>
+              </li>
             );
-          }}
-        />
+          })}
+        </ul>
       )}
 
       <Modal open={!!draft} onClose={() => setDraft(null)} title={draft?.id ? "Éditer l’étape" : "Nouvelle étape"}>
@@ -132,19 +161,51 @@ export default function TimelineManager({ initial }: { initial: TimelineDTO[] })
           <div className="space-y-4">
             <div className="grid gap-4 sm:grid-cols-2">
               <div>
-                <label className="label">Date</label>
+                <label className="label">Date de début</label>
                 <input type="date" className="input" value={draft.date} onChange={(e) => setDraft({ ...draft, date: e.target.value })} />
               </div>
               <div>
-                <label className="label">Catégorie</label>
-                <select className="input" value={draft.tag} onChange={(e) => setDraft({ ...draft, tag: e.target.value })}>
-                  {TAGS.map((t) => (
-                    <option key={t.value} value={t.value}>
-                      {t.label}
-                    </option>
-                  ))}
-                </select>
+                <label className="label">Date de fin (optionnelle)</label>
+                <input
+                  type="date"
+                  className="input"
+                  value={draft.endDate}
+                  min={draft.date}
+                  onChange={(e) => setDraft({ ...draft, endDate: e.target.value })}
+                />
               </div>
+            </div>
+            <div>
+              <label className="label">Catégorie</label>
+              <select
+                className="input"
+                value={newTag ? "__new__" : draft.tag}
+                onChange={(e) => {
+                  if (e.target.value === "__new__") {
+                    setNewTag(true);
+                    setDraft({ ...draft, tag: "" });
+                  } else {
+                    setNewTag(false);
+                    setDraft({ ...draft, tag: e.target.value });
+                  }
+                }}
+              >
+                {allTags.map((t) => (
+                  <option key={t.value} value={t.value}>
+                    {t.label}
+                  </option>
+                ))}
+                <option value="__new__">➕ Nouvelle catégorie…</option>
+              </select>
+              {newTag && (
+                <input
+                  className="input mt-2"
+                  autoFocus
+                  value={draft.tag}
+                  onChange={(e) => setDraft({ ...draft, tag: e.target.value })}
+                  placeholder="Nom de la nouvelle catégorie (ex. Voyages)"
+                />
+              )}
             </div>
             <div>
               <label className="label">Titre</label>

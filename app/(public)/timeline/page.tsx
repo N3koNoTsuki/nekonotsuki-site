@@ -1,25 +1,29 @@
 import type { Metadata } from "next";
 import { getTimeline } from "@/lib/data";
-import { TimelineItem } from "@/components/cards";
 import { PageHeader, EmptyState } from "@/components/ui";
+import TimelineView from "@/components/TimelineView";
 
 export const metadata: Metadata = { title: "Parcours" };
 
 export default async function TimelinePage() {
   const entries = await getTimeline();
+  const view = entries.map((e) => ({
+    id: e.id,
+    date: e.date,
+    endDate: e.endDate ?? null,
+    title: e.title,
+    description: e.description,
+    tag: e.tag,
+  }));
 
   return (
     <div>
       <PageHeader emoji="🌿" title="Mon parcours" subtitle="Études, expériences pro et projets perso" />
 
-      {entries.length === 0 ? (
+      {view.length === 0 ? (
         <EmptyState>Le parcours arrive bientôt ! ⏳</EmptyState>
       ) : (
-        <ul className="mx-auto max-w-2xl space-y-6">
-          {entries.map((entry, i) => (
-            <TimelineItem key={entry.id} entry={entry} last={i === entries.length - 1} animate delay={i * 50} />
-          ))}
-        </ul>
+        <TimelineView entries={view} />
       )}
     </div>
   );

@@ -12,10 +12,12 @@ export default function NavLink({
   href,
   label,
   block = false,
+  onClick,
 }: {
   href: string;
   label: string;
   block?: boolean;
+  onClick?: () => void;
 }) {
   const pathname = usePathname();
   const active = href === "/" ? pathname === "/" : pathname.startsWith(href);
@@ -23,6 +25,7 @@ export default function NavLink({
   return (
     <Link
       href={href}
+      onClick={onClick}
       className={cn(
         "rounded-2xl px-3 py-2 text-sm font-semibold transition",
         block && "block",

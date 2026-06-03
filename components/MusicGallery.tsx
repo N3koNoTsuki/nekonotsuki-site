@@ -4,22 +4,66 @@ import { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 
 export type GalleryTrack = { videoId: string; title: string };
+export type FeaturedTrack = { id: string; videoId: string; title: string; comment: string };
 export type GalleryPlaylist = {
   id: string;
   playlistId: string;
   title: string;
   description: string;
+  comment: string;
   thumbnail: string | null;
   itemCount: number;
   url: string;
   tracks: GalleryTrack[];
 };
 
-export default function MusicGallery({ playlists }: { playlists: GalleryPlaylist[] }) {
+export default function MusicGallery({
+  playlists,
+  featured = [],
+}: {
+  playlists: GalleryPlaylist[];
+  featured?: FeaturedTrack[];
+}) {
   const [open, setOpen] = useState<GalleryPlaylist | null>(null);
 
   return (
     <>
+      {featured.length > 0 && (
+        <section className="mb-10">
+          <h2 className="mb-4 font-display text-xl font-bold text-rose-deep">⭐ Mes coups de cœur</h2>
+          <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+            {featured.map((t) => (
+              <a
+                key={t.id}
+                href={`https://www.youtube.com/watch?v=${t.videoId}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="kawaii-card group flex items-center gap-3 overflow-hidden p-2 transition hover:-translate-y-0.5"
+              >
+                <div className="relative h-14 w-24 flex-shrink-0 overflow-hidden rounded-xl bg-kawaii-gradient">
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    src={`https://i.ytimg.com/vi/${t.videoId}/mqdefault.jpg`}
+                    alt=""
+                    loading="lazy"
+                    className="h-full w-full object-cover transition duration-300 group-hover:scale-105"
+                  />
+                  <span className="absolute inset-0 flex items-center justify-center bg-ink/25 text-2xl text-white opacity-0 transition group-hover:opacity-100">
+                    ▶
+                  </span>
+                </div>
+                <div className="min-w-0 flex-1">
+                  <h3 className="line-clamp-1 text-sm font-bold text-ink dark:text-[#efe6ee]">{t.title}</h3>
+                  {t.comment.trim() && (
+                    <p className="line-clamp-2 text-xs italic text-rose-deep">“{t.comment}”</p>
+                  )}
+                </div>
+              </a>
+            ))}
+          </div>
+        </section>
+      )}
+
       <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
         {playlists.map((p) => (
           <button
@@ -142,6 +186,11 @@ function MusicLightbox({ playlist, onClose }: { playlist: GalleryPlaylist; onClo
           <p className="text-xs text-ink/50 dark:text-[#efe6ee]/50">
             {playlist.itemCount} titre{playlist.itemCount > 1 ? "s" : ""}
           </p>
+          {playlist.comment.trim() && (
+            <p className="mt-2 rounded-2xl bg-rose-soft/40 px-3 py-2 text-sm italic text-rose-deep dark:bg-white/5">
+              “{playlist.comment}”
+            </p>
+          )}
           {playlist.description.trim() && (
             <p className="mt-2 whitespace-pre-line text-sm text-ink/70 dark:text-[#efe6ee]/70">{playlist.description}</p>
           )}

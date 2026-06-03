@@ -53,6 +53,19 @@ export const musicSchema = z.object({
   title: z.string().trim().min(1, "Titre requis"),
 });
 
+// A track highlighted above the playlists (picked from an existing playlist).
+export const featuredTrackSchema = z.object({
+  videoId: z.string().trim().min(1, "videoId requis"),
+  title: z.string().trim().min(1, "Titre requis"),
+  comment: optionalString,
+});
+
+// Editing a playlist's personal fields (comment).
+export const musicEditSchema = z.object({
+  visible: z.boolean().optional(),
+  comment: optionalString,
+});
+
 // Adding a non-Steam game picked from RAWG.
 export const rawgGameSchema = z.object({
   rawgId: z.number().int(),
@@ -73,11 +86,19 @@ export const gameEditSchema = z.object({
   visible: z.boolean().optional(),
 });
 
+// Optional end date: empty string / null become null, otherwise a real date.
+const optionalDate = z.preprocess(
+  (v) => (v === "" || v === undefined || v === null ? null : v),
+  z.coerce.date().nullable(),
+);
+
 export const timelineSchema = z.object({
   title: z.string().trim().min(1, "Titre requis"),
   date: z.coerce.date(),
+  endDate: optionalDate,
   description: optionalString,
-  tag: z.enum(["etudes", "pro", "perso", "projet"]).default("perso"),
+  // Free-form category so new ones can be created from the editor.
+  tag: z.string().trim().min(1, "Catégorie requise").default("perso"),
 });
 
 export const projectSchema = z.object({
