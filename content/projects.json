@@ -58,5 +58,29 @@
     "featured": false,
     "order": 4,
     "createdAt": "2026-06-03T07:21:44.228Z"
+  },
+  {
+    "id": "f3a1c7e2-9b04-4d6a-8e1f-2c5d7a9b3e10",
+    "title": "ES - Lecteur de GIF sur OLED (Linux embarqué)",
+    "coverUrl": null,
+    "description": "Projet de Linux embarqué (BUT GEII) en C sur carte Terasic DE1-SoC (Cyclone V : ARM Cortex-A9 + FPGA) : affichage et écriture d'animations GIF sur un µOLED 4D Systems Goldelox piloté en RS-232. Architecture multi-processus issue d'un fork() (lecture des boutons GPIO côté fils, pilotage de l'écran côté père, synchronisation par pipe + signal SIGUSR1), conversion via ffmpeg/ffprobe embarqués, et rétro-ingénierie du format RGB565 big-endian de la carte SD (dd + xxd) pour s'affranchir de l'outil propriétaire Workshop 4.",
+    "tags": "embedded-linux, c, system-programming, oled, ffmpeg",
+    "githubUrl": "https://github.com/N3koNoTsuki/Projet_Linux",
+    "demoUrl": null,
+    "featured": false,
+    "order": 5,
+    "createdAt": "2026-06-08T00:00:00.000Z"
+  },
+  {
+    "id": "a8d2f5b1-6c39-4e7a-9f02-1b4e6d8c3a57",
+    "title": "UmaOverlay - Assistant d'events Umamusume",
+    "coverUrl": null,
+    "description": "Overlay Python (Windows) pour Umamusume Pretty Derby qui assiste les choix lors des événements de training : détection automatique de l'event à l'écran par OCR (easyocr + mss), récupération et normalisation des « Choices and Outcomes » depuis Game8, puis affichage des conséquences de chaque option dans une petite fenêtre Tkinter en surimpression. Cache index/events, gestion des ambiguïtés, parsing robuste et configuration d'environnement automatisée (venv).",
+    "tags": "python, overlay, ocr, umamusume, tkinter",
+    "githubUrl": "https://github.com/N3koNoTsuki/UmaOverlay",
+    "demoUrl": null,
+    "featured": false,
+    "order": 6,
+    "createdAt": "2026-06-08T00:00:01.000Z"
   }
 ]
