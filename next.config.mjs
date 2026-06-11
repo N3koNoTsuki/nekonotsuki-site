@@ -19,11 +19,15 @@ const nextConfig = {
   // files into the serverless functions that read them.
   experimental: {
     outputFileTracingIncludes: {
+      "/": ["./content/**"],
       "/projects": ["./content/**"],
-      "/competences": ["./content/**"],
       "/collection": ["./content/**"],
       "/music-tracks/[playlistId]": ["./content/**"],
     },
+  },
+  // /competences merged into /projects — keep old links and bookmarks alive.
+  async redirects() {
+    return [{ source: "/competences", destination: "/projects#competences", permanent: false }];
   },
 };
 

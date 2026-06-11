@@ -16,7 +16,6 @@ export const MORE: NavItem[] = [
   { href: "/collection", label: "Collection" },
   { href: "/musique", label: "Musique" },
   { href: "/jeux", label: "Jeux" },
-  { href: "/competences", label: "Compétences" },
   { href: "/setup", label: "Setup" },
 ];
 
@@ -28,7 +27,7 @@ export const FOOTER_GROUPS: { title: string; items: NavItem[] }[] = [
     title: "✨ Explorer",
     items: [
       { href: "/projects", label: "Projets" },
-      { href: "/competences", label: "Compétences" },
+      { href: "/projects#competences", label: "Compétences" },
       { href: "/timeline", label: "Parcours" },
       { href: "/about", label: "À propos" },
     ],

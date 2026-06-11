@@ -11,6 +11,12 @@ import { TimelineItem } from "@/components/cards";
 import { ProjectCard } from "@/components/ProjectCard";
 import { FavoriteCard } from "@/components/FavoriteCard";
 import { EmptyState } from "@/components/ui";
+import { fetchRepoData, fetchRepoReadme } from "@/lib/github";
+import { toLangStats } from "@/lib/languages";
+
+// ISR: the latest-projects cards embed GitHub data (README, stars, languages)
+// so they open the same lightbox as /projects — refreshed ~hourly, fail-soft.
+export const revalidate = 3600;
 
 function blockCount(config: string | null, fallback: number): number {
   if (!config) return fallback;
@@ -103,12 +109,26 @@ export default async function HomePage() {
         case "latest-projects": {
           const projects = await getLatestProjects(blockCount(block.config, 3));
           if (projects.length === 0) return null;
+          // Same GitHub enrichment as /projects, so clicking a card opens the
+          // README lightbox here too (cards degrade gracefully without data).
+          const [repoData, readmes] = await Promise.all([
+            Promise.all(projects.map((p) => fetchRepoData(p.githubUrl))),
+            Promise.all(projects.map((p) => fetchRepoReadme(p.githubUrl))),
+          ]);
+          const stats = repoData.map((d) => (d?.languages ? toLangStats(d.languages) : []));
           return (
             <section>
               <SectionHeading title={block.title} href="/projects" />
               <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-                {projects.map((p) => (
-                  <ProjectCard key={p.id} project={p} />
+                {projects.map((p, i) => (
+                  <ProjectCard
+                    key={p.id}
+                    project={p}
+                    languages={stats[i]}
+                    stars={repoData[i]?.stars}
+                    lastPush={repoData[i]?.pushedAt}
+                    readme={readmes[i]}
+                  />
                 ))}
               </div>
             </section>
