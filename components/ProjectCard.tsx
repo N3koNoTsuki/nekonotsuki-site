@@ -6,6 +6,7 @@ import Markdown from "./Markdown";
 import HoverCard from "./HoverCard";
 import LanguageBar from "./LanguageBar";
 import { parseTags, formatRelativeFromNow, cn } from "@/lib/utils";
+import { useFocusTrap } from "@/lib/useFocusTrap";
 import type { LangStat } from "@/lib/languages";
 
 type ProjectLike = {
@@ -177,6 +178,8 @@ function ProjectLightbox({
 }) {
   const [mounted, setMounted] = useState(false);
   const closeRef = useRef<HTMLButtonElement>(null);
+  const boxRef = useRef<HTMLDivElement>(null);
+  useFocusTrap(boxRef, open);
 
   useEffect(() => setMounted(true), []);
 
@@ -207,6 +210,7 @@ function ProjectLightbox({
       aria-labelledby={titleId}
     >
       <div
+        ref={boxRef}
         className="my-3 w-full max-w-2xl overflow-hidden rounded-3xl border border-white/60 bg-cream shadow-glass dark:border-white/10 dark:bg-[#2c2533] sm:my-8"
         onClick={(e) => e.stopPropagation()}
       >

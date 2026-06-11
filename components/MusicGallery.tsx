@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
+import { useFocusTrap } from "@/lib/useFocusTrap";
 
 export type GalleryTrack = { videoId: string; title: string };
 export type FeaturedTrack = { id: string; videoId: string; title: string; comment: string };
@@ -117,6 +118,8 @@ function MusicLightbox({ playlist, onClose }: { playlist: GalleryPlaylist; onClo
   );
   const [failed, setFailed] = useState(false);
   const closeRef = useRef<HTMLButtonElement>(null);
+  const boxRef = useRef<HTMLDivElement>(null);
+  useFocusTrap(boxRef, mounted);
 
   useEffect(() => setMounted(true), []);
 
@@ -164,6 +167,7 @@ function MusicLightbox({ playlist, onClose }: { playlist: GalleryPlaylist; onClo
       aria-label={playlist.title}
     >
       <div
+        ref={boxRef}
         className="my-3 w-full max-w-2xl overflow-hidden rounded-3xl border border-white/60 bg-cream shadow-glass dark:border-white/10 dark:bg-[#2c2533] sm:my-8"
         onClick={(e) => e.stopPropagation()}
       >

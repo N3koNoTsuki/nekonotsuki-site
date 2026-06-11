@@ -5,6 +5,7 @@ import { createPortal } from "react-dom";
 import Markdown from "./Markdown";
 import HoverCard from "./HoverCard";
 import { StarRating } from "./ui";
+import { useFocusTrap } from "@/lib/useFocusTrap";
 
 type FavoriteLike = {
   id: string;
@@ -107,6 +108,8 @@ function FavoriteLightbox({
 }) {
   const [mounted, setMounted] = useState(false);
   const closeRef = useRef<HTMLButtonElement>(null);
+  const boxRef = useRef<HTMLDivElement>(null);
+  useFocusTrap(boxRef, open);
 
   useEffect(() => setMounted(true), []);
 
@@ -137,6 +140,7 @@ function FavoriteLightbox({
       aria-labelledby={titleId}
     >
       <div
+        ref={boxRef}
         className="my-3 w-full max-w-lg overflow-hidden rounded-3xl border border-white/60 bg-cream shadow-glass dark:border-white/10 dark:bg-[#2c2533] sm:my-8"
         onClick={(e) => e.stopPropagation()}
       >

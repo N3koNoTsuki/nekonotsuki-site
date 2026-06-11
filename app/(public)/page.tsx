@@ -4,6 +4,11 @@ import {
   getLatestProjects,
   getLatestFavorites,
   getLatestTimeline,
+  getAllProjects,
+  getGames,
+  getAnime,
+  getManga,
+  getMusic,
 } from "@/lib/data";
 import Markdown from "@/components/Markdown";
 import Reveal from "@/components/Reveal";
@@ -42,7 +47,27 @@ function SectionHeading({ title, href, cta }: { title?: string | null; href?: st
   );
 }
 
-function IntroBlock({ title, content }: { title?: string | null; content?: string | null }) {
+type HeroStats = { projets: number; oeuvres: number; jeux: number; titres: number };
+
+function IntroBlock({
+  title,
+  content,
+  stats,
+}: {
+  title?: string | null;
+  content?: string | null;
+  stats: HeroStats;
+}) {
+  // Live counts straight from content/ — quick, concrete paths into the site.
+  const chips: { href: string; label: string }[] = [];
+  if (stats.projets > 0)
+    chips.push({ href: "/projects", label: `🚀 ${stats.projets} projet${stats.projets > 1 ? "s" : ""}` });
+  if (stats.oeuvres > 0) chips.push({ href: "/collection", label: `🌸 ${stats.oeuvres} anime & manga` });
+  if (stats.jeux > 0) chips.push({ href: "/jeux", label: `🎮 ${stats.jeux} jeu${stats.jeux > 1 ? "x" : ""}` });
+  if (stats.titres > 0)
+    chips.push({ href: "/musique", label: `🎵 ${stats.titres.toLocaleString("fr-FR")} titres` });
+  chips.push({ href: "/favorites", label: "♡ Favoris" });
+
   return (
     <section className="glass overflow-hidden p-8 text-center md:p-12">
       <div className="mb-2 animate-float text-5xl" aria-hidden>
@@ -62,14 +87,8 @@ function IntroBlock({ title, content }: { title?: string | null; content?: strin
           En savoir plus
         </Link>
       </div>
-      {/* Quick paths into the "passions" pages otherwise folded in the navbar */}
       <div className="mt-5 flex flex-wrap justify-center gap-2">
-        {[
-          { href: "/collection", label: "🌸 Collection" },
-          { href: "/musique", label: "🎵 Musique" },
-          { href: "/jeux", label: "🎮 Jeux" },
-          { href: "/favorites", label: "♡ Favoris" },
-        ].map((l) => (
+        {chips.map((l) => (
           <Link
             key={l.href}
             href={l.href}
@@ -99,12 +118,29 @@ export default async function HomePage() {
     return <EmptyState>Aucun bloc configuré pour l’instant. Ajoute-en depuis l’admin ! ♡</EmptyState>;
   }
 
+  // Hero stats — counted from the same content files the pages render from.
+  const [allProjects, allGames, allAnime, allManga, allMusic] = await Promise.all([
+    getAllProjects(),
+    getGames(),
+    getAnime(),
+    getManga(),
+    getMusic(),
+  ]);
+  const heroStats: HeroStats = {
+    projets: allProjects.length,
+    oeuvres: allAnime.length + allManga.length,
+    jeux: allGames.filter((g) => g.visible).length,
+    titres: allMusic
+      .filter((p) => p.visible)
+      .reduce((n, p) => n + (p.itemCount ?? p.tracks.length), 0),
+  };
+
   // Resolve every block's data first, then render synchronously.
   const rendered = await Promise.all(
     blocks.map(async (block) => {
       switch (block.type) {
         case "intro":
-          return <IntroBlock title={block.title} content={block.content} />;
+          return <IntroBlock title={block.title} content={block.content} stats={heroStats} />;
 
         case "latest-projects": {
           const projects = await getLatestProjects(blockCount(block.config, 3));
