@@ -1,14 +1,35 @@
 import type { Metadata, Viewport } from "next";
 import "./globals.css";
 import { Analytics } from "@vercel/analytics/next"
+import { SITE_URL } from "@/lib/site";
+
+const DESCRIPTION = "Portfolio de NekoNoTsuki : projets, anime, musique, jeux et parcours.";
+
 export const metadata: Metadata = {
+  metadataBase: new URL(SITE_URL),
   title: {
     default: "NekoNoTsuki Portfolio",
     template: "%s — NekoNoTsuki",
   },
-  description: "Portfolio de NekoNoTsuki : projets, favoris et parcours.",
+  description: DESCRIPTION,
   icons: {
     icon: "/favicon.svg",
+  },
+  // Rich previews when the site is shared (Discord, Twitter, LinkedIn…).
+  openGraph: {
+    type: "website",
+    locale: "fr_FR",
+    url: "/",
+    siteName: "NekoNoTsuki",
+    title: "NekoNoTsuki Portfolio",
+    description: DESCRIPTION,
+    images: [{ url: "/og.png", width: 1200, height: 630, alt: "NekoNoTsuki — portfolio kawaii" }],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "NekoNoTsuki Portfolio",
+    description: DESCRIPTION,
+    images: ["/og.png"],
   },
 };
 
