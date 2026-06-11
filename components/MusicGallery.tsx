@@ -14,7 +14,6 @@ export type GalleryPlaylist = {
   thumbnail: string | null;
   itemCount: number;
   url: string;
-  tracks: GalleryTrack[];
 };
 
 export default function MusicGallery({
@@ -106,12 +105,40 @@ export default function MusicGallery({
   );
 }
 
+// Tracklists are fetched per playlist when a popup opens (static JSON served by
+// /music-tracks/[playlistId]) and kept here so reopening a playlist is instant.
+const trackCache = new Map<string, GalleryTrack[]>();
+
 function MusicLightbox({ playlist, onClose }: { playlist: GalleryPlaylist; onClose: () => void }) {
   const [mounted, setMounted] = useState(false);
   const [playing, setPlaying] = useState(false);
+  const [tracks, setTracks] = useState<GalleryTrack[] | null>(
+    () => trackCache.get(playlist.playlistId) ?? null,
+  );
+  const [failed, setFailed] = useState(false);
   const closeRef = useRef<HTMLButtonElement>(null);
 
   useEffect(() => setMounted(true), []);
+
+  useEffect(() => {
+    if (trackCache.has(playlist.playlistId)) return;
+    let cancelled = false;
+    fetch(`/music-tracks/${playlist.playlistId}`)
+      .then((res) =>
+        res.ok ? (res.json() as Promise<{ tracks: GalleryTrack[] }>) : Promise.reject(new Error(`${res.status}`)),
+      )
+      .then((data) => {
+        if (cancelled) return;
+        trackCache.set(playlist.playlistId, data.tracks);
+        setTracks(data.tracks);
+      })
+      .catch(() => {
+        if (!cancelled) setFailed(true);
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, [playlist.playlistId]);
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
@@ -195,9 +222,32 @@ function MusicLightbox({ playlist, onClose }: { playlist: GalleryPlaylist; onClo
             <p className="mt-2 whitespace-pre-line text-sm text-ink/70 dark:text-[#efe6ee]/70">{playlist.description}</p>
           )}
 
-          {/* Spotify-style tracklist */}
+          {/* Spotify-style tracklist — fetched on open, cached per playlist */}
+          {failed ? (
+            <p className="mt-4 rounded-2xl bg-rose-soft/30 px-3 py-3 text-sm text-ink/60 dark:bg-white/5 dark:text-[#efe6ee]/60">
+              Impossible de charger la tracklist…{" "}
+              <a
+                href={playlist.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="font-bold text-rose-deep underline"
+              >
+                l’ouvrir sur YouTube ↗
+              </a>
+            </p>
+          ) : !tracks ? (
+            <div className="mt-4 space-y-2" aria-busy="true" aria-label="Chargement de la tracklist">
+              {Array.from({ length: 6 }).map((_, i) => (
+                <div key={i} className="flex animate-pulse items-center gap-3 px-2 py-1.5">
+                  <span className="h-3 w-5 rounded bg-rose-soft/50 dark:bg-white/10" />
+                  <span className="h-9 w-14 rounded-lg bg-rose-soft/50 dark:bg-white/10" />
+                  <span className="h-3 flex-1 rounded bg-rose-soft/40 dark:bg-white/10" />
+                </div>
+              ))}
+            </div>
+          ) : (
           <ol className="mt-4 max-h-[42vh] divide-y divide-rose-soft/30 overflow-y-auto rounded-2xl dark:divide-white/10">
-            {playlist.tracks.map((t, i) => (
+            {tracks.map((t, i) => (
               <li key={`${t.videoId}-${i}`}>
                 <a
                   href={`https://www.youtube.com/watch?v=${t.videoId}&list=${playlist.playlistId}`}
@@ -221,6 +271,7 @@ function MusicLightbox({ playlist, onClose }: { playlist: GalleryPlaylist; onClo
               </li>
             ))}
           </ol>
+          )}
         </div>
       </div>
     </div>,

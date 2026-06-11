@@ -7,6 +7,8 @@ export const metadata: Metadata = { title: "Musique" };
 
 export default async function MusiquePage() {
   const [all, featuredRaw] = await Promise.all([getMusic(), getFeaturedMusic()]);
+  // Metadata only — the tracklists are fetched per playlist by the popup
+  // (see app/music-tracks/[playlistId]/route.ts), keeping this page's payload small.
   const playlists = all
     .filter((p) => p.visible)
     .map((p) => ({
@@ -18,7 +20,6 @@ export default async function MusiquePage() {
       thumbnail: p.thumbnail ?? null,
       itemCount: p.itemCount ?? p.tracks.length,
       url: p.url,
-      tracks: p.tracks ?? [],
     }));
   const featured = featuredRaw.map((f) => ({
     id: f.id,

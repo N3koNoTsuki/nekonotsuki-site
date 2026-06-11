@@ -22,6 +22,7 @@ const nextConfig = {
       "/projects": ["./content/**"],
       "/competences": ["./content/**"],
       "/collection": ["./content/**"],
+      "/music-tracks/[playlistId]": ["./content/**"],
     },
   },
 };
