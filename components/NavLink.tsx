@@ -27,7 +27,7 @@ export default function NavLink({
       href={href}
       onClick={onClick}
       className={cn(
-        "rounded-2xl px-3 py-2 text-sm font-semibold transition",
+        "rounded-2xl px-3 py-2 text-sm font-semibold outline-none transition focus-visible:ring-2 focus-visible:ring-rose-deep/60",
         block && "block",
         active
           ? "bg-rose-soft text-rose-deep dark:bg-white/10"

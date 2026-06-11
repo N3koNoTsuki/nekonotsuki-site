@@ -2,6 +2,7 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import Oneko from "@/components/Oneko";
 import OnekoProvider from "@/components/OnekoProvider";
+import BackToTop from "@/components/BackToTop";
 
 export default function PublicLayout({ children }: { children: React.ReactNode }) {
   return (
@@ -14,9 +15,15 @@ export default function PublicLayout({ children }: { children: React.ReactNode }
           className="pointer-events-none fixed inset-0 -z-10 bg-kawaii-radial dark:bg-kawaii-radial-dark"
           aria-hidden
         />
+        <a href="#contenu" className="skip-link">
+          Aller au contenu
+        </a>
         <Navbar />
-        <main className="mx-auto w-full max-w-5xl flex-1 px-4 py-10">{children}</main>
+        <main id="contenu" className="mx-auto w-full max-w-5xl flex-1 scroll-mt-24 px-4 py-10">
+          {children}
+        </main>
         <Footer />
+        <BackToTop />
         <Oneko />
       </div>
     </OnekoProvider>

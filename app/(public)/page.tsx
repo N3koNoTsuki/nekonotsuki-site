@@ -56,6 +56,23 @@ function IntroBlock({ title, content }: { title?: string | null; content?: strin
           En savoir plus
         </Link>
       </div>
+      {/* Quick paths into the "passions" pages otherwise folded in the navbar */}
+      <div className="mt-5 flex flex-wrap justify-center gap-2">
+        {[
+          { href: "/collection", label: "🌸 Collection" },
+          { href: "/musique", label: "🎵 Musique" },
+          { href: "/jeux", label: "🎮 Jeux" },
+          { href: "/favorites", label: "♡ Favoris" },
+        ].map((l) => (
+          <Link
+            key={l.href}
+            href={l.href}
+            className="chip bg-lavender-soft text-lavender-deep transition hover:bg-lavender hover:shadow-soft"
+          >
+            {l.label}
+          </Link>
+        ))}
+      </div>
     </section>
   );
 }

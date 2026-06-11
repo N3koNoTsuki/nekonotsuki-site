@@ -3,23 +3,7 @@ import NavLink from "./NavLink";
 import { MoreMenu, MobileMenu } from "./NavMenus";
 import ThemeToggle from "./ThemeToggle";
 import OnekoToggle from "./OnekoToggle";
-
-// Primary links stay inline on desktop; the rest fold into a "Plus" dropdown.
-const PRIMARY = [
-  { href: "/", label: "Accueil" },
-  { href: "/projects", label: "Projets" },
-  { href: "/favorites", label: "Favoris" },
-  { href: "/timeline", label: "Parcours" },
-  { href: "/about", label: "À propos" },
-];
-const MORE = [
-  { href: "/collection", label: "Collection" },
-  { href: "/musique", label: "Musique" },
-  { href: "/jeux", label: "Jeux" },
-  { href: "/competences", label: "Compétences" },
-  { href: "/setup", label: "Setup" },
-];
-const ALL = [...PRIMARY, ...MORE];
+import { PRIMARY, MORE, ALL } from "@/lib/nav";
 
 /**
  * Server-rendered navbar shell. Desktop primary links are plain anchors; the

@@ -30,6 +30,10 @@ export function MoreMenu({ items }: { items: Item[] }) {
     };
   }, [open]);
 
+  // Light up the trigger when the current page lives inside the dropdown,
+  // so "Musique" & co still get an active state in the navbar.
+  const childActive = items.some((i) => pathname.startsWith(i.href));
+
   return (
     <li className="relative" ref={ref}>
       <button
@@ -37,7 +41,12 @@ export function MoreMenu({ items }: { items: Item[] }) {
         aria-haspopup="menu"
         aria-expanded={open}
         onClick={() => setOpen((o) => !o)}
-        className="flex items-center gap-1 rounded-2xl px-3 py-2 text-sm font-semibold text-ink/70 transition hover:bg-white/60 hover:text-ink dark:text-[#efe6ee]/70 dark:hover:bg-white/10 dark:hover:text-[#efe6ee]"
+        className={
+          "flex items-center gap-1 rounded-2xl px-3 py-2 text-sm font-semibold outline-none transition focus-visible:ring-2 focus-visible:ring-rose-deep/60 " +
+          (childActive || open
+            ? "bg-rose-soft text-rose-deep dark:bg-white/10 dark:text-[#efe6ee]"
+            : "text-ink/70 hover:bg-white/60 hover:text-ink dark:text-[#efe6ee]/70 dark:hover:bg-white/10 dark:hover:text-[#efe6ee]")
+        }
       >
         Plus
         <span aria-hidden className="text-[0.6rem]">
