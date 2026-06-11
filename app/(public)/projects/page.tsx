@@ -60,28 +60,14 @@ export default async function ProjectsPage() {
                 <span className="chip bg-lavender-soft text-lavender-deep">🎨 {totalStats.length} langage{totalStats.length > 1 ? "s" : ""}</span>
               </div>
               {/* La répartition détaillée des langages vit dans la section
-                  Compétences (donut) en bas de page — pas de double barre ici. */}
+                  Compétences (donut) juste en dessous — pas de double barre ici. */}
             </section>
           )}
 
-          <ProjectsFilter searchText={searchText}>
-            {projects.map((p, i) => (
-              <Reveal key={p.id} delay={i * 60}>
-                <ProjectCard
-                  project={p}
-                  languages={statsByProject[i]}
-                  stars={repoData[i]?.stars}
-                  lastPush={repoData[i]?.pushedAt}
-                  readme={readmes[i]}
-                />
-              </Reveal>
-            ))}
-          </ProjectsFilter>
-
-          {/* Compétences — merged from the former /competences page (anchor kept
-              for old links via the redirect in next.config.mjs). */}
+          {/* Compétences en tête de page — synthèse avant la grille (fusion de
+              l'ancienne /competences ; l'ancre sert au redirect de next.config.mjs). */}
           {skills.length > 0 && (
-            <section id="competences" className="mt-14 scroll-mt-24">
+            <section id="competences" className="mb-10 scroll-mt-24">
               <Reveal>
                 <h2 className="mb-4 font-display text-2xl font-bold text-lavender-deep">
                   <span className="mr-1" aria-hidden>
@@ -135,6 +121,20 @@ export default async function ProjectsPage() {
               )}
             </section>
           )}
+
+          <ProjectsFilter searchText={searchText}>
+            {projects.map((p, i) => (
+              <Reveal key={p.id} delay={i * 60}>
+                <ProjectCard
+                  project={p}
+                  languages={statsByProject[i]}
+                  stars={repoData[i]?.stars}
+                  lastPush={repoData[i]?.pushedAt}
+                  readme={readmes[i]}
+                />
+              </Reveal>
+            ))}
+          </ProjectsFilter>
         </>
       )}
     </div>
