@@ -4,7 +4,6 @@ import { ProjectCard } from "@/components/ProjectCard";
 import { PageHeader, EmptyState } from "@/components/ui";
 import Reveal from "@/components/Reveal";
 import ProjectsFilter from "@/components/ProjectsFilter";
-import LanguageBar from "@/components/LanguageBar";
 import LanguageDonut from "@/components/LanguageDonut";
 import { fetchRepoData, fetchRepoReadme } from "@/lib/github";
 import { toLangStats, mergeLangBytes, averageLangStats, langColor } from "@/lib/languages";
@@ -60,11 +59,8 @@ export default async function ProjectsPage() {
                 <span className="chip bg-lavender-soft text-lavender-deep">📦 {repoCount} repo{repoCount > 1 ? "s" : ""}</span>
                 <span className="chip bg-lavender-soft text-lavender-deep">🎨 {totalStats.length} langage{totalStats.length > 1 ? "s" : ""}</span>
               </div>
-              {totalStats.length > 0 && (
-                <div className="mt-4">
-                  <LanguageBar stats={totalStats} barClassName="h-2.5" />
-                </div>
-              )}
+              {/* La répartition détaillée des langages vit dans la section
+                  Compétences (donut) en bas de page — pas de double barre ici. */}
             </section>
           )}
 
