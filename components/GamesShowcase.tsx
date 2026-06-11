@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import Markdown from "./Markdown";
-import { StarRating } from "./ui";
+import { StarRating, EmptyState } from "./ui";
 import { cn } from "@/lib/utils";
 import type { GameDTO } from "@/lib/types";
 
@@ -49,13 +49,87 @@ function parseClip(url: string): ParsedClip {
 
 // ---- showcase ----
 
+type SortKey = "perso" | "heures" | "note" | "annee" | "az";
+
+const SORTS: { value: SortKey; label: string }[] = [
+  { value: "perso", label: "Ordre perso" },
+  { value: "heures", label: "Heures jouées" },
+  { value: "note", label: "Note" },
+  { value: "annee", label: "Année" },
+  { value: "az", label: "A → Z" },
+];
+
+function sortGames(games: GameDTO[], key: SortKey): GameDTO[] {
+  const arr = [...games];
+  switch (key) {
+    case "heures":
+      return arr.sort((a, b) => (b.playtimeMinutes ?? -1) - (a.playtimeMinutes ?? -1));
+    case "note":
+      return arr.sort((a, b) => (b.rating ?? -1) - (a.rating ?? -1) || a.name.localeCompare(b.name, "fr"));
+    case "annee":
+      return arr.sort((a, b) => (b.released ?? "").localeCompare(a.released ?? ""));
+    case "az":
+      return arr.sort((a, b) => a.name.localeCompare(b.name, "fr"));
+    default:
+      return arr;
+  }
+}
+
 export default function GamesShowcase({ games }: { games: GameDTO[] }) {
   const [open, setOpen] = useState<GameDTO | null>(null);
+  const [query, setQuery] = useState("");
+  const [sortKey, setSortKey] = useState<SortKey>("perso");
+
+  const q = query.trim().toLowerCase();
+  const searching = q.length > 0;
+  const shown = sortGames(searching ? games.filter((g) => g.name.toLowerCase().includes(q)) : games, sortKey);
   const highlights = games.filter((g) => g.highlight);
 
   return (
     <div className="space-y-12">
-      {highlights.length > 0 && (
+      {/* Search + sort — client-side over the static list (same spirit as ProjectsFilter) */}
+      <div className="flex flex-col items-center justify-center gap-3 sm:flex-row">
+        <div className="relative w-full max-w-md">
+          <span
+            className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-ink/40 dark:text-[#efe6ee]/40"
+            aria-hidden
+          >
+            🔍
+          </span>
+          <input
+            type="search"
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
+            placeholder="Rechercher un jeu…"
+            aria-label="Rechercher un jeu"
+            className="input !pl-11"
+          />
+          {query && (
+            <button
+              type="button"
+              onClick={() => setQuery("")}
+              aria-label="Effacer la recherche"
+              className="absolute right-3 top-1/2 flex h-7 w-7 -translate-y-1/2 items-center justify-center rounded-full text-ink/40 transition hover:bg-rose-soft/40 hover:text-rose-deep dark:text-[#efe6ee]/40"
+            >
+              ✕
+            </button>
+          )}
+        </div>
+        <select
+          value={sortKey}
+          onChange={(e) => setSortKey(e.target.value as SortKey)}
+          aria-label="Trier les jeux"
+          className="input !w-auto cursor-pointer"
+        >
+          {SORTS.map((s) => (
+            <option key={s.value} value={s.value}>
+              {s.label}
+            </option>
+          ))}
+        </select>
+      </div>
+
+      {!searching && highlights.length > 0 && (
         <section>
           <h2 className="mb-4 font-display text-2xl font-bold text-lavender-deep">
             <span className="mr-1" aria-hidden>
@@ -77,13 +151,24 @@ export default function GamesShowcase({ games }: { games: GameDTO[] }) {
             🎮
           </span>
           Ma collection
-          <span className="ml-2 text-sm font-normal text-ink/40 dark:text-[#efe6ee]/40">({games.length})</span>
+          <span className="ml-2 text-sm font-normal text-ink/40 dark:text-[#efe6ee]/40">
+            ({searching ? `${shown.length}/${games.length}` : games.length})
+          </span>
         </h2>
-        <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
-          {games.map((g) => (
-            <GameCard key={g.id} game={g} onOpen={() => setOpen(g)} />
-          ))}
-        </div>
+        {shown.length === 0 ? (
+          <EmptyState>
+            Aucun jeu ne correspond à « {query} ».{" "}
+            <button type="button" onClick={() => setQuery("")} className="font-semibold text-rose-deep underline">
+              Réinitialiser
+            </button>
+          </EmptyState>
+        ) : (
+          <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
+            {shown.map((g) => (
+              <GameCard key={g.id} game={g} onOpen={() => setOpen(g)} />
+            ))}
+          </div>
+        )}
       </section>
 
       {open && <GameLightbox game={open} onClose={() => setOpen(null)} />}
