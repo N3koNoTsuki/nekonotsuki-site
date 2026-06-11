@@ -21,7 +21,7 @@ export default async function EditAnimePage() {
     <div>
       <header className="mb-6">
         <h1 className="font-display text-3xl font-bold text-rose-deep">Anime (Collection)</h1>
-        <p className="text-ink/60 dark:text-[#efe6ee]/60">
+        <p className="text-ink/60 dark:text-nightink/60">
           Cherche un anime et ajoute-le — il s’affiche dans la section Anime de la page Collection.
         </p>
       </header>

@@ -25,7 +25,7 @@ export default function ProjectsFilter({
       <div className="mb-8 flex justify-center">
         <div className="relative w-full max-w-md">
           <span
-            className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-ink/40 dark:text-[#efe6ee]/40"
+            className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-ink/40 dark:text-nightink/40"
             aria-hidden
           >
             🔍
@@ -43,7 +43,7 @@ export default function ProjectsFilter({
               type="button"
               onClick={() => setQuery("")}
               aria-label="Effacer la recherche"
-              className="absolute right-3 top-1/2 flex h-7 w-7 -translate-y-1/2 items-center justify-center rounded-full text-ink/40 transition hover:bg-rose-soft/40 hover:text-rose-deep dark:text-[#efe6ee]/40"
+              className="absolute right-3 top-1/2 flex h-7 w-7 -translate-y-1/2 items-center justify-center rounded-full text-ink/40 transition hover:bg-rose-soft/40 hover:text-rose-deep dark:text-nightink/40"
             >
               ✕
             </button>

@@ -32,7 +32,7 @@ export default function AdminNav() {
               "flex items-center gap-2 rounded-2xl px-3 py-2 text-sm font-semibold transition",
               active
                 ? "bg-rose-soft text-rose-deep dark:bg-white/10"
-                : "text-ink/70 hover:bg-white/60 dark:text-[#efe6ee]/70 dark:hover:bg-white/10",
+                : "text-ink/70 hover:bg-white/60 dark:text-nightink/70 dark:hover:bg-white/10",
             )}
           >
             <span aria-hidden>{item.icon}</span>

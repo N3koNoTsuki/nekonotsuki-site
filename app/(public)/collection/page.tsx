@@ -18,7 +18,7 @@ function Stat({ value, label }: { value: number; label: string }) {
   return (
     <div className="text-center">
       <div className="font-display text-2xl font-bold text-rose-deep">{value.toLocaleString("fr-FR")}</div>
-      <div className="text-xs text-ink/55 dark:text-[#efe6ee]/55">{label}</div>
+      <div className="text-xs text-ink/55 dark:text-nightink/55">{label}</div>
     </div>
   );
 }

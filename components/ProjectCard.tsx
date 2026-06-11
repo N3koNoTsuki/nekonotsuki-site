@@ -89,9 +89,9 @@ export function ProjectCard({ project, languages, stars, lastPush, readme }: Pro
             )}
           </div>
           <div className="flex flex-1 flex-col p-5">
-            <h3 className="font-display text-xl font-bold text-ink dark:text-[#efe6ee]">{project.title}</h3>
+            <h3 className="font-display text-xl font-bold text-ink dark:text-nightink">{project.title}</h3>
             {(typeof stars === "number" || lastPush) && (
-              <div className="mt-1 flex flex-wrap items-center gap-x-3 gap-y-0.5 text-xs text-ink/50 dark:text-[#efe6ee]/50">
+              <div className="mt-1 flex flex-wrap items-center gap-x-3 gap-y-0.5 text-xs text-ink/50 dark:text-nightink/50">
                 {typeof stars === "number" && <span>⭐ {stars}</span>}
                 {lastPush && <span>🕒 maj {formatRelativeFromNow(lastPush)}</span>}
               </div>
@@ -211,7 +211,7 @@ function ProjectLightbox({
     >
       <div
         ref={boxRef}
-        className="my-3 w-full max-w-2xl overflow-hidden rounded-3xl border border-white/60 bg-cream shadow-glass dark:border-white/10 dark:bg-[#2c2533] sm:my-8"
+        className="my-3 w-full max-w-2xl overflow-hidden rounded-3xl border border-white/60 bg-cream shadow-glass dark:border-white/10 dark:bg-nightcard sm:my-8"
         onClick={(e) => e.stopPropagation()}
       >
         <div className="relative">
@@ -230,7 +230,7 @@ function ProjectLightbox({
             type="button"
             onClick={onClose}
             aria-label="Fermer"
-            className="absolute right-3 top-3 flex h-9 w-9 items-center justify-center rounded-full bg-cream/85 text-lg text-ink shadow-soft backdrop-blur-sm transition hover:bg-cream dark:bg-[#2c2533]/85 dark:text-[#efe6ee]"
+            className="absolute right-3 top-3 flex h-9 w-9 items-center justify-center rounded-full bg-cream/85 text-lg text-ink shadow-soft backdrop-blur-sm transition hover:bg-cream dark:bg-nightcard/85 dark:text-nightink"
           >
             ✕
           </button>
@@ -238,11 +238,11 @@ function ProjectLightbox({
 
         <div className="space-y-4 p-5 sm:p-6">
           <div>
-            <h2 id={titleId} className="font-display text-2xl font-bold text-ink dark:text-[#efe6ee]">
+            <h2 id={titleId} className="font-display text-2xl font-bold text-ink dark:text-nightink">
               {project.title}
             </h2>
             {(typeof stars === "number" || lastPush) && (
-              <div className="mt-1 flex flex-wrap items-center gap-x-3 gap-y-0.5 text-xs text-ink/50 dark:text-[#efe6ee]/50">
+              <div className="mt-1 flex flex-wrap items-center gap-x-3 gap-y-0.5 text-xs text-ink/50 dark:text-nightink/50">
                 {typeof stars === "number" && <span>⭐ {stars}</span>}
                 {lastPush && <span>🕒 maj {formatRelativeFromNow(lastPush)}</span>}
               </div>

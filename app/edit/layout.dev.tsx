@@ -22,7 +22,7 @@ export default function EditLayout({ children }: { children: React.ReactNode }) 
             </div>
             <AdminNav />
             <div className="mt-4 border-t border-white/40 pt-4 dark:border-white/10">
-              <p className="mb-2 px-3 text-xs text-ink/50 dark:text-[#efe6ee]/50">Mode édition local ✎</p>
+              <p className="mb-2 px-3 text-xs text-ink/50 dark:text-nightink/50">Mode édition local ✎</p>
               <Link href="/" className="btn-ghost mb-1 w-full justify-start text-sm">
                 ↗ Voir le site
               </Link>

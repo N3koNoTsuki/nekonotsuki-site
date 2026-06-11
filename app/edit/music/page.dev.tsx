@@ -38,7 +38,7 @@ export default async function EditMusicPage() {
     <div>
       <header className="mb-6">
         <h1 className="font-display text-3xl font-bold text-rose-deep">Musique (Collection)</h1>
-        <p className="text-ink/60 dark:text-[#efe6ee]/60">
+        <p className="text-ink/60 dark:text-nightink/60">
           Synchronise tes playlists YouTube, mets quelques titres en avant et choisis lesquelles afficher.
         </p>
       </header>

@@ -59,7 +59,7 @@ export function PageHeader({
         )}
         {title}
       </h1>
-      {subtitle && <p className="mt-2 text-ink/60 dark:text-[#efe6ee]/60">{subtitle}</p>}
+      {subtitle && <p className="mt-2 text-ink/60 dark:text-nightink/60">{subtitle}</p>}
     </header>
   );
 }
@@ -67,7 +67,7 @@ export function PageHeader({
 /** Friendly empty state. */
 export function EmptyState({ children }: { children: React.ReactNode }) {
   return (
-    <div className="kawaii-card mx-auto max-w-md px-6 py-10 text-center text-ink/60 dark:text-[#efe6ee]/60">
+    <div className="kawaii-card mx-auto max-w-md px-6 py-10 text-center text-ink/60 dark:text-nightink/60">
       <div className="mb-2 text-4xl" aria-hidden>
         🍰
       </div>

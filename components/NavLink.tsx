@@ -31,7 +31,7 @@ export default function NavLink({
         block && "block",
         active
           ? "bg-rose-soft text-rose-deep dark:bg-white/10"
-          : "text-ink/70 hover:bg-white/60 hover:text-ink dark:text-[#efe6ee]/70 dark:hover:bg-white/10 dark:hover:text-[#efe6ee]",
+          : "text-ink/70 hover:bg-white/60 hover:text-ink dark:text-nightink/70 dark:hover:bg-white/10 dark:hover:text-nightink",
       )}
     >
       {label}

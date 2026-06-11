@@ -14,7 +14,7 @@ export default function NotFound() {
           🙀
         </div>
         <h1 className="mt-3 font-display text-5xl font-bold text-rose-deep">404</h1>
-        <p className="mt-3 text-ink/70 dark:text-[#efe6ee]/70">
+        <p className="mt-3 text-ink/70 dark:text-nightink/70">
           Oups… cette page s’est perdue comme un chat dans un carton.
         </p>
         <div className="mt-6 flex flex-wrap justify-center gap-3">

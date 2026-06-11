@@ -100,15 +100,15 @@ export default async function ProjectsPage() {
                             style={{ backgroundColor: langColor(s.name) }}
                             aria-hidden
                           />
-                          <span className="font-semibold text-ink dark:text-[#efe6ee]">{s.name}</span>
-                          <span className="ml-auto tabular-nums text-ink/55 dark:text-[#efe6ee]/55">
+                          <span className="font-semibold text-ink dark:text-nightink">{s.name}</span>
+                          <span className="ml-auto tabular-nums text-ink/55 dark:text-nightink/55">
                             {s.pct.toFixed(1)} %
                           </span>
                         </li>
                       ))}
                     </ul>
                   </div>
-                  <p className="mt-5 text-xs text-ink/50 dark:text-[#efe6ee]/50">
+                  <p className="mt-5 text-xs text-ink/50 dark:text-nightink/50">
                     Moyenne par projet (chaque projet compte autant), d’après l’analyse des langages GitHub.
                   </p>
                 </div>

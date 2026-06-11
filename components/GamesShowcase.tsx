@@ -92,7 +92,7 @@ export default function GamesShowcase({ games }: { games: GameDTO[] }) {
       <div className="flex flex-col items-center justify-center gap-3 sm:flex-row">
         <div className="relative w-full max-w-md">
           <span
-            className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-ink/40 dark:text-[#efe6ee]/40"
+            className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-ink/40 dark:text-nightink/40"
             aria-hidden
           >
             🔍
@@ -110,7 +110,7 @@ export default function GamesShowcase({ games }: { games: GameDTO[] }) {
               type="button"
               onClick={() => setQuery("")}
               aria-label="Effacer la recherche"
-              className="absolute right-3 top-1/2 flex h-7 w-7 -translate-y-1/2 items-center justify-center rounded-full text-ink/40 transition hover:bg-rose-soft/40 hover:text-rose-deep dark:text-[#efe6ee]/40"
+              className="absolute right-3 top-1/2 flex h-7 w-7 -translate-y-1/2 items-center justify-center rounded-full text-ink/40 transition hover:bg-rose-soft/40 hover:text-rose-deep dark:text-nightink/40"
             >
               ✕
             </button>
@@ -152,7 +152,7 @@ export default function GamesShowcase({ games }: { games: GameDTO[] }) {
             🎮
           </span>
           Ma collection
-          <span className="ml-2 text-sm font-normal text-ink/40 dark:text-[#efe6ee]/40">
+          <span className="ml-2 text-sm font-normal text-ink/40 dark:text-nightink/40">
             ({searching ? `${shown.length}/${games.length}` : games.length})
           </span>
         </h2>
@@ -211,11 +211,11 @@ function GameCard({ game, large = false, onOpen }: { game: GameDTO; large?: bool
         </span>
       </div>
       <div className={cn("p-3", large && "p-4")}>
-        <h3 className={cn("line-clamp-1 font-bold text-ink dark:text-[#efe6ee]", large ? "text-base" : "text-sm")}>
+        <h3 className={cn("line-clamp-1 font-bold text-ink dark:text-nightink", large ? "text-base" : "text-sm")}>
           {game.name}
         </h3>
         <div className="mt-0.5 flex items-center justify-between gap-2">
-          {meta ? <p className="line-clamp-1 text-xs text-ink/50 dark:text-[#efe6ee]/50">{meta}</p> : <span />}
+          {meta ? <p className="line-clamp-1 text-xs text-ink/50 dark:text-nightink/50">{meta}</p> : <span />}
           {game.rating ? <StarRating value={game.rating} className="shrink-0 text-sm" /> : null}
         </div>
       </div>
@@ -261,7 +261,7 @@ function GameLightbox({ game, onClose }: { game: GameDTO; onClose: () => void })
     >
       <div
         ref={boxRef}
-        className="my-3 w-full max-w-2xl overflow-hidden rounded-3xl border border-white/60 bg-cream shadow-glass dark:border-white/10 dark:bg-[#2c2533] sm:my-8"
+        className="my-3 w-full max-w-2xl overflow-hidden rounded-3xl border border-white/60 bg-cream shadow-glass dark:border-white/10 dark:bg-nightcard sm:my-8"
         onClick={(e) => e.stopPropagation()}
       >
         <div className="relative">
@@ -280,7 +280,7 @@ function GameLightbox({ game, onClose }: { game: GameDTO; onClose: () => void })
             type="button"
             onClick={onClose}
             aria-label="Fermer"
-            className="absolute right-3 top-3 flex h-9 w-9 items-center justify-center rounded-full bg-cream/85 text-lg text-ink shadow-soft backdrop-blur-sm transition hover:bg-cream dark:bg-[#2c2533]/85 dark:text-[#efe6ee]"
+            className="absolute right-3 top-3 flex h-9 w-9 items-center justify-center rounded-full bg-cream/85 text-lg text-ink shadow-soft backdrop-blur-sm transition hover:bg-cream dark:bg-nightcard/85 dark:text-nightink"
           >
             ✕
           </button>
@@ -288,7 +288,7 @@ function GameLightbox({ game, onClose }: { game: GameDTO; onClose: () => void })
 
         <div className="space-y-4 p-5">
           <div className="flex items-start justify-between gap-3">
-            <h2 id={titleId} className="font-display text-2xl font-bold text-ink dark:text-[#efe6ee]">
+            <h2 id={titleId} className="font-display text-2xl font-bold text-ink dark:text-nightink">
               {game.name}
             </h2>
             {game.rating ? <StarRating value={game.rating} className="mt-1 shrink-0" /> : null}

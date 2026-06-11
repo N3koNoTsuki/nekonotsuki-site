@@ -109,7 +109,7 @@ export default function TimelineManager({ initial }: { initial: TimelineDTO[] })
           + Nouvelle étape
         </button>
       </div>
-      <p className="mb-4 text-sm text-ink/60 dark:text-[#efe6ee]/60">
+      <p className="mb-4 text-sm text-ink/60 dark:text-nightink/60">
         Les étapes se rangent automatiquement par date (plus récentes en haut). Tu peux ajouter une date de fin
         et créer tes propres catégories.
       </p>

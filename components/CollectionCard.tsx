@@ -38,8 +38,8 @@ export default function CollectionCard({
         )}
       </div>
       <div className="p-3">
-        <h3 className="line-clamp-2 text-sm font-bold text-ink dark:text-[#efe6ee]">{title}</h3>
-        {subtitle && <p className="mt-0.5 text-xs text-ink/50 dark:text-[#efe6ee]/50">{subtitle}</p>}
+        <h3 className="line-clamp-2 text-sm font-bold text-ink dark:text-nightink">{title}</h3>
+        {subtitle && <p className="mt-0.5 text-xs text-ink/50 dark:text-nightink/50">{subtitle}</p>}
       </div>
     </a>
   );

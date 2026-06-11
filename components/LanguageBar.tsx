@@ -42,14 +42,14 @@ export default function LanguageBar({
       {showLegend && (
         <ul className="mt-2 flex flex-wrap gap-x-3 gap-y-1 text-xs">
           {legend.map((s) => (
-            <li key={s.name} className="inline-flex items-center gap-1.5 text-ink/70 dark:text-[#efe6ee]/70">
+            <li key={s.name} className="inline-flex items-center gap-1.5 text-ink/70 dark:text-nightink/70">
               <span className="h-2.5 w-2.5 rounded-full" style={{ backgroundColor: langColor(s.name) }} aria-hidden />
-              <span className="font-semibold text-ink dark:text-[#efe6ee]">{s.name}</span>
+              <span className="font-semibold text-ink dark:text-nightink">{s.name}</span>
               <span>{s.pct.toFixed(1)} %</span>
             </li>
           ))}
           {hidden > 0 && (
-            <li className="inline-flex items-center text-ink/50 dark:text-[#efe6ee]/50">+{hidden}</li>
+            <li className="inline-flex items-center text-ink/50 dark:text-nightink/50">+{hidden}</li>
           )}
         </ul>
       )}

@@ -8,7 +8,7 @@ export default async function EditAboutPage() {
     <div>
       <header className="mb-6">
         <h1 className="font-display text-3xl font-bold text-rose-deep">Page « À propos »</h1>
-        <p className="text-ink/60 dark:text-[#efe6ee]/60">Page libre, entièrement en Markdown.</p>
+        <p className="text-ink/60 dark:text-nightink/60">Page libre, entièrement en Markdown.</p>
       </header>
       <div className="glass p-6">
         <PageEditor slug="about" initialTitle={page?.title ?? "À propos"} initialContent={page?.content ?? ""} />

@@ -12,7 +12,7 @@ import { PRIMARY, MORE, ALL } from "@/lib/nav";
  */
 export default function Navbar() {
   return (
-    <header className="sticky top-0 z-40 border-b border-white/40 bg-cream/70 backdrop-blur-md dark:border-white/10 dark:bg-[#241f29]/70">
+    <header className="sticky top-0 z-40 border-b border-white/40 bg-cream/70 backdrop-blur-md dark:border-white/10 dark:bg-night/70">
       <nav className="mx-auto flex max-w-5xl items-center justify-between px-4 py-3">
         <Link href="/" className="flex items-center gap-2 font-display text-lg font-bold text-rose-deep">
           <span className="animate-float text-2xl" aria-hidden>

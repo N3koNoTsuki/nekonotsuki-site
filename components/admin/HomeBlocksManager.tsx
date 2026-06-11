@@ -119,7 +119,7 @@ export default function HomeBlocksManager({ initial }: { initial: BlockDTO[] }) 
           + Nouveau bloc
         </button>
       </div>
-      <p className="mb-4 text-sm text-ink/60 dark:text-[#efe6ee]/60">
+      <p className="mb-4 text-sm text-ink/60 dark:text-nightink/60">
         Glisse-dépose <span className="font-semibold">⠿</span> pour réordonner. L’œil masque/affiche un bloc sur le site.
       </p>
 
@@ -139,7 +139,7 @@ export default function HomeBlocksManager({ initial }: { initial: BlockDTO[] }) 
                 </span>
                 <div className="min-w-0 flex-1">
                   <h3 className="truncate font-semibold">{block.title || m.label}</h3>
-                  <span className="text-xs text-ink/50 dark:text-[#efe6ee]/50">{m.label}</span>
+                  <span className="text-xs text-ink/50 dark:text-nightink/50">{m.label}</span>
                 </div>
                 <button
                   type="button"

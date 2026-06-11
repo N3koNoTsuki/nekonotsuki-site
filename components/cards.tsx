@@ -40,7 +40,7 @@ export function TimelineItem({
           <time className="text-sm font-semibold text-lavender-deep">{formatDateRange(entry.date, entry.endDate ?? null)}</time>
           <span className={cn("chip", meta.className)}>{meta.label}</span>
         </div>
-        <h3 className="mt-1 font-display text-lg font-bold text-ink dark:text-[#efe6ee]">{entry.title}</h3>
+        <h3 className="mt-1 font-display text-lg font-bold text-ink dark:text-nightink">{entry.title}</h3>
         {entry.description && (
           <div className="mt-1 text-sm">
             <Markdown>{entry.description}</Markdown>

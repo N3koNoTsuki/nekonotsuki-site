@@ -24,6 +24,10 @@ const config: Config = {
         mint: "#bdeede",
         sky: "#bfe0f7",
         ink: "#5a4a55",
+        // Dark mode surfaces & text — replaces the repeated [#…] literals
+        night: "#241f29", // page background
+        nightcard: "#2c2533", // card / popup surface
+        nightink: "#efe6ee", // light text on dark
       },
       fontFamily: {
         sans: ["var(--font-rounded)", "Quicksand", "Nunito", "system-ui", "sans-serif"],

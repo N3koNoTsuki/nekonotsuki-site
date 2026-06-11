@@ -64,13 +64,13 @@ export function FavoriteCard({ favorite, showCategory = false }: { favorite: Fav
 
           <div className="min-w-0 flex-1">
             <div className="flex items-start justify-between gap-2">
-              <h3 className="min-w-0 break-words font-display text-lg font-bold leading-snug text-ink dark:text-[#efe6ee]">
+              <h3 className="min-w-0 break-words font-display text-lg font-bold leading-snug text-ink dark:text-nightink">
                 {favorite.title}
               </h3>
               {favorite.rating ? <StarRating value={favorite.rating} className="mt-0.5 shrink-0" /> : null}
             </div>
             {showCategory && favorite.category && (
-              <span className="text-xs text-ink/50 dark:text-[#efe6ee]/50">
+              <span className="text-xs text-ink/50 dark:text-nightink/50">
                 {favorite.category.icon} {favorite.category.name}
               </span>
             )}
@@ -85,7 +85,7 @@ export function FavoriteCard({ favorite, showCategory = false }: { favorite: Fav
           {/* Always-visible "expand" affordance (no hover on touch screens). */}
           <span
             aria-hidden
-            className="pointer-events-none absolute bottom-2 right-2 flex h-6 w-6 items-center justify-center rounded-full bg-white/70 text-ink/50 shadow-soft transition group-hover:bg-rose-soft group-hover:text-rose-deep dark:bg-white/10 dark:text-[#efe6ee]/50"
+            className="pointer-events-none absolute bottom-2 right-2 flex h-6 w-6 items-center justify-center rounded-full bg-white/70 text-ink/50 shadow-soft transition group-hover:bg-rose-soft group-hover:text-rose-deep dark:bg-white/10 dark:text-nightink/50"
           >
             <ExpandIcon className="h-3.5 w-3.5" />
           </span>
@@ -141,7 +141,7 @@ function FavoriteLightbox({
     >
       <div
         ref={boxRef}
-        className="my-3 w-full max-w-lg overflow-hidden rounded-3xl border border-white/60 bg-cream shadow-glass dark:border-white/10 dark:bg-[#2c2533] sm:my-8"
+        className="my-3 w-full max-w-lg overflow-hidden rounded-3xl border border-white/60 bg-cream shadow-glass dark:border-white/10 dark:bg-nightcard sm:my-8"
         onClick={(e) => e.stopPropagation()}
       >
         <div className="relative">
@@ -160,7 +160,7 @@ function FavoriteLightbox({
             type="button"
             onClick={onClose}
             aria-label="Fermer"
-            className="absolute right-3 top-3 flex h-9 w-9 items-center justify-center rounded-full bg-cream/85 text-lg text-ink shadow-soft backdrop-blur-sm transition hover:bg-cream dark:bg-[#2c2533]/85 dark:text-[#efe6ee]"
+            className="absolute right-3 top-3 flex h-9 w-9 items-center justify-center rounded-full bg-cream/85 text-lg text-ink shadow-soft backdrop-blur-sm transition hover:bg-cream dark:bg-nightcard/85 dark:text-nightink"
           >
             ✕
           </button>
@@ -168,7 +168,7 @@ function FavoriteLightbox({
 
         <div className="space-y-3 p-5">
           <div className="flex items-start justify-between gap-3">
-            <h2 id={titleId} className="font-display text-2xl font-bold text-ink dark:text-[#efe6ee]">
+            <h2 id={titleId} className="font-display text-2xl font-bold text-ink dark:text-nightink">
               {favorite.title}
             </h2>
             {favorite.rating ? <StarRating value={favorite.rating} className="mt-1 shrink-0" /> : null}

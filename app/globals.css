@@ -32,7 +32,7 @@
   }
 
   .dark body {
-    @apply bg-[#241f29] text-[#efe6ee];
+    @apply bg-night text-nightink;
   }
 
   h1,
@@ -102,13 +102,13 @@
     @apply btn bg-white/70 text-ink hover:bg-white;
   }
   .dark .btn-secondary {
-    @apply bg-white/10 text-[#efe6ee] hover:bg-white/20;
+    @apply bg-white/10 text-nightink hover:bg-white/20;
   }
   .btn-ghost {
     @apply btn text-ink/70 hover:bg-white/60 hover:text-ink;
   }
   .dark .btn-ghost {
-    @apply text-[#efe6ee]/70 hover:bg-white/10 hover:text-[#efe6ee];
+    @apply text-nightink/70 hover:bg-white/10 hover:text-nightink;
   }
   .btn-danger {
     @apply btn bg-rose-deep/10 text-rose-deep hover:bg-rose-deep hover:text-white;
@@ -127,14 +127,14 @@
     @apply w-full rounded-2xl border border-rose-soft/80 bg-white/80 px-4 py-2.5 text-ink shadow-sm outline-none transition focus:border-rose-deep focus:ring-2 focus:ring-rose-soft;
   }
   .dark .input {
-    @apply border-white/10 bg-white/5 text-[#efe6ee] placeholder:text-white/40;
+    @apply border-white/10 bg-white/5 text-nightink placeholder:text-white/40;
   }
 
   .label {
     @apply mb-1 block text-sm font-semibold text-ink/80;
   }
   .dark .label {
-    @apply text-[#efe6ee]/80;
+    @apply text-nightink/80;
   }
 }
 
@@ -145,7 +145,7 @@
   @apply leading-relaxed text-ink/90;
 }
 .dark .prose-kawaii {
-  @apply text-[#efe6ee]/90;
+  @apply text-nightink/90;
 }
 .prose-kawaii > *:first-child {
   margin-top: 0;
@@ -184,10 +184,10 @@
   @apply bg-white/10 text-lavender;
 }
 .prose-kawaii pre {
-  @apply my-4 overflow-x-auto rounded-2xl bg-[#2c2533] p-4 text-sm shadow-soft;
+  @apply my-4 overflow-x-auto rounded-2xl bg-nightcard p-4 text-sm shadow-soft;
 }
 .prose-kawaii pre code {
-  @apply bg-transparent p-0 text-[#efe6ee];
+  @apply bg-transparent p-0 text-nightink;
 }
 .prose-kawaii img {
   @apply my-4 rounded-2xl shadow-soft;

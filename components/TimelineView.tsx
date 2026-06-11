@@ -40,7 +40,7 @@ export default function TimelineView({ entries }: { entries: TimelineViewEntry[]
             onClick={() => setActive(null)}
             className={cn(
               "chip transition",
-              active === null ? "bg-rose-deep text-white" : "bg-white/70 text-ink/70 hover:bg-white dark:bg-white/10 dark:text-[#efe6ee]/70",
+              active === null ? "bg-rose-deep text-white" : "bg-white/70 text-ink/70 hover:bg-white dark:bg-white/10 dark:text-nightink/70",
             )}
           >
             Tout

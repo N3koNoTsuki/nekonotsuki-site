@@ -118,7 +118,7 @@ export default function MarkdownEditor({ value, onChange, label, placeholder, mi
               type="button"
               title={t.title}
               onClick={() => runTool(t)}
-              className="rounded-lg px-2 py-1 text-sm font-semibold text-ink/70 transition hover:bg-white hover:text-rose-deep dark:text-[#efe6ee]/70 dark:hover:bg-white/10"
+              className="rounded-lg px-2 py-1 text-sm font-semibold text-ink/70 transition hover:bg-white hover:text-rose-deep dark:text-nightink/70 dark:hover:bg-white/10"
             >
               {t.label}
             </button>
@@ -128,7 +128,7 @@ export default function MarkdownEditor({ value, onChange, label, placeholder, mi
             title="Téléverser une image ou une vidéo"
             onClick={() => fileRef.current?.click()}
             disabled={uploading}
-            className="rounded-lg px-2 py-1 text-sm font-semibold text-ink/70 transition hover:bg-white hover:text-rose-deep disabled:opacity-50 dark:text-[#efe6ee]/70 dark:hover:bg-white/10"
+            className="rounded-lg px-2 py-1 text-sm font-semibold text-ink/70 transition hover:bg-white hover:text-rose-deep disabled:opacity-50 dark:text-nightink/70 dark:hover:bg-white/10"
           >
             {uploading ? "…" : "⬆ Média"}
           </button>
@@ -164,7 +164,7 @@ export default function MarkdownEditor({ value, onChange, label, placeholder, mi
             rows={minRows}
             spellCheck
             className={cn(
-              "resize-y border-0 bg-white/80 p-4 font-mono text-sm text-ink outline-none focus:ring-0 dark:bg-transparent dark:text-[#efe6ee] md:border-r md:border-rose-soft/60 dark:md:border-white/10",
+              "resize-y border-0 bg-white/80 p-4 font-mono text-sm text-ink outline-none focus:ring-0 dark:bg-transparent dark:text-nightink md:border-r md:border-rose-soft/60 dark:md:border-white/10",
               tab === "preview" && "hidden md:block",
             )}
           />

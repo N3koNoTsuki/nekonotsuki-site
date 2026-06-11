@@ -53,7 +53,7 @@ export default function MusicGallery({
                   </span>
                 </div>
                 <div className="min-w-0 flex-1">
-                  <h3 className="line-clamp-1 text-sm font-bold text-ink dark:text-[#efe6ee]">{t.title}</h3>
+                  <h3 className="line-clamp-1 text-sm font-bold text-ink dark:text-nightink">{t.title}</h3>
                   {t.comment.trim() && (
                     <p className="line-clamp-2 text-xs italic text-rose-deep">“{t.comment}”</p>
                   )}
@@ -92,8 +92,8 @@ export default function MusicGallery({
               </span>
             </div>
             <div className="p-3">
-              <h3 className="line-clamp-1 text-sm font-bold text-ink dark:text-[#efe6ee]">{p.title}</h3>
-              <p className="text-xs text-ink/50 dark:text-[#efe6ee]/50">
+              <h3 className="line-clamp-1 text-sm font-bold text-ink dark:text-nightink">{p.title}</h3>
+              <p className="text-xs text-ink/50 dark:text-nightink/50">
                 {p.itemCount} titre{p.itemCount > 1 ? "s" : ""}
               </p>
             </div>
@@ -168,7 +168,7 @@ function MusicLightbox({ playlist, onClose }: { playlist: GalleryPlaylist; onClo
     >
       <div
         ref={boxRef}
-        className="my-3 w-full max-w-2xl overflow-hidden rounded-3xl border border-white/60 bg-cream shadow-glass dark:border-white/10 dark:bg-[#2c2533] sm:my-8"
+        className="my-3 w-full max-w-2xl overflow-hidden rounded-3xl border border-white/60 bg-cream shadow-glass dark:border-white/10 dark:bg-nightcard sm:my-8"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Cover → click to play the playlist */}
@@ -206,15 +206,15 @@ function MusicLightbox({ playlist, onClose }: { playlist: GalleryPlaylist; onClo
             type="button"
             onClick={onClose}
             aria-label="Fermer"
-            className="absolute right-3 top-3 flex h-9 w-9 items-center justify-center rounded-full bg-cream/85 text-lg text-ink shadow-soft backdrop-blur-sm transition hover:bg-cream dark:bg-[#2c2533]/85 dark:text-[#efe6ee]"
+            className="absolute right-3 top-3 flex h-9 w-9 items-center justify-center rounded-full bg-cream/85 text-lg text-ink shadow-soft backdrop-blur-sm transition hover:bg-cream dark:bg-nightcard/85 dark:text-nightink"
           >
             ✕
           </button>
         </div>
 
         <div className="p-5">
-          <h2 className="font-display text-2xl font-bold text-ink dark:text-[#efe6ee]">{playlist.title}</h2>
-          <p className="text-xs text-ink/50 dark:text-[#efe6ee]/50">
+          <h2 className="font-display text-2xl font-bold text-ink dark:text-nightink">{playlist.title}</h2>
+          <p className="text-xs text-ink/50 dark:text-nightink/50">
             {playlist.itemCount} titre{playlist.itemCount > 1 ? "s" : ""}
           </p>
           {playlist.comment.trim() && (
@@ -223,12 +223,12 @@ function MusicLightbox({ playlist, onClose }: { playlist: GalleryPlaylist; onClo
             </p>
           )}
           {playlist.description.trim() && (
-            <p className="mt-2 whitespace-pre-line text-sm text-ink/70 dark:text-[#efe6ee]/70">{playlist.description}</p>
+            <p className="mt-2 whitespace-pre-line text-sm text-ink/70 dark:text-nightink/70">{playlist.description}</p>
           )}
 
           {/* Spotify-style tracklist — fetched on open, cached per playlist */}
           {failed ? (
-            <p className="mt-4 rounded-2xl bg-rose-soft/30 px-3 py-3 text-sm text-ink/60 dark:bg-white/5 dark:text-[#efe6ee]/60">
+            <p className="mt-4 rounded-2xl bg-rose-soft/30 px-3 py-3 text-sm text-ink/60 dark:bg-white/5 dark:text-nightink/60">
               Impossible de charger la tracklist…{" "}
               <a
                 href={playlist.url}
@@ -259,7 +259,7 @@ function MusicLightbox({ playlist, onClose }: { playlist: GalleryPlaylist; onClo
                   rel="noopener noreferrer"
                   className="flex items-center gap-3 px-2 py-2 transition hover:bg-rose-soft/20 dark:hover:bg-white/5"
                 >
-                  <span className="w-5 shrink-0 text-right text-xs text-ink/40 dark:text-[#efe6ee]/40">{i + 1}</span>
+                  <span className="w-5 shrink-0 text-right text-xs text-ink/40 dark:text-nightink/40">{i + 1}</span>
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
                     src={`https://i.ytimg.com/vi/${t.videoId}/mqdefault.jpg`}
@@ -267,7 +267,7 @@ function MusicLightbox({ playlist, onClose }: { playlist: GalleryPlaylist; onClo
                     loading="lazy"
                     className="h-9 w-14 shrink-0 rounded object-cover"
                   />
-                  <span className="line-clamp-2 text-sm text-ink dark:text-[#efe6ee]">{t.title}</span>
+                  <span className="line-clamp-2 text-sm text-ink dark:text-nightink">{t.title}</span>
                   <span className="ml-auto shrink-0 text-xs text-rose-deep opacity-0 transition group-hover:opacity-100">
                     ▶
                   </span>

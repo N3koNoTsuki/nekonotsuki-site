@@ -29,7 +29,7 @@ export default async function EditGamesPage() {
     <div>
       <header className="mb-6">
         <h1 className="font-display text-3xl font-bold text-rose-deep">Jeux</h1>
-        <p className="text-ink/60 dark:text-[#efe6ee]/60">
+        <p className="text-ink/60 dark:text-nightink/60">
           Synchronise ta biblio Steam, ajoute tes jeux console (RAWG), puis pour chaque jeu : avis Markdown, clips et
           highlight.
         </p>

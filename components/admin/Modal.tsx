@@ -52,7 +52,7 @@ export default function Modal({
       <div
         ref={panelRef}
         tabIndex={-1}
-        className="my-8 w-full max-w-2xl rounded-3xl border border-white/60 bg-cream p-6 shadow-glass outline-none dark:border-white/10 dark:bg-[#2c2533]"
+        className="my-8 w-full max-w-2xl rounded-3xl border border-white/60 bg-cream p-6 shadow-glass outline-none dark:border-white/10 dark:bg-nightcard"
         onClick={(e) => e.stopPropagation()}
       >
         <div className="mb-4 flex items-center justify-between">

@@ -28,7 +28,7 @@ export default async function EditDashboard() {
     <div>
       <header className="mb-6">
         <h1 className="font-display text-3xl font-bold text-rose-deep">Tableau de bord ♡</h1>
-        <p className="text-ink/60 dark:text-[#efe6ee]/60">Édite le contenu du site, puis enregistre et pousse sur GitHub.</p>
+        <p className="text-ink/60 dark:text-nightink/60">Édite le contenu du site, puis enregistre et pousse sur GitHub.</p>
       </header>
 
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
@@ -38,7 +38,7 @@ export default async function EditDashboard() {
               {c.icon}
             </span>
             <span className="mt-2 text-3xl font-bold text-rose-deep">{counts[c.key]}</span>
-            <span className="text-sm font-semibold text-ink/70 dark:text-[#efe6ee]/70">{c.label}</span>
+            <span className="text-sm font-semibold text-ink/70 dark:text-nightink/70">{c.label}</span>
           </Link>
         ))}
       </div>
@@ -59,7 +59,7 @@ export default async function EditDashboard() {
             Édite la page <Link href="/edit/about">À propos</Link> en Markdown avec aperçu en direct.
           </li>
         </ul>
-        <p className="mt-4 text-sm text-ink/60 dark:text-[#efe6ee]/60">
+        <p className="mt-4 text-sm text-ink/60 dark:text-nightink/60">
           Tout est enregistré dans <code>content/*.json</code>. Quand tu as fini : <code>git add . &amp;&amp; git commit &amp;&amp; git push</code> — Vercel republie le site. ✨
         </p>
       </div>

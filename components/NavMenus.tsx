@@ -44,8 +44,8 @@ export function MoreMenu({ items }: { items: Item[] }) {
         className={
           "flex items-center gap-1 rounded-2xl px-3 py-2 text-sm font-semibold outline-none transition focus-visible:ring-2 focus-visible:ring-rose-deep/60 " +
           (childActive || open
-            ? "bg-rose-soft text-rose-deep dark:bg-white/10 dark:text-[#efe6ee]"
-            : "text-ink/70 hover:bg-white/60 hover:text-ink dark:text-[#efe6ee]/70 dark:hover:bg-white/10 dark:hover:text-[#efe6ee]")
+            ? "bg-rose-soft text-rose-deep dark:bg-white/10 dark:text-nightink"
+            : "text-ink/70 hover:bg-white/60 hover:text-ink dark:text-nightink/70 dark:hover:bg-white/10 dark:hover:text-nightink")
         }
       >
         Plus
@@ -54,7 +54,7 @@ export function MoreMenu({ items }: { items: Item[] }) {
         </span>
       </button>
       {open && (
-        <ul className="absolute right-0 top-full z-50 mt-1 flex w-44 flex-col gap-1 rounded-3xl border border-white/50 bg-cream/95 p-2 shadow-soft backdrop-blur-md dark:border-white/10 dark:bg-[#2c2533]/95">
+        <ul className="absolute right-0 top-full z-50 mt-1 flex w-44 flex-col gap-1 rounded-3xl border border-white/50 bg-cream/95 p-2 shadow-soft backdrop-blur-md dark:border-white/10 dark:bg-nightcard/95">
           {items.map((l) => (
             <li key={l.href}>
               <NavLink href={l.href} label={l.label} block onClick={() => setOpen(false)} />
@@ -100,7 +100,7 @@ export function MobileMenu({ items }: { items: Item[] }) {
         {open ? "✕" : "☰"}
       </button>
       {open && (
-        <ul className="absolute right-0 mt-2 flex w-44 flex-col gap-1 rounded-3xl border border-white/50 bg-cream/95 p-2 shadow-soft backdrop-blur-md dark:border-white/10 dark:bg-[#2c2533]/95">
+        <ul className="absolute right-0 mt-2 flex w-44 flex-col gap-1 rounded-3xl border border-white/50 bg-cream/95 p-2 shadow-soft backdrop-blur-md dark:border-white/10 dark:bg-nightcard/95">
           {items.map((l) => (
             <li key={l.href}>
               <NavLink href={l.href} label={l.label} block onClick={() => setOpen(false)} />

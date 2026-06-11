@@ -114,7 +114,7 @@ export function DragHandle({ handle }: { handle: HandleProps }) {
   return (
     <button
       type="button"
-      className="cursor-grab touch-none rounded-lg px-2 py-1 text-ink/40 transition hover:bg-rose-soft/50 hover:text-rose-deep active:cursor-grabbing dark:text-[#efe6ee]/40"
+      className="cursor-grab touch-none rounded-lg px-2 py-1 text-ink/40 transition hover:bg-rose-soft/50 hover:text-rose-deep active:cursor-grabbing dark:text-nightink/40"
       aria-label="Réordonner (glisser)"
       {...handle.attributes}
       {...(handle.listeners ?? {})}
