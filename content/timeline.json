@@ -123,5 +123,15 @@
     "order": 12,
     "createdAt": "2026-06-08T00:00:03.000Z",
     "endDate": null
+  },
+  {
+    "id": "a5626a9e-379e-4293-8ab8-30490f7d94ae",
+    "date": "2026-08-31",
+    "endDate": null,
+    "title": "INSA TOULOUSE",
+    "description": null,
+    "tag": "etudes",
+    "order": 13,
+    "createdAt": "2026-10-19T17:23:56.980Z"
   }
 ]
